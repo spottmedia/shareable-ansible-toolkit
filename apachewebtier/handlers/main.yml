@@ -1,0 +1,4 @@
+---
+
+- name: initial www permissions setup
+  file: owner="www-data" group="www-data" path="/var/www"

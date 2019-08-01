@@ -1,0 +1,44 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+
+- name: UFW deny default http port access for ANY packets as custom rule is place
+  ufw: rule=deny port=80 proto=any
+  when: (apache_http_port is defined) or (webserver_dont_expose is defined)
+
+- name: UFW deny default https port access for ANY packets as custom rule is place
+  ufw: rule=deny port=443 proto=any
+  when: (apache_https_port is defined) or (webserver_dont_expose is defined)
+
+- name: UFW allow https access for ANY packets
+  ufw: rule=allow port=443 proto=any
+  when: (apache_https_port is not defined) and (webserver_dont_expose is not defined)
+
+- name: UFW allow http access for ANY packets
+  ufw: rule=allow port=80 proto=any
+  when: (apache_http_port is not defined) and (webserver_dont_expose is not defined)
+
+- name: UFW allow custom http access for ANY packets
+  ufw: rule=allow port={{ apache_http_port }} proto=any
+  when: (apache_http_port is defined) and (webserver_dont_expose is not defined)
+
+- name: UFW allow custom https access for ANY packets
+  ufw: rule=allow port={{ apache_https_port }} proto=any
+  when: (apache_https_port is defined) and (webserver_dont_expose is not defined)
+
+- name: Fix SSL POODLE (with leading TAB)
+  replace: dest=/etc/apache2/mods-available/ssl.conf
+    regexp='^\tSSLProtocol.*$'
+    replace='SSLProtocol all -SSLv2 -SSLv3'
+  notify: Restart Apache
+
+- name: Fix SSL POODLE
+  replace: dest=/etc/apache2/mods-available/ssl.conf
+    regexp='^SSLProtocol.*$'
+    replace='SSLProtocol all -SSLv2 -SSLv3'
+  notify: Restart Apache

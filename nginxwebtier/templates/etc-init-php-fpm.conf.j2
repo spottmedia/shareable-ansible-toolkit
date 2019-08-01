@@ -1,0 +1,15 @@
+# php5-fpm - The PHP FastCGI Process Manager
+
+description "The PHP FastCGI Process Manager"
+author "Stack Overflow http://stackoverflow.com/a/21319941"
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+### my edit - change umask setting
+umask 0002
+
+pre-start exec /usr/lib/php5/php5-fpm-checkconf
+
+respawn
+exec /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf

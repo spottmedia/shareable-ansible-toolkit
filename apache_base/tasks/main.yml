@@ -1,0 +1,208 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+
+
+- name: Add certbot repo (not used directly in this role, but is a convenience we might use in other places)
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    state: present
+
+- name: Add repo for apache2 update
+  apt_repository:
+    repo: 'ppa:ondrej/apache2'
+    state: present
+  notify: Apt update
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
+
+- name: Flush Handlers.
+  meta: flush_handlers
+
+- name: General | Install required packages > 14.
+  apt: pkg="apache2=2.4.39-1+ubuntu{{ ansible_lsb.major_release|int }}.04.1+deb.sury.org+1"
+       state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+ # when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 16
+  register: "apache_installation_changed"
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
+
+# temporary evade issue https://github.com/ansible/ansible/issues/14270#issuecomment-416880078
+- include: handlers/hardening.yml
+  when: apache_installation_changed is defined and apache_installation_changed.changed == True and (release_status is undefined or release_status != "dev")
+
+- name: General | Install required packages <= 14.
+  apt: pkg=apache2
+       state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+ # when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 16
+  notify: Setup hardening
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 14
+
+#- name: General | Install required packages <16.
+#  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+#  tags: common
+#  with_items:
+#    - apache2=2.4.38-2+ubuntu14.04.1+deb.sury.org+8
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+#  notify: Setup hardening
+#
+#- name: General | Install required packages == 18.
+#  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+#  tags: common
+#  with_items:
+#    - apache2=2.4.38-2+ubuntu18.04.1+deb.sury.org+8
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
+#  notify: Setup hardening
+
+
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - apache2-utils
+    - mcrypt
+    - sendmail
+    - unzip
+    - python-mysqldb
+    - imagemagick
+    - libpspell-dev
+    - aspell-en
+    - ssl-cert
+    - make
+    - python-certbot-apache
+    - libcurl3-openssl-dev
+    # this is a virtual package that will notify of changes in ansible when installed.
+    # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
+    # - libcurl3-openssl-dev
+    # so we want to make it a notification, and thus it would only run whenever some other "real" package changed
+  notify: Install libcurl3-openssl-dev
+
+
+#- name: Add the custom apache2
+#  apt_repository:
+#    repo: 'ppa:ondrej/apache2'
+#    state: present
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 18
+#
+#- name: Upgrade the apache2 lib
+#  apt:
+#    name: apache2
+#    update_cache: yes
+#    state: latest
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 18
+
+- name: Apache | Enable some required modules
+  apache2_module: state=present name={{item}}
+  with_items:
+    - proxy_fcgi
+    - setenvif
+
+- name: Apache | Enable http2 module if needed
+  apache2_module: state=present name={{item}}
+  with_items:
+    - http2
+  when: apache_with_http2 and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
+
+- name: Apache | Disable http2 module if unwanted
+  apache2_module: state=absent name={{item}}
+  with_items:
+    - http2
+  when: not apache_with_http2 and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
+
+##
+# Apache2 setup.
+#
+
+# the mpm module madness is required to make it indempotend, and compatible with php7.1, sorry :/
+# - name: Apache | Disable some modules for idempotence
+#  apache2_module: state=absent name={{item}}
+#  with_items:
+#    - php7.1
+#  notify: Restart Apache
+#  ignore_errors: true
+
+- name: Apache | Enable some required modules
+  apache2_module: state=present name={{item}}
+  with_items:
+    - rewrite
+    - ssl
+    - headers
+    - expires
+  notify: Restart Apache
+
+- name: Apache | Disable some required modules
+  apache2_module: state=absent name={{item}}
+  with_items:
+    - vhost_alias
+    - autoindex
+  notify: Restart Apache
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+
+- name: Apache | Disable some required modules
+  apache2_module: state=absent name={{item}}
+  with_items:
+    - vhost_alias
+  notify: Restart Apache
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+- name: Apache | Allow multiple SSL vhosts
+  action: template src=../templates/etc-apache2-ports-conf.j2 dest=/etc/apache2/ports.conf
+  tags: common
+  notify: Restart Apache
+
+- name: Apache | Disable the default-ssl site
+  action: command a2dissite default-ssl removes=/etc/apache2/sites-enabled/default-ssl.conf
+  tags: common
+  ignore_errors: true
+  notify: Restart Apache
+
+- name: Apache | Disable the default site
+  action: command a2dissite default removes=/etc/apache2/sites-enabled/default.conf
+  tags: common
+  ignore_errors: true
+  notify: Restart Apache
+
+- name: Apache | Disable the 000-default site
+  action: command a2dissite 000-default removes=/etc/apache2/sites-enabled/000-default.conf
+  tags: common
+  ignore_errors: true
+  notify: Restart Apache
+
+- name: Apache | Disable the custom-ssl site
+  action: command a2dissite custom-ssl removes=/etc/apache2/sites-enabled/custom-ssl.conf
+  tags: common
+  ignore_errors: true
+  notify: Restart Apache
+
+# - name: Apache | Upload customized SSL vhost (with port value variablized) - we may use it for apache if no other ssl is present
+#  action: template src=../templates/custom-ssl.conf.j2 dest=/etc/apache2/sites-available/custom-ssl.conf
+#  tags: common
+#  notify: Restart Apache
+
+##
+# PHP Setup.
+#
+
+# this would indeally be branched based on php version. By since majority of our servers are php5.4+ now
+# best to just silently fail in such cases and no enable the module. It's very rarely used.
+# we will react if such thing happens
+# - name: Install pecl memcache
+#   shell: printf "\n" | pecl install memcache
+- include: php5.yml
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+
+- include: php7.1.yml
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16 and (php_version is not defined or php_version == 7.1)
+
+- include: php7.2.yml
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16 and php_version is defined and php_version == 7.2
+##
+# Restart services
+#
+# - include: hardening.yml
+#  when: release_status is not defined or release_status == "live"

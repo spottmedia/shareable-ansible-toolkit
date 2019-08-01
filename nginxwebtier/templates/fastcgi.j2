@@ -1,0 +1,6 @@
+#fastcgi_split_path_info ^(.+\.php)(/.+)$;
+#NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+include fastcgi_params;
+fastcgi_param SCRIPT_FILENAME $request_filename;
+fastcgi_intercept_errors on;
+fastcgi_pass 127.0.0.1:7777;

@@ -1,0 +1,86 @@
+---
+##
+# Base nginx server setup
+#
+
+##
+# Apt package installation of required software.
+#
+
+# some issues installing certbot on ubuntu 18.04
+- name: Packages needed for adding nginx repository for 18.04
+  action: apt pkg=gnupg2 state=installed update-cache=yes install_recommends=no
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int == 18
+
+- name: Add nginx repo
+  apt_repository:
+    repo: 'ppa:nginx/stable'
+    state: present
+  notify: Nginx Update APT
+
+- name: General | Install required packages.
+  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
+  tags: common
+  with_items:
+    - nginx
+
+- name: Add certbot repo
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    state: present
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+
+# some issues installing certbot on ubuntu 18.04
+- name: General | Install required packages.
+  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
+  tags: common
+  with_items:
+    - python-certbot-nginx
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+
+- name: create self-signed SSL certs placeholder
+  file: path="/etc/nginx/ssl" state="directory"
+
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=${ansible_fqdn}" -days 3650 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
+
+- name: Copy proper vhost if required
+  action: template src=../templates/{{ nginx_vhost }}.vhost.j2 dest=/etc/nginx/sites-available/default
+  tags: common
+  when: nginx_vhost is defined
+
+- name: Disable default vhost if not defined
+  file: path="/etc/nginx/sites-enabled/default" state="absent"
+  tags: common
+  when: nginx_vhost is not defined
+
+- name: Nginx | create microcache dir
+  file: path="/var/cache/nginx/microcache" state="directory"
+
+- name: Tweak bucket size var
+  replace: dest=/etc/nginx/nginx.conf
+    regexp='([ ]*)([#]*)([ ]*)server_names_hash_bucket_size([ ]+)(?!256$)\w+'
+    replace='server_names_hash_bucket_size 256'
+
+- name: Add group for www
+  group: name=www-data state=present
+  notify:
+    - setup initial permissions
+    - Restart nginx
+
+##
+# Restart services
+#
+
+- include: hardening.yml
+  when: release_status is not defined or release_status == "live"
+
+- include: live_filesystem_tweaks.yml
+  when: release_status is not defined or release_status == "live"
+
+- name: Make sure nginx service is enabled on dev
+  service: name=nginx.service  enabled=true
+  when: release_status == "dev"
+
+- name: Start nginx
+  service: name=nginx state=started

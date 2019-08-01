@@ -1,0 +1,37 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+
+- name: Install required packages.
+  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
+  tags: common
+  with_items:
+    - ufw
+    - fail2ban
+    - logwatch
+    - ssh
+
+- name: UFW allow ssh access
+  ufw: rule=allow port=ssh proto=tcp
+
+- name: Enable ufw
+  ufw: state=enabled
+
+- name: Disallow password authentication
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  notify:
+    - Restart ssh
+
+- name: Install unattended-upgrades
+  action: apt pkg=unattended-upgrades state=present install_recommends=no
+
+- name: Adjust APT update intervals
+  template: src=../templates/apt-periodic.j2 dest=/etc/apt/apt.conf.d/10periodic
+
+- name: Make logwatch mail {{ logwatch_email }} daily
+  action: lineinfile dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto {{ logwatch_email }} --detail high" state=present create=yes

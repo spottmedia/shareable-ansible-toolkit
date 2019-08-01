@@ -1,0 +1,54 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed install_recommends=no update-cache=yes cache_valid_time=3600
+  tags: common
+  with_items:
+    - git
+    - mcrypt
+    - sendmail
+    - unzip
+    - python-mysqldb
+    - imagemagick
+    - libpspell-dev
+    - aspell-en
+    - ssl-cert
+    - memcached
+    - libmemcached-tools
+    - make
+    - libpcre3-dev
+
+    # this is a virtual package that will notify of changes in ansible when installed.
+    # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
+    # - libcurl3-openssl-dev
+    # so we want to make it a notification, and thus it would only run whenever some other "real" package changed
+  notify: Install libcurl3-openssl-dev
+
+- name: Fastcgi config
+  action: template src=../templates/fastcgi.j2 dest=/etc/nginx/fastcgi
+  tags: common
+
+- name: We're not maintaining php5 anymore
+  include: php5.yml
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 16
+
+- include: php7.1.yml
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+
+# since the ubuntu 18.04 we change the way we define php versions
+# no more convention
+- include: php7.2.yml
+  when: php_version is defined and ansible_distribution == 'Ubuntu' and php_version == '7.2' and ansible_lsb.major_release|int >= 18
+
+# - name: Apache | Enable memcached.so - this should be available via mods-available anyway - NOT REQUIRED
+#  lineinfile: dest=/etc/php5/fpm/php.ini line="extension=memcached.so" owner=root group=root mode=0644
+
+##
+# Restart services
+#

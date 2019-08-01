@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    release_status: "live"
+  roles:
+    - role: server_hardening

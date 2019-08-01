@@ -1,0 +1,15 @@
+---
+##
+- name: Nginx | create /var/www base www folder
+  file: path="/var/www" state="directory"
+
+- name: Add group for www
+  group: name=www-data state=present
+  notify:
+      - setup initial permissions
+
+- name: Change the ownership of everything under /var/www to www-data:www-data
+  file: group="www-data" owner="www-data" path="/var/www" recurse="yes" mode="02775"
+
+- name: Set umask mode
+  replace: path=/etc/login.defs regexp="UMASK\t\t022" replace="UMASK    0002"

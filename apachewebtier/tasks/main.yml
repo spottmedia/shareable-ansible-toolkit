@@ -1,0 +1,17 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+# Apt package installation of required software.
+# Apache2 setup.
+#
+- name: Apache | Add www group
+  group: name=www-data state=present
+  notify:
+      - initial www permissions setup
+
+##
+# Restart services
+#
+- include: live_filesystem_tweaks.yml
+  when: release_status is not defined or release_status == "live"

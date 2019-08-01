@@ -1,0 +1,9 @@
+---
+- name: setup initial permissions
+  file: group="www-data" owner="www-data" path="/var/www" recurse="yes"
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+
+- name: Nginx Update APT
+  apt: update_cache="true"

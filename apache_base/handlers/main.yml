@@ -1,0 +1,27 @@
+---
+- name: Install libcurl3-openssl-dev
+  apt: pkg=libcurl3-openssl-dev state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+
+- name: Restart Apache
+  action: service name=apache2 state=restarted
+
+- name: Restart PHP-FPM
+  action: service name=php7.1-fpm state=restarted
+
+- name: Restart PHP-FPM 7.2
+  action: service name=php7.2-fpm state=restarted
+
+- name: Setup hardening
+  include: hardening.yml
+  when: release_status is undefined or release_status != "dev"
+
+- name: Enable php-fpm 7.1 config for apache
+  command: a2enconf php7.1-fpm
+  when: (php_version is not defined or php_version == 7.1
+
+- name: Enable php-fpm 7.2 config for apache
+  command: a2enconf php7.2-fpm
+  when: php_version is defined and php_version == 7.2
+
+- name: Apt update
+  apt: update-cache=yes

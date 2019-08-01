@@ -1,0 +1,5 @@
+---
+- name: Hold selection of php7.1
+  dpkg_selections:
+    name: php
+    selection: hold

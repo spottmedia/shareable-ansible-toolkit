@@ -1,0 +1,15 @@
+---
+dependencies:
+  - role: server_hardening
+    when: release_status is not defined or release_status == "live"
+  - role: nginx_base
+
+  - role: php7.2_base
+    when: php_version is defined and ansible_distribution == 'Ubuntu' and php_version == '7.2' and ansible_lsb.major_release|int >= 18
+
+  - role: php7.1_base
+    when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 18
+
+  - role: php5_base
+    when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+

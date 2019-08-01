@@ -1,0 +1,64 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed install_recommends=no update-cache=yes cache_valid_time=3600
+  tags: common
+  with_items:
+    - php5-fpm
+
+##
+# Apt package installation of required software.
+- name: PHP | (maybe) maintain compatibility with latest php versions
+  file:
+    src: /etc/php5/mods-available
+    dest: /etc/php5/conf.d
+    state: link
+
+- name: Make sure php-fpm reads the same plugins as cli php does
+  command: sudo ln -s /etc/php5/conf.d /etc/php5/fpm/conf.d creates=/etc/php5/fpm/conf.d
+  ignore_errors: true
+
+- name: Fix the umask not being applied correctly
+  action: template src=../templates/etc-init-php-fpm.conf.j2 dest=/etc/init/php-fpm.conf
+
+- name: APC | Cache configuration file, apc.ini
+  action: template src=../templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/fpm/conf.d/apc.ini
+  tags: common
+
+- name: PHP | Conf.d common configurations
+  action: template src=../templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/fpm/conf.d/apc.ini
+  tags: common
+
+- name: Enable PHP5 IMAP module
+  command: php5enmod imap creates=/etc/php5/cli/conf.d/20-imap.ini
+  ignore_errors: true
+  notify: restart php5-fpm process
+
+- name: Enable PHP5 MCRYPT module
+  command: php5enmod mcrypt creates=/etc/php5/cli/conf.d/20-mcrypt.ini
+  ignore_errors: true
+  notify: restart php5-fpm process
+
+- name: Install pecl memcache
+  command: printf "\n" | pecl install memcache
+  notify: restart php5-fpm process
+  tags:
+  - skip_ansible_lint
+
+- name: Install pecl apc
+  shell: printf "\n" | pecl install apc creates=/etc/php5/mods-available/apc.ini
+  ignore_errors: true
+  tags: php_config
+  notify: restart php5-fpm process
+
+- name: Install pecl pecl_http-1.7.6
+  shell: printf "\n" | pecl install pecl_http-1.7.6 creates=/usr/share/php/pecl/http
+  ignore_errors: true
+  tags: php_config
+  notify: restart php5-fpm process
+
+- name: Listen on IP instead on a socket
+  lineinfile: dest=/etc/php5/fpm/pool.d/www.conf regexp="listen = /var/run/php5-fpm.sock" line="listen = 127.0.0.1:7777" owner=root group=root mode=0644
+  notify: restart php5-fpm process

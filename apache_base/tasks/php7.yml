@@ -1,0 +1,19 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - libapache2-mod-php
+    - php-mcrypt
+    - php-mysql
+# this is a virtual package that will notify of changes in ansible when installed.
+# a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
+# - libcurl3-openssl-dev
+# so we want to make it a notification, and thus it would only run whenever some other "real" package changed

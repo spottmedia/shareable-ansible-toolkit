@@ -1,0 +1,89 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - php7.1-mcrypt
+    - php7.1-mysql
+
+- name: General | Install fpm (if needed)
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - php7.1-fpm
+  when: apache_with_fpm
+  notify: Enable php-fpm config for apache
+
+- name: php-fpm config
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=present
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = /run/php/php7.1-fpm.sock" state=absent
+  notify:
+    - Restart PHP-FPM
+
+- name: Flush Handlers.
+  meta: flush_handlers
+
+- name: Apache | Disable php7.1 module for FPM
+  apache2_module: state=absent name={{item}}
+  with_items:
+    - php7.1
+  notify: Restart Apache
+  when: apache_with_fpm
+
+- name: Apache | Disable prefork module for php 7.1 + fpm
+  apache2_module: state=absent name={{item}} ignore_configcheck=true
+  with_items:
+    - mpm_prefork
+  notify: Restart Apache
+  when: apache_with_fpm
+
+- name: Apache | Enable event module for php 7.1 + fpm
+  apache2_module: state=absent name={{item}} ignore_configcheck=true
+  with_items:
+    - mpm_event
+  when: not apache_with_fpm
+
+- name: Apache | Disable event module for php 7.1
+  apache2_module: state=present name={{item}} ignore_configcheck=true
+  with_items:
+    - mpm_event
+  when: apache_with_fpm
+
+- name: Apache | Enable prefork module for php 7.1
+  apache2_module: state=present name={{item}} ignore_configcheck=true
+  with_items:
+    - mpm_prefork
+  notify: Restart Apache
+  when: not apache_with_fpm
+
+- name: General | Remove libapache mod php7.1 if using fpm.
+  apt: pkg={{ item }} state=absent update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - libapache2-mod-php7.1
+  when: apache_with_fpm
+
+- name: General | Install libapache mod php7.1 if not using fpm.
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - libapache2-mod-php7.1
+  when: not apache_with_fpm
+
+- name: Apache | Enable php7.1 module
+  apache2_module: state=present name={{item}}
+  with_items:
+    - php7.1
+  notify: Restart Apache
+  when: not apache_with_fpm

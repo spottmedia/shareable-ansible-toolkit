@@ -1,0 +1,58 @@
+---
+
+- name: Add the custom php7+ repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: install php7.1 and requirements packages
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - build-essential
+    - zip
+    - unzip
+    - php7.1
+    - php7.1-zip
+    - php7.1-dev
+    - php7.1-intl
+    - php7.1-mbstring
+    - php7.1-curl
+    - php7.1-common
+    - php7.1-imagick
+    - php7.1-imap
+    - php7.1-pspell
+    - php7.1-gd
+    - php7.1-xmlrpc
+    - php7.1-soap
+    - php7.1-mcrypt
+    - php7.1-tidy
+    - php7.1-mysql
+    - php7.1-xml
+    - php7.1-yaml
+  notify: Hold selection of php7.1
+
+- name: install php7.1 memcached if needed
+  apt: pkg='php7.1-memcached' state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_use_memcached
+
+- name: install php7.1 redis if needed
+  apt: pkg='php-redis' state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_use_redis
+
+- name: "update default php binary symlink (as it will probably point to != php7.1"
+  file:
+    src: /usr/bin/php7.1
+    dest: /usr/bin/php
+    state: link
+    force: true
+  when: not ansible_check_mode
+
+- name: "fix issues with ssl"
+  file:
+    path: /etc/ssl
+    mode: 0755
+
+- include: ID3.yml

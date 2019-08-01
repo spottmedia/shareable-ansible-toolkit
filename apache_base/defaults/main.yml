@@ -1,0 +1,8 @@
+---
+apache_http_port: 80
+apache_https_port: 443
+apache_enable_https: true
+apache_with_fpm: true
+apache_with_http2: true
+apache_listen_address: "0.0.0.0"
+apache_php_memory_limit: "128MB"

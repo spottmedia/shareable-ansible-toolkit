@@ -1,0 +1,3 @@
+---
+php_use_memcached: true
+php_use_redis: false

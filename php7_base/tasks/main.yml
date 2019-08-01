@@ -1,0 +1,23 @@
+
+---
+- name: General | Install required packages.
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - php
+    - php-zip
+    - php-dev
+    - php-intl
+    - php-mbstring
+    - php-curl
+    - php-gettext
+    - php-memcached
+    - php-imagick
+    - php-imap
+    - php-pspell
+    - php-gd
+    - php-xmlrpc
+    - php-soap
+    - php-mcrypt
+    - php-tidy
+    - php-redis
