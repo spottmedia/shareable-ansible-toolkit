@@ -10,3 +10,4 @@
 
 - name: Listen on IP instead on a socket
   replace: dest=/etc/php/7.2/fpm/pool.d/www.conf regexp="listen = /run/php/php7.[012]-fpm.sock" replace="listen = 127.0.0.1:7777"
+  notify: restart php7.2-fpm process
