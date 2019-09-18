@@ -30,13 +30,13 @@
     state: present
   when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
 
-# some issues installing certbot on ubuntu 18.04
-- name: General | Install required packages.
-  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
-  tags: common
-  with_items:
-    - python-certbot-nginx
-  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+# some issues installing certbot on ubuntu 18.04 (And apparently on 16.04 too, disabling for now)
+#- name: General | Install required packages.
+#  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
+#  tags: common
+#  with_items:
+#    - python-certbot-nginx
+#  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
 
 - name: create self-signed SSL certs placeholder
   file: path="/etc/nginx/ssl" state="directory"
