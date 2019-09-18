@@ -12,6 +12,7 @@
   apt_repository:
     repo: 'ppa:certbot/certbot'
     state: present
+  notify: Apt update
 
 - name: Add repo for apache2 update
   apt_repository:
