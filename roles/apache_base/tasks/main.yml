@@ -75,7 +75,6 @@
     - aspell-en
     - ssl-cert
     - make
-    - python-certbot-apache
     - libcurl3-openssl-dev
     # this is a virtual package that will notify of changes in ansible when installed.
     # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
