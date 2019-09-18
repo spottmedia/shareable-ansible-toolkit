@@ -19,7 +19,7 @@
   with_items:
     - php7.1-fpm
   when: apache_with_fpm
-  notify: Enable php-fpm config for apache
+  notify: Enable php-fpm 7.1 config for apache
 
 - name: php-fpm config
   lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=present
