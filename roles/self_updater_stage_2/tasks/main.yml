@@ -1,0 +1,9 @@
+---
+- name: Copy over the self-updater script to the machine
+  template: src=ansible_self_updater_stage_2.script.j2 dest=/var/lib/ansible_self_updater_stage_2.script mode="u+rwx,g+rx,o+rx"
+
+- name: Make sure we invoke it periodically
+  cron:
+    name: "self updater"
+    minute: "4"
+    job: "/var/lib/ansible_self_updater_stage_2.script"

@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    solr_version: "7.4.0"
+  tasks:
+    - name: add curl
+      yum: name=curl state=present
+  roles:
+    - geerlingguy.java
+    - ansible-role-solr

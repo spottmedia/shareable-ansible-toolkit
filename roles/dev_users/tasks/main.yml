@@ -1,0 +1,11 @@
+---
+- name: add ubuntu user for dev
+  user:
+    name: ubuntu
+  when: release_status is defined and release_status == "dev"
+  notify: Setup ubuntu user pass
+
+- name: add vagrant user for dev to unify with vagrant provisioned vms
+  user:
+    name: vagrant
+  when: release_status is defined and release_status == "dev"

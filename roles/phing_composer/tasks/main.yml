@@ -1,0 +1,10 @@
+---
+- name: Make sure composer global HOME directory exists
+  file: path=/var/lib/composer_home state=directory mode="o+r"
+
+- name: Copy the intallation script
+  template: src=install.phing.j2 dest=/var/lib/install.phing mode="o+rx"
+  notify: Invoke the phing installation script
+
+- include: libssh2-16.04.yml
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16

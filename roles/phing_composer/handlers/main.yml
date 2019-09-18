@@ -1,0 +1,3 @@
+---
+- name: Invoke the phing installation script
+  command: "/var/lib/install.phing"

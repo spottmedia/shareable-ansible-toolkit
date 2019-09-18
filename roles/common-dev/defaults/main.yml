@@ -1,0 +1,3 @@
+---
+# defaults file for common
+server_tz: "Etc/UTC"

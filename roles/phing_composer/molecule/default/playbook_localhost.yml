@@ -1,0 +1,5 @@
+---
+- name: Converge
+  hosts: localhost
+  roles:
+    - role: phing_composer

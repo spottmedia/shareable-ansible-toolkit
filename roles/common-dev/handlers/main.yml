@@ -1,0 +1,9 @@
+---
+- name: Reconfigure locales
+  command: dpkg-reconfigure -f noninteractive locales
+
+- name: Setup root user pass
+  user:
+    name: root
+    password: "{{ root_pass | password_hash('sha512') }}"
+  when: reset_root_password is defined and reset_root_password == true

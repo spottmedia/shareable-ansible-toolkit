@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: lxd
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  env:
+    ANSIBLE_ROLES_PATH: /home/grzegorz/.ansible/roles/
+scenario:
+  name: centos7-solr-7.4.0
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

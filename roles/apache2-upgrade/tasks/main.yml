@@ -1,0 +1,17 @@
+---
+- name: Add the custom apache2
+  apt_repository:
+    repo: 'ppa:ondrej/apache2'
+    state: present
+
+- name: Upgrade the apache2 lib
+  apt:
+    name: apache2
+    update_cache: yes
+    state: latest
+
+- name: Apache | Enable some required modules
+  apache2_module: state=present name={{item}}
+  with_items:
+    - http2
+  notify: Restart Apache

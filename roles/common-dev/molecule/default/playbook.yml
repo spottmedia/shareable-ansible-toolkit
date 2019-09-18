@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    reset_root_password: true
+    root_pass: '123456!'
+    release_status: dev
+  roles:
+    - role: common

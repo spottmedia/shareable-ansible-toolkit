@@ -1,0 +1,17 @@
+- name: DEV php-fpm config for phantomjs
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line=";clear_env = no" state=absent
+  notify:
+    - Restart PHP-FPM
+
+- name: DEV php-fpm config for phantomjs
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="clear_env = no" state=present
+  notify:
+    - Restart PHP-FPM
+
+- name: DEV php-fpm config for phantomjs
+  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="env[QT_QPA_PLATFORM] = offscreen" state=present
+  notify:
+    - Restart PHP-FPM
+
+- name: Flush Handlers.
+  meta: flush_handlers

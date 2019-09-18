@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo
+echo " ********************************************************"
+echo " * This server is configured using Ansible               "
+echo " * with Spottmedia Roles                                  "
+echo " ********************************************************"
+echo

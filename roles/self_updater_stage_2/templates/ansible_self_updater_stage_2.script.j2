@@ -1,0 +1,5 @@
+rm /tmp/self_updater_stage_2 -rf
+git clone https://github.com/spottmedia/ansible-toolkit-stage-2.git /tmp/self_updater_stage_2
+cd /tmp/self_updater_stage_2/{{ self_update_channel }}/update-feed/
+ansible-galaxy install -r requirements.yml --force
+ansible-playbook update-playbook.yml

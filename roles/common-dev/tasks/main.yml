@@ -1,0 +1,96 @@
+---
+# This role contains common plays that will run on all nodes.
+
+##
+# Message of the day explaining server is under control of Ansible.
+#
+- name: General | disable ipv6 (remove existing lines)
+  sysctl: name="net.ipv6.conf.all.disable_ipv6" value="1"
+
+- name: General | disable ipv6 (remove existing lines)
+  sysctl: name="net.ipv6.conf.default.disable_ipv6" value="1"
+
+- name: General | disable ipv6 (add configs)
+  sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="1"
+
+- name: General | Message of the day explaining server is under Ansible control.
+  action: copy src=../files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=0755
+  tags: common
+  when: ansible_distribution == 'Ubuntu'
+  notify: Setup root user pass
+
+
+- name: Add ppa for python 3.6
+  apt_repository:
+    repo: 'ppa:deadsnakes/ppa'
+    state: present
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
+
+# - name: Set up a hostname
+#  shell: hostname {{ server_hostname }}
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+- name: General | Install required packages.
+  action: apt pkg={{ item }} state=present install_recommends=no update-cache=yes
+  tags: common
+  with_items:
+    - nano
+    - wget
+    - sendmail
+    - unzip
+    - imagemagick
+    - htop
+    - dos2unix
+    - vim
+    - zip
+    - curl
+    - ntp
+    - openssh-server
+    - python3-jmespath
+    - git-core
+    - pigz
+    - python3.6
+    - ca-certificates
+
+- name: General | Additional packages for <= 16 ubuntus
+  action: apt pkg=libpng12-dev state=present install_recommends=no update-cache=no
+  tags: common
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
+
+- name: General | Install required packages for ubuntu <= 16.
+  action: apt pkg={{ item }} state=installed install_recommends=no update-cache=yes
+  tags: common
+  with_items:
+    - libav-tools
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
+
+- name: Set up a hostname
+  hostname: name={{ server_hostname }}
+  when: not ansible_check_mode and (release_status is not defined or release_status != "dev") and server_hostname is defined and is_container is not defined   # and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+
+# see https://askubuntu.com/a/754219
+- name: Add IP address of the current hostname to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.1.1 {{ server_hostname }}"
+    state: present
+  when: (release_status is not defined or release_status != "dev") and server_hostname is defined and is_container is not defined
+
+- name: General | disable mlocate daily cron
+  file: path=/etc/cron.daily/locate state=absent  # mode="0666" state
+
+- name: General | disable locate daily cron
+  file: path=/etc/cron.daily/mlocate state=absent  # mode="0666"
+
+- name: General | setup the server's timezone
+  timezone:
+    name: "{{ server_tz }}"
+  when: is_docker is not defined or is_docker == false
+# shell: timedatectl set-timezone Etc/UTC
+
+##
+# Apt package installation of required software.
+# install_recommends=no -> A bit required to make apt module work conistently actross debian/ubuntu systems
+#
+
+# Using alternate directory locations:

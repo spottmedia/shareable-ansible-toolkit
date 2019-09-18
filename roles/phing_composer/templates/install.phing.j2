@@ -1,0 +1,8 @@
+#!/bin/bash
+
+COMPOSER_HOME="/var/lib/composer_home"
+
+mkdir -p $COMPOSER_HOME \
+&& COMPOSER_HOME=$COMPOSER_HOME composer global require phing/phing:{{ phing_version }} \
+&& COMPOSER_HOME=$COMPOSER_HOME composer global require pear/versioncontrol_git \
+&& ln -f -s $COMPOSER_HOME/vendor/bin/phing /usr/bin/phing

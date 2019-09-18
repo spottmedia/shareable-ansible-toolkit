@@ -1,0 +1,4 @@
+---
+- name: Setup ubuntu user pass
+  shell: echo ubuntu:{{ root_pass }} | /usr/sbin/chpasswd
+  when: release_status is defined and release_status == "dev"

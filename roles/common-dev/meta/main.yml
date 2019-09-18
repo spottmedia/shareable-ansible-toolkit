@@ -1,0 +1,5 @@
+---
+dependencies:
+
+  - role: dev_users
+    when: release_status is defined and release_status == 'dev'
