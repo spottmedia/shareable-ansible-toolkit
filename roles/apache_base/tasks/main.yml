@@ -25,8 +25,8 @@
   meta: flush_handlers
 
 - name: General | Install required packages > 14.
-  apt: pkg="apache2=2.4.39-1+ubuntu{{ ansible_lsb.major_release|int }}.04.1+deb.sury.org+1"
-       state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg="apache2"
+       state=latest update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
  # when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 16
   register: "apache_installation_changed"
