@@ -1,0 +1,33 @@
+---
+##
+# Install ID3
+#
+#
+
+- name: copy sources
+  copy: src=../files/id3.zip dest=/tmp/id3.zip mode=0777
+  tags: libssh2
+
+- name: unpack php5 version of ssh lib
+  unarchive: src=/tmp/id3.zip dest=/tmp/ mode=0777 creates=/tmp/id3-0.2
+
+- name: Running .phpize
+  command: phpize chdir=/tmp/id3-0.2 creates=/usr/lib/php5/20121212/id3.so
+
+- name: Running ./configure
+  command: ./configure chdir=/tmp/id3-0.2 creates=/usr/lib/php5/20121212/id3.so
+
+- name: Running make
+  command: make chdir=/tmp/id3-0.2 creates=/usr/lib/php5/20121212/id3.so
+
+- name: Running make install
+  command: make install chdir=/tmp/id3-0.2 creates=/usr/lib/php5/20121212/id3.so
+
+
+- name: enable the extension in php cli
+  lineinfile: dest=/etc/php5/cli/php.ini line="extension=id3.so"
+
+- name: enable the extension in php cli
+  lineinfile: dest=/etc/php5/apache2/php.ini line="extension=id3.so"
+
+
