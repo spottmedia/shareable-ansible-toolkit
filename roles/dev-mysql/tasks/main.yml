@@ -1,0 +1,41 @@
+---
+
+- name: General | Install required packages.
+  apt:
+    name: ['mysql-server', 'python-mysqldb']
+    state: present
+    update-cache: yes
+    cache_valid_time: 120
+#  notify: Mysql Installed
+  when: ansible_distribution == 'Ubuntu'
+  register: "mysql_freshly_installed"
+
+- debug:
+    msg: "The value of mysql_freshly_installed is {{ mysql_freshly_installed }}"
+
+- name: General | Install required auxiliary packages
+  apt:
+    name: ['mysql-client']
+    state: present
+    update-cache: yes
+    cache_valid_time: 120
+    install_recommends: no
+
+# temporary evade issue https://github.com/ansible/ansible/issues/14270#issuecomment-416880078
+- include: handlers/mysql_initial_foldout.yml
+  when: mysql_freshly_installed is defined and mysql_freshly_installed.changed == True
+
+- name: MySQL | update default mysql mode for 16.04+
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^sql_mode'
+    insertafter: '[mysqld]'
+    line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+- name: mysql remove localhost-only bind
+  replace: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp="[\t ]*bind-address[\t ]*=[\t ]*127\.0\.0\.1" replace="bind-address = 0.0.0.0"
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+  notify: Restart mysql
+
+- include: mysql-users.yml
