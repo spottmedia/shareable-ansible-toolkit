@@ -1,0 +1,29 @@
+---
+- name: Install dependencies
+  apt:
+    pkg: ['libappindicator1', 'fonts-liberation', 'libasound2', 'libnspr4', 'libnss3', 'libxss1', 'xdg-utils', 'unzip']
+    state: installed
+    update-cache: yes
+    install_recommends: no
+    cache_valid_time: 3600
+
+- name: Copy google chrome's deb over to the machine
+  copy:
+    src: google-chrome-stable_current_amd64.deb
+    dest: /var/google-chrome-stable_current_amd64.deb
+
+- name: Install the custom chrome deb
+  apt:
+    deb: /var/google-chrome-stable_current_amd64.deb
+    state: present
+
+- name: Copy chromedrivers' zip across
+  copy:
+    src: chromedriver_linux64_72.0.3626.7.zip
+    dest: /var/chromedriver_linux64_72.0.3626.7.zip
+
+- name: Extract chromedrivers' binary
+  unarchive:
+    src: /var/chromedriver_linux64_72.0.3626.7.zip
+    dest: /usr/bin/
+    mode: u=rwx,g=rx,o=rx
