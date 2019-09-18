@@ -3,6 +3,10 @@
   apt: pkg=ruby update-cache=yes install_recommends=no cache_valid_time=3600 state=installed
   tags: ruby
 
+- name: Ruby | Install Ruby Dev
+  apt: pkg=ruby-dev update-cache=yes install_recommends=no cache_valid_time=3600 state=installed
+  tags: ruby
+
 - name: Ruby | Install compass gem
   gem: name=compass
   tags: ruby
