@@ -78,9 +78,9 @@
 - include: live_filesystem_tweaks.yml
   when: release_status is not defined or release_status == "live"
 
-- name: Make sure nginx service is enabled on dev
-  service: name=nginx.service  enabled=true
-  when: release_status == "dev"
+#- name: Make sure nginx service is enabled on dev
+#  service: name=nginx.service  enabled=true
+#  when: release_status == "dev"
 
 - name: Start nginx
   service: name=nginx state=started
