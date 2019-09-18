@@ -17,13 +17,13 @@
     deb: /var/google-chrome-stable_current_amd64.deb
     state: present
 
-- name: Copy chromedrivers' zip across
-  copy:
-    src: chromedriver_linux64_72.0.3626.7.zip
-    dest: /var/chromedriver_linux64_72.0.3626.7.zip
+#- name: Copy chromedrivers' zip across
+#  copy:
+#    src: chromedriver_linux64_72.0.3626.7.zip
+#    dest: /var/chromedriver_linux64_72.0.3626.7.zip
 
 - name: Extract chromedrivers' binary
   unarchive:
-    src: /var/chromedriver_linux64_72.0.3626.7.zip
+    src: chromedriver_linux64_72.0.3626.7.zip
     dest: /usr/bin/
     mode: u=rwx,g=rx,o=rx
