@@ -23,8 +23,16 @@
     dest: "{{ solr_workspace }}/{{ solr_filename }}.tgz"
     force: false
   when: solr_install_path_status.stat.isdir is not defined
-  notify:
-    - Expand Solr
+  register: "solr_downloaded"
+#  notify:
+#    - Expand Solr
+
+- name: Expand Solr
+  unarchive:
+    src: "{{ solr_workspace }}/{{ solr_filename }}.tgz"
+    dest: "{{ solr_workspace }}"
+    copy: false
+  when: solr_downloaded is defined and solr_downloaded.changed == True
 
 # beware: we will be firing all handlers as we go (instead of using register)
 - name: Flush Handlers.

@@ -6,12 +6,6 @@
     sleep: 5
   when: solr_restart_handler_enabled
 
-- name: Expand Solr
-  unarchive:
-    src: "{{ solr_workspace }}/{{ solr_filename }}.tgz"
-    dest: "{{ solr_workspace }}"
-    copy: false
-
 # Workaround for bug https://github.com/ansible/ansible-modules-core/issues/915.
 - name: Ensure solr is stopped (RHEL 7 workaround).
   service: name={{ solr_service_name }} state=stopped
