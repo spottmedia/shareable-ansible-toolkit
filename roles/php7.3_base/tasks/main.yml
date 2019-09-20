@@ -1,0 +1,59 @@
+---
+
+- name: Add the custom php7+ repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: install php7.3 and requirements packages
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - build-essential
+    - zip
+    - unzip
+    - php7.3
+    - php7.3-zip
+    - php7.3-dev
+    - php7.3-intl
+    - php7.3-mbstring
+    - php7.3-curl
+    - php7.3-common
+    - php7.3-imagick
+    - php7.3-imap
+    - php7.3-pspell
+    - php7.3-gd
+    - php7.3-xmlrpc
+    - php7.3-soap
+    #    - php7.3-mcrypt
+    - php7.3-tidy
+    - php7.3-mysql
+    - php7.3-xml
+    - php7.3-yaml
+  notify: Hold selection of php7.3
+
+- name: install php7.3 memcached if needed
+  apt: pkg='php7.3-memcached' state=installed update-cache=yes install_recommends=yes cache_valid_time=3600
+  tags: common
+  when: php_use_memcached
+
+- name: install php7.3 redis if needed
+  apt: pkg='php-redis' state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_use_redis
+
+- name: "update default php binary symlink (as it will probably point to != php7.3"
+  file:
+    src: /etc/alternatives/php
+    dest: /usr/bin/php
+    state: link
+    force: true
+  when: not ansible_check_mode
+
+- name: "fix issues with ssl"
+  file:
+    path: /etc/ssl
+    mode: 0755
+
+- include: ID3.yml
+  when: php_with_id3 is defined and php_with_id3 == true

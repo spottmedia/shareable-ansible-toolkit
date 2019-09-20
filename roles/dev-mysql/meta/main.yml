@@ -1,5 +1,4 @@
 ---
 dependencies:
   - role: innobackupex
-  - role: server_hardening
   - role: dev_users
