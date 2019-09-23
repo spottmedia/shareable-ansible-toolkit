@@ -1,4 +1,4 @@
 ---
 - pear:
-    name: mcrypt-1.0.1
+    name: pecl/mcrypt-1.0.1
     state: present
