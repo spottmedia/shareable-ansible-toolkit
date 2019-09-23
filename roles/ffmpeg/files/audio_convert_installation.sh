@@ -69,7 +69,9 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
   --enable-libx264 \
   --enable-libx265 \
   --enable-nonfree && \
-PATH="$HOME/bin:$PATH" make && make install
+PATH="$HOME/bin:$PATH"
+make
+make install
 
 #Move the bin folder to /var/www and change the owners
 mkdir -p /var/www/bin
