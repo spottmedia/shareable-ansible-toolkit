@@ -17,11 +17,12 @@
 
 - name: Enable php-fpm 7.1 config for apache
   command: a2enconf php7.1-fpm
-  when: php_version is not defined or php_version == 7.1
 
 - name: Enable php-fpm 7.2 config for apache
   command: a2enconf php7.2-fpm
-  when: php_version is defined and php_version == 7.2
+
+- name: Enable php-fpm 7.3 config for apache
+  command: a2enconf php7.3-fpm
 
 - name: Apt update
   apt: update-cache=yes
