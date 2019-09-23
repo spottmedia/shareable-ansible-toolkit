@@ -5,8 +5,8 @@
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_os_family }}.yml"
 
-- debug:
-    msg: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml,  {{ ansible_os_family }}.yml"
+#- debug:
+#    msg: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml,  {{ ansible_os_family }}.yml"
 
 - name: Ensure pecl is installed (if configured).
   package:
