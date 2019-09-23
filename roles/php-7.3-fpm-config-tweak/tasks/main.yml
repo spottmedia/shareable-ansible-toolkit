@@ -1,0 +1,50 @@
+---
+- name: php-fpm config listen address remove old
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=absent
+
+- name: php-fpm config listen address remove add new
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="listen = /run/php/php7.3-fpm.sock" state=present
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini execution time remove old
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="max_execution_time = 30" state=absent
+
+- name: php-fpm config ini execution time remove old
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="max_execution_time = 9999" state=absent
+
+- name: php-fpm config ini execution time add new
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="max_execution_time = 9998" state=present insertbefore="max_input_time"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini execution time remove old
+  lineinfile: dest=/etc/php/7.3/cli/php.ini line="max_execution_time = 30" state=absent
+
+- name: php-fpm config ini execution time remove old
+  lineinfile: dest=/etc/php/7.3/cli/php.ini line="max_execution_time = 9999" state=absent
+
+- name: php-fpm config ini execution time add new
+  lineinfile: dest=/etc/php/7.3/cli/php.ini line="max_execution_time = 9998" state=present insertbefore="max_input_time"
+
+- name: php-fpm config max_children remove old
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="pm.max_children = 5" state=absent
+
+- name: php-fpm config max_children remove old
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="pm.max_children = 25" state=absent
+
+- name: php-fpm config max_children add new
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="pm.max_children = 26" state=present insertbefore="pm.start_servers"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config memory limit remove old
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="memory_limit = 128M" state=absent
+
+- name: php-fpm increase config memory limit add new
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="memory_limit = 512M" state=present insertafter="; http://php.net/memory-limit"
+  notify:
+    - Restart PHP-FPM
+
+- name: Flush Handlers.
+  meta: flush_handlers
