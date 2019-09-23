@@ -1,0 +1,4 @@
+---
+- pear:
+    name: mcrypt-1.0.1
+    state: present
