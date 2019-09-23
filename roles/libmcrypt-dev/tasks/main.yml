@@ -1,0 +1,4 @@
+---
+- name: Install mcrypt dev packages
+  action: apt pkg=['libmcrypt-dev'] state=present install_recommends=no update-cache=yes cache_valid_time=3600
+  tags: common
