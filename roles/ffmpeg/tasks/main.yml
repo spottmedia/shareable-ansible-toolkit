@@ -1,0 +1,36 @@
+---
+
+- name: ffmpeg | Install required packages.
+  action: apt pkg={{ item }} state=installed install_recommends=no update-cache=yes  cache_valid_time=3600
+  tags: common
+  with_items:
+    - autoconf
+    - automake
+    - build-essential
+    - libass-dev
+    - libfreetype6-dev
+    - libgpac-dev
+    - libsdl1.2-dev
+    - libtheora-dev
+    - libtool
+    - libva-dev
+    - libvdpau-dev
+    - libvorbis-dev
+    - libx11-dev
+    - libxext-dev
+    - libxfixes-dev
+    - pkg-config
+    - texi2html
+    - zlib1g-dev
+    - unzip
+    - libmp3lame-dev
+
+- name: copy audio convert installation script
+  copy: src=../files/audio_convert_installation.sh dest=/tmp mode=0777
+
+- name: proper newline for node script
+  shell: dos2unix /tmp/audio_convert_installation.sh
+
+- name: execute audio convert installation script
+  shell: /tmp/audio_convert_installation.sh creates=/var/www/bin
+  ignore_errors: true

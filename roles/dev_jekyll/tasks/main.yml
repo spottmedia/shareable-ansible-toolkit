@@ -1,0 +1,53 @@
+---
+##
+# Ansible playbook for setting up various DEV tools
+#
+
+##
+# CSS compiling tools.
+#
+
+- name: Install required packages.
+  action: apt pkg={{ item }} state=installed install_recommends=no update-cache=yes  cache_valid_time=3600
+  tags: common
+  with_items:
+    - build-essential
+    - phantomjs
+    - libssl-dev
+    - libpng16-dev
+    - virtualenv
+  when: release_status == "dev" and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+
+- name: Install required packages.
+  action: apt pkg={{ item }} state=installed install_recommends=no update-cache=yes  cache_valid_time=3600
+  tags: common
+  with_items:
+    - build-essential
+    - phantomjs
+    - libssl-dev
+  when: release_status == "dev" and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
+
+
+- name: Jekyll Templating | install ruby
+  action: apt pkg={{ item }} state=present install_recommends=no
+  with_items:
+    - ruby
+    - ruby-dev
+  tags: jekyll
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+
+- name: CSS | Install gems
+  action: gem  name={{ item }}  state=present
+  with_items:
+    - sass
+    - susy
+    - chunky_png
+    - compass
+    - bootstrap-sass
+    - sassy-buttons
+    - autoprefixer-rails
+    - jekyll
+    - redcarpet
+  tags: gems
