@@ -21,12 +21,21 @@ mkdir ~/ffmpeg_sources
 #make distclean
 
 cd ~/ffmpeg_sources
+
+hg clone https://bitbucket.org/multicoreware/x265
+cd x265/build/linux
+PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
+PATH="$HOME/bin:$PATH" make
+PATH="$HOME/bin:$PATH" make install
+
+
+cd ~/ffmpeg_sources
 wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 tar xjvf ffmpeg-snapshot.tar.bz2
+cd ffmpeg
 #sudo chown -R vagrant ffmpeg
 #sudo chgrp -R vagrant ffmpeg
 #sudo chmod -R 777 ffmpeg
-cd ffmpeg
 #PATH="$PATH:$HOME/bin" ./configure \
 #  --prefix="$HOME/ffmpeg_build" \
 #  --extra-cflags="-I$HOME/ffmpeg_build/include" \
@@ -43,11 +52,6 @@ cd ffmpeg
 #make distclean
 #hash -r
 
-hg clone https://bitbucket.org/multicoreware/x265
-cd x265/build/linux
-PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
-PATH="$HOME/bin:$PATH" make
-PATH="$HOME/bin:$PATH" make install
 
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
    ./configure \
@@ -68,7 +72,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
   --enable-libvpx \
   --enable-libx264 \
   --enable-libx265 \
-  --enable-nonfree 
+  --enable-nonfree
 PATH="$HOME/bin:$PATH" make
 PATH="$HOME/bin:$PATH" make install
 
