@@ -50,7 +50,7 @@
 
 
 - name: CSS | Install gems
-  action: gem  name={{ item }}  state=present
+  gem: name={{ item }}  state=present
   with_items:
     - sass
     - susy
