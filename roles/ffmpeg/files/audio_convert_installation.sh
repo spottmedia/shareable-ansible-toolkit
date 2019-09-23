@@ -44,7 +44,8 @@ cd ffmpeg
 hg clone https://bitbucket.org/multicoreware/x265
 cd x265/build/linux
 PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source && PATH="$HOME/bin:$PATH"
-make && make install
+make
+make install
 
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
    ./configure \

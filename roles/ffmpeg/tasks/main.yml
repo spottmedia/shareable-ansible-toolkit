@@ -44,5 +44,4 @@
   shell: dos2unix /tmp/audio_convert_installation.sh
 
 - name: execute audio convert installation script
-  shell: /tmp/audio_convert_installation.sh creates=/var/www/bin
-  ignore_errors: true
+  command: /tmp/audio_convert_installation.sh
