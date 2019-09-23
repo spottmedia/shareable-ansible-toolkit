@@ -2,5 +2,6 @@
 - name: enable the extension in php cli
   lineinfile: dest=/etc/php/7.3/cli/php.ini line="extension=mcrypt.so"
 
-- name: enable the extension in php cli
+- name: enable the extension in php fpm
   lineinfile: dest=/etc/php/7.3/fpm/php.ini line="extension=mcrypt.so"
+  notify: Restart php7.3 FPM
