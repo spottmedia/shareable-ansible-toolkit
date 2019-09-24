@@ -19,6 +19,6 @@
 - name: Build the image
   docker_image:
     debug: true
-    path: "{{ dockerfile }}"
+    build_path: "{{ dockerfile }}"
     state: present
     name: "jekyll"
