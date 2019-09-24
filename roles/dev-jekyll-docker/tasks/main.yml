@@ -10,16 +10,13 @@
   pip:
     name: docker
 
-- name: pull the jekyll image
-  docker_image:
-    name: jekyll/jekyll
-
 - name: copy the dockerfile
   template:
-    src: Dockerfile.j2
-    dest: /var/lib/docker-jekyll/Dockerfile
+    src: "Dockerfile.j2"
+    dest: /var/lib/Dockerfile
+  when: jekyll_dockerfile == "/var/lib/Dockerfile"
 
 - name: Create the jekyll container
   docker_image:
-    path: /var/lib/docker-jekyll/Dockerfile
+    path: "{{ jekyll_dockerfile }}"
     state: present
