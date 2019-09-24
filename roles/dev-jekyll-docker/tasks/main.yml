@@ -13,3 +13,10 @@
 - name: pull the jekyll image
   docker_image:
     name: jekyll/jekyll
+
+- name: Create the jekyll container
+  docker_container:
+    name: jekyll
+    image: jekyll/jekyll
+    volumes:
+      - /var/www/My_Webs
