@@ -18,5 +18,3 @@
   docker_container:
     name: jekyll
     image: jekyll/jekyll
-    volumes:
-      - /var/www/My_Webs
