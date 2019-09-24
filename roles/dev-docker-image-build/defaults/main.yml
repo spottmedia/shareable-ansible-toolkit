@@ -1,3 +1,3 @@
 ---
 # defaults file for common
-dockerfile : "/var/lib/Dockerfile"
+build_path : "/var/lib/"
