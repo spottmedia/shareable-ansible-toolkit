@@ -1,0 +1,4 @@
+---
+- name: pull the jekyll image
+  docker_image:
+    name: jekyll/jekyll
