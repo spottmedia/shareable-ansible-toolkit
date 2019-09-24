@@ -14,10 +14,12 @@
   docker_image:
     name: jekyll/jekyll
 
+- name: copy the dockerfile
+  template:
+    src: Dockerfile.j2
+    dest: /var/lib/docker-jekyll/Dockerfile
+
 - name: Create the jekyll container
-  docker_container:
-    name: jekyll
-    image: jekyll/jekyll
+  docker_image:
+    path: /var/lib/docker-jekyll/Dockerfile
     state: present
-    volumes:
-      - "{{ jekyll_docker_mount }}"
