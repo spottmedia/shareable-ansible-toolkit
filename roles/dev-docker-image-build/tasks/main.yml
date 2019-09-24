@@ -14,10 +14,10 @@
   template:
     src: "Dockerfile.j2"
     dest: /var/lib/Dockerfile
-  when: jekyll_dockerfile == "/var/lib/Dockerfile"
+  when: dockerfile == "/var/lib/Dockerfile"
 
-- name: Build the jekyll image
+- name: Build the image
   docker_image:
-    path: "{{ jekyll_dockerfile }}"
+    path: "{{ dockerfile }}"
     state: present
     name: "jekyll"
