@@ -18,14 +18,5 @@
   include: hardening.yml
   when: release_status is undefined or release_status != "dev"
 
-- name: Enable php-fpm 7.1 config for apache
-  command: a2enconf php7.1-fpm
-
-- name: Enable php-fpm 7.2 config for apache
-  command: a2enconf php7.2-fpm
-
-- name: Enable php-fpm 7.3 config for apache
-  command: a2enconf php7.3-fpm
-
 - name: Apt update
   apt: update-cache=yes

@@ -32,6 +32,15 @@
     - php7.3-yaml
   notify: Hold selection of php7.3
 
+
+- name: General | Install fpm (if needed)
+  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  with_items:
+    - php7.3-fpm
+  when: php_install_fpm
+
+
 - name: install php7.3 memcached if needed
   apt: pkg='php7.3-memcached' state=installed update-cache=yes install_recommends=yes cache_valid_time=3600
   tags: common

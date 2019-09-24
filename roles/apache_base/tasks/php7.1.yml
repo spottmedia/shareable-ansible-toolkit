@@ -13,23 +13,21 @@
     - php7.1-mcrypt
     - php7.1-mysql
 
-- name: General | Install fpm (if needed)
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
-  tags: common
-  with_items:
-    - php7.1-fpm
+- name: Enable php-fpm 7.1 config for apache
+  command: a2enconf php7.1-fpm
   when: apache_with_fpm
-  notify: Enable php-fpm 7.1 config for apache
 
 - name: php-fpm config
   lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=present
   notify:
     - Restart PHP-FPM
+  when: apache_with_fpm
 
 - name: php-fpm config
   lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = /run/php/php7.1-fpm.sock" state=absent
   notify:
     - Restart PHP-FPM
+  when: apache_with_fpm
 
 - name: Flush Handlers.
   meta: flush_handlers

@@ -13,13 +13,9 @@
 #    - php7.2-mcrypt
     - php7.3-mysql
 
-- name: General | Install fpm (if needed)
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
-  tags: common
-  with_items:
-    - php7.3-fpm
+- name: Enable php-fpm 7.3 config for apache
+  command: a2enconf php7.3-fpm
   when: apache_with_fpm
-  notify: Enable php-fpm 7.3 config for apache
 
 - name: php-fpm config
   lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=present
