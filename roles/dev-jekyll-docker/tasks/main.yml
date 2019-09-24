@@ -20,4 +20,4 @@
     image: jekyll/jekyll
     state: present
     volumes:
-      - "{{ jekyll-docker-mount }}"
+      - "{{ jekyll_docker_mount }}"
