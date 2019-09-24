@@ -16,7 +16,8 @@
     dest: /var/lib/Dockerfile
   when: jekyll_dockerfile == "/var/lib/Dockerfile"
 
-- name: Create the jekyll container
+- name: Build the jekyll image
   docker_image:
     path: "{{ jekyll_dockerfile }}"
     state: present
+    name: "jekyll"
