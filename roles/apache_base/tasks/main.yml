@@ -196,6 +196,10 @@
 - include: php5.yml
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
 
+- name: debug php version
+  debug:
+    msg: "{{ php_version }}"
+
 - include: php7.1.yml
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16 and (php_version is not defined or php_version == "7.1")
 
