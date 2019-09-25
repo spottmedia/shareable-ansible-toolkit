@@ -37,11 +37,47 @@
     - cmake
 
 
-- name: copy audio convert installation script
-  copy: src=../files/audio_convert_installation.sh dest=/tmp mode=0777
+- name: copy yasm installation script
+  copy: src=../files/compile_yasm.sh dest=/tmp mode=0777
 
-- name: proper newline for node script
-  shell: dos2unix /tmp/audio_convert_installation.sh
+- name: proper newline for yasm script
+  shell: dos2unix /tmp/compile_yasm.sh
 
-- name: execute audio convert installation script
-  command: /tmp/audio_convert_installation.sh
+- name: execute yasm installation script
+  command: /tmp/compile_yasm.sh
+
+
+- name: copy x264 installation script
+  copy: src=../files/compile_x264.sh dest=/tmp mode=0777
+
+- name: proper newline for x264 script
+  shell: dos2unix /tmp/compile_x264.sh
+
+- name: execute x264 installation script
+  command: /tmp/compile_x264.sh
+
+
+- name: copy ffmpeg installation script
+  copy: src=../files/compile_ffmpeg.sh dest=/tmp mode=0777
+
+- name: proper newline for ffmpeg script
+  shell: dos2unix /tmp/compile_ffmpeg.sh
+
+- name: execute ffmpeg installation script
+  command: /tmp/compile_ffmpeg.sh
+
+
+- name: Create /var/www/bin
+  file:
+    path: /var/www/bin
+    state: directory
+    mode: '0766'
+
+- name: Copy ffmpeg bin files
+  copy:
+    remote_src: true
+    src: /root/bin/
+    dest: /var/www/bin/
+    owner: www-data
+    group: www-data
+    mode: '0755'
