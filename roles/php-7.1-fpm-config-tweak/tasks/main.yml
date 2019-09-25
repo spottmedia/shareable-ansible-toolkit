@@ -1,12 +1,4 @@
 ---
-- name: php-fpm config listen address remove old
-  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=absent
-
-- name: php-fpm config listen address remove add new
-  lineinfile: dest=/etc/php/7.1/fpm/pool.d/www.conf line="listen = /run/php/php7.1-fpm.sock" state=present
-  notify:
-    - Restart PHP-FPM
-
 - name: php-fpm config ini execution time remove old
   lineinfile: dest=/etc/php/7.1/fpm/php.ini line="max_execution_time = 30" state=absent
 
