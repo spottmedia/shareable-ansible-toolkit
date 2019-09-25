@@ -44,7 +44,7 @@
   shell: dos2unix /tmp/compile_yasm.sh
 
 - name: execute yasm installation script
-  command: /tmp/compile_yasm.sh
+  command: /tmp/compile_yasm.sh creates=/root/bin/yasm
 
 
 - name: copy x265 installation script
@@ -54,7 +54,7 @@
   shell: dos2unix /tmp/compile_x265.sh
 
 - name: execute x265 installation script
-  command: /tmp/compile_x265.sh
+  command: /tmp/compile_x265.sh creates=/root/ffmpeg_build/bin/x265
 
 
 - name: copy ffmpeg installation script
@@ -64,7 +64,7 @@
   shell: dos2unix /tmp/compile_ffmpeg.sh
 
 - name: execute ffmpeg installation script
-  command: /tmp/compile_ffmpeg.sh
+  command: /tmp/compile_ffmpeg.sh creates=/root/bin/ffmpeg
 
 
 - name: Create /var/www/bin
