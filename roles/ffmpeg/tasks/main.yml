@@ -47,14 +47,14 @@
   command: /tmp/compile_yasm.sh
 
 
-- name: copy x264 installation script
-  copy: src=../files/compile_x264.sh dest=/tmp mode=0777
+- name: copy x265 installation script
+  copy: src=../files/compile_x265.sh dest=/tmp mode=0777
 
-- name: proper newline for x264 script
-  shell: dos2unix /tmp/compile_x264.sh
+- name: proper newline for x265 script
+  shell: dos2unix /tmp/compile_x265.sh
 
-- name: execute x264 installation script
-  command: /tmp/compile_x264.sh
+- name: execute x265 installation script
+  command: /tmp/compile_x265.sh
 
 
 - name: copy ffmpeg installation script
