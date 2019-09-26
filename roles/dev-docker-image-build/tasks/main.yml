@@ -1,7 +1,12 @@
 ---
 
 - name: Install python-pip for docker pip module
-  action: apt pkg=['python-pip'] state=present install_recommends=no update-cache=yes
+  apt:
+    pkg:
+      - python-pip
+    state: present
+    install_recommends: false
+    update-cache: true
   tags: common
 
 - name: Install docker pip
