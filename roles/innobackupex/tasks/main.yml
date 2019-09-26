@@ -33,7 +33,4 @@
   notify: Innobackup Reload apt
 
 - name: Install required packages.
-  action: apt pkg={{ item }} state=present install_recommends=no update-cache=yes
-  with_items:
-    - percona-xtrabackup-24
-    - qpress
+  action: apt pkg=['percona-xtrabackup-24', 'qpress'] state=present install_recommends=no update-cache=yes

@@ -142,7 +142,7 @@
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
 - name: Apache | Allow multiple SSL vhosts
-  action: template src=../templates/etc-apache2-ports-conf.j2 dest=/etc/apache2/ports.conf
+  template: src=../templates/etc-apache2-ports-conf.j2 dest=/etc/apache2/ports.conf
   tags: common
   notify: Restart Apache
 

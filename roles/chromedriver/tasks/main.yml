@@ -22,3 +22,4 @@
     src: chromedriver_linux64_72.0.3626.7.zip
     dest: /usr/bin/
     mode: u=rwx,g=rx,o=rx
+    creates: /usr/bin/chromedriver

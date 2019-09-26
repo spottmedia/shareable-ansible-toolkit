@@ -11,7 +11,7 @@
       'php7.1-soap', 'php7.1-mcrypt', 'php7.1-tidy', 'php7.1-mysql', 'php7.1-xml', 'php7.1-yaml']
     state=installed update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  
+
   notify: Hold selection of php7.1
 
 - name: General | Install fpm (if needed)
