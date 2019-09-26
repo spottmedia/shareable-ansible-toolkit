@@ -31,10 +31,28 @@
 #  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
 - name: General | Install required packages.
-  action: apt pkg=['nano', 'wget', 'sendmail', 'unzip', 'imagemagick', 'htop',
-    'dos2unix', 'vim', 'zip', 'curl',
-    'ntp', 'openssh-server', 'python3-jmespath', 'git-core', 'pigz', 'python3.6',
-    'ca-certificates'] state=present install_recommends=no update-cache=yes
+  apt:
+    pkg:
+      - nano
+      - wget
+      - sendmail
+      - unzip
+      - imagemagick
+      - htop
+      - dos2unix
+      - vim
+      - zip
+      - curl
+      - ntp
+      - openssh-server
+      - python3-jmespath
+      - git-core
+      - pigz
+      - python3.6
+      - ca-certificates
+    state: present
+    install_recommends: false
+    update-cache: true
   tags: common
 
 - name: General | Additional packages for <= 16 ubuntus
