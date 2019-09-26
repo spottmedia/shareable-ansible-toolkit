@@ -13,11 +13,11 @@
 - name: General | disable ipv6 (add configs)
   sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="1"
 
-- name: General | Message of the day explaining server is under Ansible control.
-  action: copy src=../files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=0755
-  tags: common
-  when: ansible_distribution == 'Ubuntu'
-  notify: Setup root user pass
+#- name: General | Message of the day explaining server is under Ansible control.
+#  action: copy src=../files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=0755
+#  tags: common
+#  when: ansible_distribution == 'Ubuntu'
+#  notify: Setup root user pass
 
 
 - name: Add ppa for python 3.6
