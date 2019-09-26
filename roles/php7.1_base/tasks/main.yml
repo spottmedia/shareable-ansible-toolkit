@@ -6,30 +6,12 @@
     state: present
 
 - name: install php7.1 and requirements packages
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=['build-essential', 'zip', 'unzip', 'php7.1', 'php7.1-zip', 'php7.1-dev', 'php7.1-intl', 'php7.1-mbstring',
+      'php7.1-curl', 'php7.1-common', 'php7.1-imagick', 'php7.1-imap', 'php7.1-pspell', 'php7.1-gd', 'php7.1-xmlrpc',
+      'php7.1-soap', 'php7.1-mcrypt', 'php7.1-tidy', 'php7.1-mysql', 'php7.1-xml', 'php7.1-yaml']
+    state=installed update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  with_items:
-    - build-essential
-    - zip
-    - unzip
-    - php7.1
-    - php7.1-zip
-    - php7.1-dev
-    - php7.1-intl
-    - php7.1-mbstring
-    - php7.1-curl
-    - php7.1-common
-    - php7.1-imagick
-    - php7.1-imap
-    - php7.1-pspell
-    - php7.1-gd
-    - php7.1-xmlrpc
-    - php7.1-soap
-    - php7.1-mcrypt
-    - php7.1-tidy
-    - php7.1-mysql
-    - php7.1-xml
-    - php7.1-yaml
+  
   notify: Hold selection of php7.1
 
 - name: General | Install fpm (if needed)
