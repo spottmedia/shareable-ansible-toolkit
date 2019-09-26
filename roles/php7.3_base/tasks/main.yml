@@ -28,10 +28,10 @@
       - php7.3-mysql
       - php7.3-xml
       - php7.3-yaml
-  state: installed
-  update-cache: true
-  install_recommends: false
-  cache_valid_time: 3600
+    state: installed
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
   tags: common
 
   notify: Hold selection of php7.3
