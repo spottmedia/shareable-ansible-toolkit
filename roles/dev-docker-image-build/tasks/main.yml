@@ -22,4 +22,4 @@
     build_path: "{{ build_path }}"
     state: present
     name: "jekyll"
-    force: true
+#    force: true

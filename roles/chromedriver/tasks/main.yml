@@ -7,15 +7,10 @@
     install_recommends: no
     cache_valid_time: 3600
 
-- name: Copy google chrome's deb over to the machine
-  copy:
-    src: google-chrome-stable_current_amd64.deb
-    dest: /var/google-chrome-stable_current_amd64.deb
-
-- name: Install the custom chrome deb
-  apt:
-    deb: /var/google-chrome-stable_current_amd64.deb
-    state: present
+#- name: Copy google chrome's deb over to the machine
+#  copy:
+#    src: google-chrome-stable_current_amd64.deb
+#    dest: /var/google-chrome-stable_current_amd64.deb
 
 #- name: Copy chromedrivers' zip across
 #  copy:
