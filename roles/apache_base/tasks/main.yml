@@ -66,7 +66,6 @@
      'aspell-en', 'ssl-cert', 'make', 'libcurl3-openssl-dev']
     state=installed update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  with_items:
 
     # this is a virtual package that will notify of changes in ansible when installed.
     # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
