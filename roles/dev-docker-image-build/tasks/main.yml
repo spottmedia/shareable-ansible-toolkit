@@ -9,6 +9,11 @@
     update-cache: true
   tags: common
 
+- name: upgrade pip with pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+
 - name: Install docker pip
   pip:
     name: docker
