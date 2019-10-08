@@ -9,5 +9,5 @@
 # /srv/nfs4/homes  gss/krb5i(rw,sync,no_subtree_check)
 #
 {% for nfs_share in nfs_shares %}
-{{ nfs_shares.mountpoint }} {% for client in nfs_shares.clients %} {{ client }}(rw,sync,no_root_squash,no_subtree_check) {% endfor %}
+{{ nfs_share.mountpoint }} {% for client in nfs_share.clients %} {{ client }}(rw,sync,no_root_squash,no_subtree_check) {% endfor %}
 {% endfor %}
