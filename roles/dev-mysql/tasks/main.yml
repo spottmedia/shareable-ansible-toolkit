@@ -5,7 +5,7 @@
     name: ['mysql-server', 'python-mysqldb']
     state: present
     update-cache: yes
-    cache_valid_time: 120
+    cache_valid_time: 3600
 #  notify: Mysql Installed
   when: ansible_distribution == 'Ubuntu'
   register: "mysql_freshly_installed"
@@ -18,7 +18,7 @@
     name: ['mysql-client']
     state: present
     update-cache: yes
-    cache_valid_time: 120
+    cache_valid_time: 3600
     install_recommends: no
 
 # temporary evade issue https://github.com/ansible/ansible/issues/14270#issuecomment-416880078

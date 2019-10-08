@@ -36,7 +36,6 @@
     - mercurial
     - cmake
 
-
 - name: copy yasm installation script
   copy: src=../files/compile_yasm.sh dest=/tmp mode=0777
 

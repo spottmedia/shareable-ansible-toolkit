@@ -1,0 +1,13 @@
+---
+
+- name: Ensure NFS utilities are installed.
+  apt: name=['nfs-common', 'nfs-kernel-server'] state=installed update_cache=yes
+
+- include: share-config.yml
+  vars:
+    nfs_share: "{{ item }}"
+  with_items: "{{ nfs_shares }}"
+
+- name: materialize /etc/exports
+  template: src=exports.j2 dest=/etc/exports owner=root group=root
+  notify: restart nfs server
