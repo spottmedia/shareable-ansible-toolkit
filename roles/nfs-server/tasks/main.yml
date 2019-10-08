@@ -1,7 +1,13 @@
 ---
 
 - name: Ensure NFS utilities are installed.
-  apt: name=['nfs-common', 'nfs-kernel-server'] state=installed update_cache=yes
+  apt:
+    name:
+      - nfs-common
+      - nfs-kernel-server
+    state: installed
+    update_cache: yes
+    cache_valid_time: 3600
 
 - include: share-config.yml
   vars:
