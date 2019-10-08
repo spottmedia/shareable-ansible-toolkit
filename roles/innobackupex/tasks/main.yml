@@ -40,3 +40,4 @@
     state: present
     install_recommends: false
     update-cache: true
+    cache_valid_time: 3600
