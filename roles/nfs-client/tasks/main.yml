@@ -8,5 +8,5 @@
     with_items: "{{ nfs_mounts }}"
 
   - name: set mountpoints
-    mount: name="{{ item.target }}" src="{{ item.source }}" dump=0 passno=2 state=mounted
+    mount: name="{{ item.target }}" src="{{ item.source }}" fstype=nfs dump=0 passno=2 state=mounted
     with_items: "{{ nfs_mounts }}"
