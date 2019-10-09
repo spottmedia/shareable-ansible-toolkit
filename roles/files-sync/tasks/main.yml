@@ -1,0 +1,4 @@
+---
+- name: Copy files/folders needed on the remote
+  copy: src="{{ item.source }}" dest="{{ items.destination }}"
+  with_items: "{{ file_sync_maps }}"
