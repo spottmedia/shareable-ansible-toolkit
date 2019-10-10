@@ -8,16 +8,23 @@
 #
 
 - name: Install required packages.
-  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no
+  action: apt pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
     - ufw
     - fail2ban
     - logwatch
-    - ssh
 
 - name: UFW allow ssh access
   ufw: rule=allow port=ssh proto=tcp
+
+- name: UFW allow custom rules
+  ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}" proto=any
+  with_items: {{ ufw_allow }}
+
+- name: UFW allow custom rules
+  ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}" proto=any
+  with_items: {{ ufw_deny }}
 
 - name: Enable ufw
   ufw: state=enabled

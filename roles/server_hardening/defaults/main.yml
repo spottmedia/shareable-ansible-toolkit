@@ -1,3 +1,5 @@
 ---
 # defaults file for common
 logwatch_email: root
+ufw_deny: []
+ufw_allow: []
