@@ -20,11 +20,11 @@
 
 - name: UFW allow custom rules
   ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}" proto=any
-  with_items: {{ ufw_allow }}
+  with_items: "{{ ufw_allow }}"
 
 - name: UFW allow custom rules
   ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}" proto=any
-  with_items: {{ ufw_deny }}
+  with_items: "{{ ufw_deny }}"
 
 - name: Enable ufw
   ufw: state=enabled
