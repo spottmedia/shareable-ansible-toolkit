@@ -68,15 +68,21 @@
     - setup initial permissions
     - Restart nginx
 
+- name: Fix SSL POODLE add new directive
+  replace: dest=/etc/nginx/nginx.conf
+    regexp='ssl_protocols (?!TLSv1 TLSv1.1 TLSv1.2);'
+    replace='ssl_protocols TLSv1 TLSv1.1 TLSv1.2;'
+  notify: Restart nginx
+
 ##
 # Restart services
 #
 
-- include: hardening.yml
-  when: release_status is not defined or release_status == "live"
-
-- include: live_filesystem_tweaks.yml
-  when: release_status is not defined or release_status == "live"
+#- include: hardening.yml
+#  when: release_status is not defined or release_status == "live"
+#
+#- include: live_filesystem_tweaks.yml
+#  when: release_status is not defined or release_status == "live"
 
 #- name: Make sure nginx service is enabled on dev
 #  service: name=nginx.service  enabled=true
