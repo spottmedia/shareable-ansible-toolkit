@@ -19,11 +19,11 @@
   ufw: rule=allow port=ssh proto=tcp
 
 - name: UFW allow custom rules
-  ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}"
+  ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}" proto=any
   with_items: "{{ ufw_allow }}"
 
 - name: UFW allow custom rules
-  ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}"
+  ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}" proto=any
   with_items: "{{ ufw_deny }}"
 
 - name: Enable ufw
