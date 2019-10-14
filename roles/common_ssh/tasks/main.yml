@@ -7,7 +7,6 @@
   authorized_key: user=root key="{{ lookup('file', item ) }}" state=present
   with_fileglob:
      - ssh_keys/maintainers/*
-  when: maintainers_keys is defined
   tags: ssh-access-keys
 
 # Using alternate directory locations:
@@ -15,5 +14,4 @@
   authorized_key: user=root key="{{ lookup('file', item ) }}" state=absent
   with_fileglob:
        - ssh_keys/banned/*
-  when: maintainers_keys is defined
   tags: ssh-access-keys
