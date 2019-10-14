@@ -1,0 +1,7 @@
+---
+- name: restart monit
+  service: name=monit state=restarted
+
+- name: monitors - Reload facts
+  setup:
+    filter: "ansible_local"

@@ -1,0 +1,8 @@
+---
+# a startup role
+
+- name: Maybe start Monit service after the playbook ran
+  command: monit monitor all
+  ignore_errors: true
+  tags:
+  - skip_ansible_lint

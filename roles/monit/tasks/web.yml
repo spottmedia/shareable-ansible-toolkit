@@ -1,0 +1,12 @@
+---
+
+- name: web - copy pem file for ssl connections
+  file: src=../files/monit_cert.pem dest={{ monit_includes }} mode=700 owner=root group=root
+
+- name: web - Setup webinterface
+  template:
+    src: webinterface.j2
+    dest: "{{ monit_includes }}/webinterface"
+    owner: root
+    group: root
+  notify: restart monit

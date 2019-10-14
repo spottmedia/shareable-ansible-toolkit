@@ -1,0 +1,7 @@
+---
+# a startup role
+- name: Maybe stop Monit service so that it doesn't mess up the ansible service module during the playbook run
+  command: monit unmonitor all
+  ignore_errors: true
+  tags:
+  - skip_ansible_lint

@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+
+set daemon {{ monit_cycle }}
+set logfile {{ monit_log_destination }}
+set statefile {{ monit_state_file }}
+set idfile {{ monit_id_file }}
+{% if monit_eventqueue_dir is defined %}
+set eventqueue
+  basedir {{ monit_eventqueue_dir | default('/var/lib/monit/events') }}
+  slots {{ monit_eventqueue_slots | default(100) }}
+{% endif %}
+include {{ monit_includes }}/*
+
+check system {{ server_hostname }}
+    if loadavg (1min) > {{ ansible_processor_vcpus * 2 }} for 6 cycles then alert
+    if loadavg (5min) > {{ ansible_processor_vcpus }} for 6 cycles then alert
+    if memory usage > 99% for 4 cycles then alert
+    if swap usage > 90% for 2 cycles then alert
+    if swap usage > 50% for 4 cycles then alert
+    if swap usage > 33% for 6 cycles then alert
+    if cpu usage (user) > 90% for 6 cycles then alert
+    if cpu usage (system) > 50% for 6 cycles then alert
+    if cpu usage (wait) > 25% for 6 cycles then alert
+check device var with path /
+		if SPACE usage > 80% then alert
+		if SPACE usage > 90% then alert
+		if SPACE usage > 99% then alert
+
+
