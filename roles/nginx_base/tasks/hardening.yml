@@ -7,22 +7,6 @@
 # Apt package installation of required software.
 #
 
-- name: deny default apache_http_port if nginx is proxying
-  ufw: rule=deny port={{ apache_http_port }} proto=any
-  when: nginx_in_front is defined and nginx_port is defined
-
-- name: deny default apache_https_port if nginx is proxying
-  ufw: rule=deny port={{ apache_https_port }} proto=any
-  when: nginx_in_front is defined and nginx_ssl_port is defined
-
-- name: UFW allow https access
-  ufw: rule=allow port={{ nginx_ssl_port }} proto=any
-  when: nginx_ssl_port is defined
-
-- name: UFW allow http access
-  ufw: rule=allow port={{ nginx_port }} proto=any
-  when: nginx_port is defined
-
 - name: Fix SSL POODLE add new directive
   replace: dest=/etc/nginx/nginx.conf
     regexp='ssl_protocols (?!TLSv1 TLSv1.1 TLSv1.2);'

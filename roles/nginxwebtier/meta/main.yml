@@ -1,7 +1,5 @@
 ---
 dependencies:
-  - role: server_hardening
-    when: release_status is not defined or release_status == "live"
   - role: nginx_base
 
   - role: php7.2_base
