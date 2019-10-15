@@ -12,10 +12,10 @@ backuppc_hosts: []
 #    user: root
 #    moreUsers: "user1, user2"
 #    config_override:
-#      - RsyncShareName: >
-#        "[
-#          '/some/path/1',
-#          '/some/path/2'
-#         ];"
+#      - RsyncShareName: |
+#           [
+#             '/some/path/1',
+#              '/some/path/2'
+#           ];
 #      - BackupsDisable: 1
 
