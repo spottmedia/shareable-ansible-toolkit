@@ -20,14 +20,14 @@
 - name: materialize the config overrides
   template:
     src: host_config.j2
-    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}"
+    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}.pl"
   when: not backuppc_delegated
   notify: Reload backuppc
 
 - name: materialize the config overrides
   template:
     src: host_config.j2
-    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}"
+    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}.pl"
   delegate_to: "{{ backuppc_server }}"
   when: backuppc_delegated
   notify: Reload backuppc delegated
