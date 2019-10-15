@@ -1,7 +1,7 @@
 ---
 - name: check if the host exists in the hosts file (delegated)
   lineinfile:
-    path: "{{ backuppc_config_folder }}/hosts }}"
+    path: "{{ backuppc_config_folder }}/hosts"
     regexp: "^{{ host_config.name }}"
     line: "{{ host_config.name }} {{ host_config.dhcp }} {{ host_config.user }} {{ host_config.moreUsers }}"
   delegate_to: "{{ backuppc_server }}"
@@ -9,7 +9,7 @@
 
 - name: check if the host exists in the hosts file
   lineinfile:
-    path: "{{ backuppc_config_folder }}/hosts }}"
+    path: "{{ backuppc_config_folder }}/hosts"
     regexp: "^{{ host_config.name }}"
     line: "{{ host_config.name }} {{ host_config.dhcp }} {{ host_config.user }} {{ host_config.moreUsers }}"
   when: not backuppc_delegated
