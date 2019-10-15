@@ -1,0 +1,21 @@
+---
+backuppc_delegated: False
+backuppc_server: ""
+backuppc_bin_folder:     /usr/local/BackupPC/bin
+backuppc_config_folder:  /etc/BackupPC
+backuppc_reload_command: "{{ backuppc_bin_folder }}/BackupPC_serverMesg server reload"
+backuppc_hosts: []
+# example
+#backuppc_hosts:
+#  - name: a_hostname
+#    dhcp: 0
+#    user: root
+#    moreUsers: "user1, user2"
+#    config_override:
+#      - RsyncShareName: >
+#        "[
+#          '/some/path/1',
+#          '/some/path/2'
+#         ];"
+#      - BackupsDisable: 1
+
