@@ -26,3 +26,11 @@
     - php7.0-mcrypt
     - php7.0-tidy
     - php7.0-redis
+
+- name: Make sure php bin points to 7.0
+  file:
+    src: /usr/bin/php7.0
+    dest: /usr/bin/php
+    owner: root
+    group: root
+    state: link
