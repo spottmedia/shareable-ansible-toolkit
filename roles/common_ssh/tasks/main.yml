@@ -5,13 +5,11 @@
 # Using alternate directory locations:
 - name: Add public keys for certain people to access the server
   authorized_key: user=root key="{{ lookup('file', item ) }}" state=present
-  with_fileglob:
-     - ssh_keys/maintainers/*
+  with_fileglob: "{{ ssh_keys_maintainers_allowed }}/*"
   tags: ssh-access-keys
 
 # Using alternate directory locations:
 - name: Remove old public keys
   authorized_key: user=root key="{{ lookup('file', item ) }}" state=absent
-  with_fileglob:
-       - ssh_keys/banned/*
+  with_fileglob: "{{ ssh_keys_maintainers_banned }}/*"
   tags: ssh-access-keys

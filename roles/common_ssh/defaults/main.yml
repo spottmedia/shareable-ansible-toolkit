@@ -1,0 +1,3 @@
+---
+ssh_keys_maintainers_allowed: ssh_keys/maintainers
+ssh_keys_maintainers_banned: ssh_keys/banned
