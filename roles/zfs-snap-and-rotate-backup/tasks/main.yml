@@ -1,0 +1,11 @@
+---
+- name: Copy the zfs autosnapshot sources
+  unarchive:
+    src: zfs-auto-snapshot-upstream-1.2.4.tar.gz
+    dest: /root/
+
+- name: Run 'install' target as root
+  make:
+    chdir: /root/zfs-auto-snapshot-upstream-1.2.4
+    target: install
+  become: yes
