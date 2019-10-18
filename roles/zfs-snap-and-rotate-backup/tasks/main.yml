@@ -13,18 +13,22 @@
 - name: setup frequent zfs snapshots
   cron:
     name: "frequent ZFS snapshots"
+    env: true
+    cron_file: zfs-auto-snapshot
     minute: "*/10"
     job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=frequent --keep=24 //"
 
 - name: setup hourly zfs snapshots
   cron:
     name: "hourly ZFS snapshots"
+    cron_file: zfs-auto-snapshot
     minute: 0
     job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=hourly --keep=24 //"
 
 - name: setup daily zfs snapshots
   cron:
     name: "daily ZFS snapshots"
+    cron_file: zfs-auto-snapshot
     minute: 0
     hour: 23
     job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=daily --keep=14 //"
@@ -32,6 +36,7 @@
 - name: setup weekly zfs snapshots
   cron:
     name: "weekly ZFS snapshots"
+    cron_file: zfs-auto-snapshot
     minute: 59
     hour: 23
     weekday: 0
@@ -40,6 +45,8 @@
 - name: setup monthly zfs snapshots
   cron:
     name: "monthly ZFS snapshots"
+    cron_file: zfs-auto-snapshot
+    env: true
     minute: 2
     hour: 0
     day: 1
