@@ -16,6 +16,7 @@
     env: true
     cron_file: zfs-auto-snapshot
     user: root
+    job: 'PATH="/usr/bin:/bin:/usr/sbin:/sbin"'
 
 - name: setup frequent zfs snapshots
   cron:
