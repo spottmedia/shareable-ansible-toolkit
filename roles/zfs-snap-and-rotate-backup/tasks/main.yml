@@ -18,13 +18,14 @@
     user: root
     job: "/usr/bin:/bin:/usr/sbin:/sbin"
 
-- name: setup frequent zfs snapshots
-  cron:
-    name: "frequent ZFS snapshots"
-    cron_file: zfs-auto-snapshot
-    user: root
-    minute: "*/10"
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=frequent --keep=24 //"
+# frequent snapshots are enabled by default 
+#- name: setup frequent zfs snapshots
+#  cron:
+#    name: "frequent ZFS snapshots"
+#    cron_file: zfs-auto-snapshot
+#    user: root
+#    minute: "*/10"
+#    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=frequent --keep=24 //"
 
 - name: setup hourly zfs snapshots
   cron:
