@@ -10,6 +10,13 @@
     target: install
   become: yes
 
+- name: setup zfs snapshots's ENV
+  cron:
+    name: PATH
+    env: true
+    cron_file: zfs-auto-snapshot
+    user: root
+
 - name: setup frequent zfs snapshots
   cron:
     name: "frequent ZFS snapshots"
