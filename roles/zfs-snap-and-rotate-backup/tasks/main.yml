@@ -21,7 +21,6 @@
 - name: setup frequent zfs snapshots
   cron:
     name: "frequent ZFS snapshots"
-    env: true
     cron_file: zfs-auto-snapshot
     user: root
     minute: "*/10"
@@ -59,7 +58,6 @@
     name: "monthly ZFS snapshots"
     cron_file: zfs-auto-snapshot
     user: root
-    env: true
     minute: 2
     hour: 0
     day: 1
