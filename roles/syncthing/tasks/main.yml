@@ -1,5 +1,13 @@
 ---
 
+- name: Install GPG package
+  apt:
+    name:
+      - gpg
+    state: present
+    update-cache: yes
+    cache_valid_time: 3600
+
 - name: Add syncthing's signing key
   apt_key:
     url: https://syncthing.net/release-key.txt
