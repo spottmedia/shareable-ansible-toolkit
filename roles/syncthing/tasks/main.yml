@@ -13,11 +13,11 @@
     url: https://syncthing.net/release-key.txt
     state: present
 
-- name: Add syuncthing apt repo
+- name: Add syncthing apt repo
   apt_repository:
     repo: deb https://apt.syncthing.net/ syncthing stable
     state: present
-    register: "syncthing_repo_added"
+  register: "syncthing_repo_added"
 
 - name: Update repositories after syncthing repo added
   apt:
