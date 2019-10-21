@@ -18,7 +18,7 @@
     user: root
     job: "/usr/bin:/bin:/usr/sbin:/sbin"
 
-# frequent snapshots are enabled by default 
+# frequent snapshots are enabled by default
 #- name: setup frequent zfs snapshots
 #  cron:
 #    name: "frequent ZFS snapshots"

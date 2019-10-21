@@ -50,6 +50,7 @@
       - pigz
       - python3.6
       - ca-certificates
+      - net-tools
     state: present
     install_recommends: false
     update-cache: true
