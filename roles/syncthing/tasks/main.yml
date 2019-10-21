@@ -1,0 +1,25 @@
+--
+
+- name: Add syncthing's signing key
+  apt_key:
+  url: https://syncthing.net/release-key.txt
+  state: present
+
+- name: Add syuncthing apt repo
+  apt_repository:
+  repo: deb https://apt.syncthing.net/ syncthing stable
+  state: present
+  register: "syncthing_repo_added"
+
+- name: Update repositories after syncthing repo added
+  apt:
+    update_cache: yes
+  when: syncthing_repo_added is defined and syncthing_repo_added.changed == True
+
+- name: Install syncthing's package
+  apt:
+    name:
+      - syncthing
+    state: present
+    update-cache: yes
+    cache_valid_time: 3600
