@@ -51,7 +51,7 @@
       - python3.6
       - ca-certificates
       - net-tools
-      - dig
+      - dnsutils
     state: present
     install_recommends: false
     update-cache: true
