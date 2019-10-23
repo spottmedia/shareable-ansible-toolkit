@@ -14,6 +14,6 @@
 - name: Setup cron to start the service on boot
   cron:
     name: "syncoid_sync"
-    moniute: 50
+    minute: 50
     hour: "*/1"
     job: "/usr/local/bin/syncoid_sync.sh"
