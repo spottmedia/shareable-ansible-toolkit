@@ -1,4 +1,8 @@
 ---
+- name: Install syncoid deps
+  cpanm:
+    name: Capture::Tiny
+
 - name: Copy the syncoid script to the local bin
   copy:
     src: syncoid
