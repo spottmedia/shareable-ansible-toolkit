@@ -4,4 +4,5 @@
   command: monit unmonitor all
   ignore_errors: true
   tags:
-  - skip_ansible_lint
+    - skip_ansible_lint
+  changed_when: False
