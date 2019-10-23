@@ -1,7 +1,7 @@
 ---
 - name: Copy the syncoid script to the local bin
   file:
-    src: syncoid
+    src: files/syncoid
     dest: /usr/local/bin/syncoid
     mode: "u=rw,g=rx,o=rx"
 
