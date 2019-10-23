@@ -1,4 +1,10 @@
 ---
+- name: install cpanminus module manager
+  apt:
+    name:
+      - cpanminus
+    state: present
+
 - name: Install syncoid deps
   cpanm:
     name: Capture::Tiny
