@@ -63,3 +63,7 @@
     hour: 0
     day: 1
     job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=monthly --keep=4 //"
+
+- name: Setup syncoid sync
+  include: setup-syncoid.yml
+  when: zfs_do_syncoid
