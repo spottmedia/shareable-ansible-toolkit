@@ -1,8 +1,10 @@
 ---
-- name: install cpanminus module manager
+- name: install required packages
   apt:
     name:
       - cpanminus
+      - lzop
+      - mbuffer
     state: present
 
 - name: Install syncoid deps
