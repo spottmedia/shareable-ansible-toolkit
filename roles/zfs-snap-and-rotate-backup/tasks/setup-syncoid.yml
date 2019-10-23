@@ -5,6 +5,7 @@
       - cpanminus
       - lzop
       - mbuffer
+      - pv
     state: present
 
 - name: Install syncoid deps
