@@ -23,9 +23,9 @@
     dest: /usr/local/bin/syncoid_sync.sh
     mode: "u=rw,g=rx,o=rx"
 
-- name: Setup cron to start the service on boot
+- name: syncoid sync script to be ran on schedule
   cron:
     name: "syncoid_sync"
     minute: 50
-    hour: "*/1"
+    hour: "*/2"
     job: "/usr/local/bin/syncoid_sync.sh"
