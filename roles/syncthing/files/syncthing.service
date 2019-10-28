@@ -5,7 +5,7 @@ BindsTo=wg-quick@private.service
 After=wg-quick@private.service
 
 [Service]
-User=%i
+User=root
 ExecStart=/usr/bin/syncthing -no-browser -no-restart -logflags=0
 Restart=on-failure
 SuccessExitStatus=3 4
