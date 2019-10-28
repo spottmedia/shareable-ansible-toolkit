@@ -31,3 +31,12 @@
     state: present
     update-cache: yes
     cache_valid_time: 3600
+
+- name: Copy service file template
+  copy: src=syncthing.service dest=/lib/systemd/system/syncthing.service
+
+- name: Enable the syncthing service
+  service: name=syncthing.service enabled=true
+
+- name: Start the custom redis service
+  service: name=syncthing.service state=started
