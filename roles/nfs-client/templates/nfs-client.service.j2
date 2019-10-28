@@ -1,0 +1,15 @@
+[Unit]
+Description=NFS bind no. {{ loop_idx }}
+{% if syncthing_service_bindsto != '' %}
+BindsTo={{ nfs_client_service_bindsto }}
+{% endif %}
+After={{ nfs_client_service_after }}
+
+[Mount]
+What={{ item.source }}
+Where={{ item.target }}
+Type=nfs
+Options=_netdev,auto
+
+[Install]
+WantedBy=multi-user.target

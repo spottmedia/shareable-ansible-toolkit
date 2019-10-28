@@ -1,0 +1,3 @@
+---
+syncthing_service_after: network.target
+syncthing_service_bindsto: ''

@@ -1,8 +1,10 @@
 [Unit]
 Description=Syncthing - Open Source Continuous File Synchronization for %I
 Documentation=man:syncthing(1)
-BindsTo=wg-quick@private.service
-After=wg-quick@private.service
+{% if syncthing_service_bindsto != '' %}
+BindsTo={{ syncthing_service_bindsto }}
+{% endif %}
+After={{ syncthing_service_after }}
 
 [Service]
 User=root

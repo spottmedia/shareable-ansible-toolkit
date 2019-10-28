@@ -1,0 +1,9 @@
+---
+- name: Copy service file template
+  template: src=nfs-client.service.j2 dest="/lib/systemd/system/nfs-client-{{ loop_idx }}.service"
+
+- name: Enable the nfs-client service
+  service: name="nfs-client-{{ loop_idx }}" enabled=true
+
+- name: Start the nfs-client service
+  service: name="nfs-client-{{ loop_idx }}" state=started
