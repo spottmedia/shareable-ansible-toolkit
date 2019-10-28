@@ -3,7 +3,7 @@
   template: src=nfs-client.mount.j2 dest="/lib/systemd/system/nfs-client-{{ loop_idx }}.mount"
 
 - name: Enable the nfs-client service
-  service: name="nfs-client-{{ loop_idx }}" enabled=true
+  service: name="nfs-client-{{ loop_idx }}.mount" enabled=true
 
 - name: Start the nfs-client service
-  service: name="nfs-client-{{ loop_idx }}" state=started
+  service: name="nfs-client-{{ loop_idx }}.mount" state=started
