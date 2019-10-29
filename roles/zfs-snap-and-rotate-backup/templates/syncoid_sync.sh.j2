@@ -1,5 +1,5 @@
 #!/bin/bash
 
-/usr/local/bin/syncoid {{ zfs_syncoid_src }} {{ zfs_syncoid_dest }}
+/usr/local/bin/syncoid -r {{ zfs_syncoid_src }} {{ zfs_syncoid_dest }}
 
 exit $?
