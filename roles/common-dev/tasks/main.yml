@@ -52,6 +52,7 @@
       - ca-certificates
       - net-tools
       - dnsutils
+      - rsync
     state: present
     install_recommends: false
     update-cache: true
