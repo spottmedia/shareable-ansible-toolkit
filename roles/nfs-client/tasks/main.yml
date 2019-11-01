@@ -4,7 +4,7 @@
   apt: name=nfs-common state=installed update_cache=yes cache_valid_time=3600
 
 - name: Create mountable dir
-  file: path="{{ item.target }}" state=directory mode=777 owner=root group=root
+  file: path="{{ item.target }}" state=directory # mode=777 owner=root group=root
   with_items: "{{ nfs_mounts }}"
 
 - name: set mountpoints
