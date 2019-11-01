@@ -12,8 +12,10 @@ set eventqueue
 include {{ monit_includes }}/*
 
 check system {{ansible_hostname}}
+{% if monit_monitor_loadavg == true %}
     if loadavg (1min) > {{ ansible_processor_vcpus * 2 }} for 6 cycles then alert
     if loadavg (5min) > {{ ansible_processor_vcpus }} for 6 cycles then alert
+{% endif %}
     if memory usage > 99% for 4 cycles then alert
     if swap usage > 90% for 2 cycles then alert
     if swap usage > 50% for 4 cycles then alert

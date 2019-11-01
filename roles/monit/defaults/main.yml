@@ -2,7 +2,7 @@ monit_cycle: 60
 monit_log_destination: /var/log/monit.log
 monit_state_file: /var/lib/monit/state
 monit_id_file: /var/lib/monit/id
-
+monit_monitor_loadavg: true
 monit_services: []
 monit_service_delete_unlisted: true
 
