@@ -1,6 +1,6 @@
 ---
 - name: Convert the share name to systemd-understandable entity
-  shell: "/bin/systemd-escape {{ item.target }}"
+  shell: "/bin/systemd-escape {{ item.target | regex_replace('^\\/|\\/$', '') }}"
   register: systemd_escaped
 
 - name: Copy service file template, remove trailing and leading slashes, replace other to the form systemd wants them in
