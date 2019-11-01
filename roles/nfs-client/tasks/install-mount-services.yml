@@ -1,9 +1,13 @@
 ---
+- name: Convert the share name to systemd-understandable entity
+  shell: "/bin/systemd-escape {{ item.target }}"
+  register: systemd-escaped
+
 - name: Copy service file template, remove trailing and leading slashes, replace other to the form systemd wants them in
-  template: src=nfs-client.mount.j2 dest="/lib/systemd/system/{{ (item.target) | regex_replace('^\\/|\\/$', '')  | replace('-', '\x2d') | replace('/','-') }}.mount"
+  template: src=nfs-client.mount.j2 dest="/lib/systemd/system/{{ systemd-escaped.stdout }}.mount"
 
 - name: Enable the nfs-client service
-  service: name="{{ (item.target) | regex_replace('^\\/|\\/$', '')  | replace('-', '\x2d') | replace('/','-') }}.mount" enabled=true
+  service: name="{{ systemd-escaped.stdout }}.mount" enabled=true
 
 - name: Start the nfs-client service
-  service: name="{{ (item.target) | regex_replace('^\\/|\\/$', '')  | replace('-', '\x2d') | replace('/','-') }}.mount" state=started
+  service: name="{{ systemd-escaped.stdout }}.mount" state=started
