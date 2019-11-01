@@ -2,3 +2,4 @@
 zfs_do_syncoid: false
 zfs_syncoid_src: ""
 zfs_syncoid_dest: ""
+zfs_syncoid_crontab: true

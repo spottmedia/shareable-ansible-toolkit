@@ -30,3 +30,4 @@
     minute: 50
     hour: "*/2"
     job: "/usr/local/bin/syncoid_sync.sh"
+  when: zfs_syncoid_crontab == true
