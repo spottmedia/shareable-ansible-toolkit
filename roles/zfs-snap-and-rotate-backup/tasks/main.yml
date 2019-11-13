@@ -25,7 +25,7 @@
     cron_file: zfs-auto-snapshot
     user: root
     minute: "*/10"
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=frequent --keep=24 //"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r--label=frequent --keep=24 {{ zfs_snapshot_filesystem }}"
 
 - name: setup hourly zfs snapshots
   cron:
@@ -33,7 +33,7 @@
     cron_file: zfs-auto-snapshot
     user: root
     minute: 0
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=hourly --keep=24 //"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=hourly --keep=24 {{ zfs_snapshot_filesystem }}"
 
 - name: setup daily zfs snapshots
   cron:
@@ -42,7 +42,7 @@
     user: root
     minute: 0
     hour: 23
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=daily --keep=14 //"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=daily --keep=14 {{ zfs_snapshot_filesystem }}"
 
 - name: setup weekly zfs snapshots
   cron:
@@ -52,7 +52,7 @@
     minute: 59
     hour: 23
     weekday: 0
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=weekly --keep=4 //"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=weekly --keep=4 {{ zfs_snapshot_filesystem }}"
 
 - name: setup monthly zfs snapshots
   cron:
@@ -62,7 +62,7 @@
     minute: 2
     hour: 0
     day: 1
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g --label=monthly --keep=4 //"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=monthly --keep=4 {{ zfs_snapshot_filesystem }}"
 
 - name: Setup syncoid sync
   include: setup-syncoid.yml
