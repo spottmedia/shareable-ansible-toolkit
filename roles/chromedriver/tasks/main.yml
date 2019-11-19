@@ -19,7 +19,7 @@
 
 - name: Extract chromedrivers' binary
   unarchive:
-    src: chromedriver_linux64_72.0.3626.7.zip
+    src: chromedriver_linux64_78.0.3904.70.zip
     dest: /usr/bin/
     mode: u=rwx,g=rx,o=rx
     creates: /usr/bin/chromedriver

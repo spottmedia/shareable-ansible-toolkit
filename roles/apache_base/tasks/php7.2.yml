@@ -18,13 +18,11 @@
   when: apache_with_fpm
 
 - name: php-fpm config
-  lineinfile: dest=/etc/php/7.2/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=present
-  notify:
-    - Restart PHP-FPM 7.2
+  lineinfile: dest=/etc/php/7.3/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=absent
   when: apache_with_fpm
 
 - name: php-fpm config
-  lineinfile: dest=/etc/php/7.2/fpm/pool.d/www.conf line="listen = /run/php/php7.2-fpm.sock" state=absent
+  lineinfile: dest=/etc/php/7.2/fpm/pool.d/www.conf line="listen = /run/php/php7.2-fpm.sock" state=present
   notify:
     - Restart PHP-FPM 7.2
   when: apache_with_fpm
