@@ -75,7 +75,7 @@
       - ssl-cert
       - make
       - libcurl3-openssl-dev
-    state: installed
+    state: present
     update-cache: true
     install_recommends: true
     cache_valid_time: 3600

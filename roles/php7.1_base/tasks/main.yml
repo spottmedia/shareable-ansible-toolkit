@@ -29,7 +29,7 @@
       - php7.1-mysql
       - php7.1-xml
       - php7.1-yaml
-    state: installed
+    state: present
     update-cache: true
     install_recommends: false
     cache_valid_time: 3600

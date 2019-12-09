@@ -2,7 +2,7 @@
 - name: Install dependencies
   apt:
     pkg: ['libappindicator1', 'fonts-liberation', 'libasound2', 'libnspr4', 'libnss3', 'libxss1', 'xdg-utils', 'unzip']
-    state: installed
+    state: present
     update-cache: yes
     install_recommends: no
     cache_valid_time: 3600

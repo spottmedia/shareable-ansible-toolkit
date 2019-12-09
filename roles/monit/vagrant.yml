@@ -61,13 +61,13 @@
         pkg: apache2
         update_cache: yes
         cache_valid_time: 3600
-        state: installed
+        state: present
       when: ansible_os_family == "Debian"
 
     - name: testing - install apache - redhat
       yum:
         pkg: httpd
-        state: installed
+        state: present
       when: ansible_os_family == "RedHat"
 
   roles:
