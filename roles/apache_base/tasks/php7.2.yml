@@ -7,7 +7,7 @@
 # Apt package installation of required software.
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
 #    - php7.2-mcrypt
@@ -88,7 +88,7 @@
   when: apache_with_fpm
 
 - name: General | Install libapache mod php7.2 if not using fpm.
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
     - libapache2-mod-php7.2

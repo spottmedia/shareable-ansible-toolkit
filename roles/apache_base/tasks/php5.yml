@@ -7,7 +7,7 @@
 # Apt package installation of required software.
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
     - libapache2-mod-php5

@@ -3,7 +3,7 @@
 # Ansible playbook for setting up an Apache web tier
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=installed install_recommends=no update-cache=yes cache_valid_time=3600
+  apt: pkg={{ item }} state=present install_recommends=no update-cache=yes cache_valid_time=3600
   tags: common
   with_items:
     - php-fpm

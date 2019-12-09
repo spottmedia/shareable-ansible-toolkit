@@ -38,19 +38,19 @@
   notify: Hold selection of php7.1
 
 - name: General | Install fpm (if needed)
-  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
     - php7.1-fpm
   when: php_install_fpm
 
 - name: install php7.1 memcached if needed
-  apt: pkg='php7.1-memcached' state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg='php7.1-memcached' state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   when: php_use_memcached
 
 - name: install php7.1 redis if needed
-  apt: pkg='php-redis' state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg='php-redis' state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   when: php_use_redis
 

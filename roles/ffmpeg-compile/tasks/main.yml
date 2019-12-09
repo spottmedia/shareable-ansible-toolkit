@@ -1,7 +1,7 @@
 ---
 
 - name: ffmpeg | Install required packages.
-  action: apt pkg={{ item }} state=installed install_recommends=no update-cache=yes  cache_valid_time=3600
+  action: apt pkg={{ item }} state=present install_recommends=no update-cache=yes  cache_valid_time=3600
   tags: common
   with_items:
     - autoconf

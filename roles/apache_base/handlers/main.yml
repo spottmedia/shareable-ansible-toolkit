@@ -1,6 +1,6 @@
 ---
 - name: Install libcurl3-openssl-dev
-  apt: pkg=libcurl3-openssl-dev state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=libcurl3-openssl-dev state=present update-cache=yes install_recommends=no cache_valid_time=3600
 
 - name: Restart Apache
   action: service name=apache2 state=restarted

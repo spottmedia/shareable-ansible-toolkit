@@ -38,14 +38,14 @@
 
 - name: General | Install required packages <= 14.
   apt: pkg=apache2
-       state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+       state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
  # when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 16
   notify: Setup hardening
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 14
 
 #- name: General | Install required packages <16.
-#  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+#  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
 #  tags: common
 #  with_items:
 #    - apache2=2.4.38-2+ubuntu14.04.1+deb.sury.org+8
@@ -53,7 +53,7 @@
 #  notify: Setup hardening
 #
 #- name: General | Install required packages == 18.
-#  apt: pkg={{ item }} state=installed update-cache=yes install_recommends=no cache_valid_time=3600
+#  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
 #  tags: common
 #  with_items:
 #    - apache2=2.4.38-2+ubuntu18.04.1+deb.sury.org+8
