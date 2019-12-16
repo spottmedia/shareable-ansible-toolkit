@@ -31,6 +31,7 @@
   apt: deb=/var/lib/percona-release_latest.bionic_all.deb
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
   notify: Innobackup Reload apt
+  ignore_errors: true
 
 - name: Install required packages.
   apt:
