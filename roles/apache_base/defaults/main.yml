@@ -6,3 +6,5 @@ apache_with_fpm: true
 apache_with_http2: true
 apache_listen_address: "0.0.0.0"
 apache_php_memory_limit: "128MB"
+apache_max_requests_workers: 100
+apache_start_servers: 1

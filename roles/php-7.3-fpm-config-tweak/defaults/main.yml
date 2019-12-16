@@ -1,0 +1,8 @@
+---
+fpm_max_execution_time: 90
+fpm_max_children: 13
+fpm_start_servers: 4
+fpm.min_spare_servers: 2
+fpm.max_spare_servers: 2
+cli_max_execution_time: 9999
+fpm_max_memory: "64M"
