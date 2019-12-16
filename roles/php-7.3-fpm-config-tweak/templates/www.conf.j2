@@ -120,12 +120,12 @@ pm.start_servers = {{ fpm_start_servers }}
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.min_spare_servers = {{ min_spare_servers }}
+pm.min_spare_servers = {{ fpm_min_spare_servers }}
 
 ; The desired maximum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.max_spare_servers = {{ max_spare_servers }}
+pm.max_spare_servers = {{ fpm_max_spare_servers }}
 
 ; The number of seconds after which an idle process will be killed.
 ; Note: Used only when pm is set to 'ondemand'
@@ -311,7 +311,7 @@ pm.max_requests = 1000
 ;      it can accept a strftime(3) format:
 ;      %d/%b/%Y:%H:%M:%S %z (default)
 ;      The strftime(3) format must be encapsuled in a %{<strftime_format>}t tag
-;   
+;
 ;  %u: remote user
 ;
 ; Default: "%R - %u %t \"%m %r\" %s"
