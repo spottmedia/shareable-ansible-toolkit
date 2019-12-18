@@ -1,3 +1,4 @@
 ---
 nfs_client_service_after: network.target
 nfs_client_service_bindsto: ''
+nfs_client_service_fsc: false
