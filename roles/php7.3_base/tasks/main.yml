@@ -57,7 +57,7 @@
 
 - name: "update default php binary symlink (as it will probably point to != php7.3"
   file:
-    src: /etc/alternatives/php
+    src: /usr/bin/php7.3
     dest: /usr/bin/php
     state: link
     force: true
