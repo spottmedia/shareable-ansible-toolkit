@@ -4,14 +4,14 @@
 ##
 # Message of the day explaining server is under control of Ansible.
 #
-- name: General | disable ipv6 (remove existing lines)
-  sysctl: name="net.ipv6.conf.all.disable_ipv6" value="1"
+- name: General | enable ipv6
+  sysctl: name="net.ipv6.conf.all.disable_ipv6" value="0"
 
-- name: General | disable ipv6 (remove existing lines)
-  sysctl: name="net.ipv6.conf.default.disable_ipv6" value="1"
+- name: General | enable ipv6
+  sysctl: name="net.ipv6.conf.default.disable_ipv6" value="0"
 
-- name: General | disable ipv6 (add configs)
-  sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="1"
+- name: General | enable ipv6
+  sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="0"
 
 #- name: General | Message of the day explaining server is under Ansible control.
 #  action: copy src=../files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=0755
