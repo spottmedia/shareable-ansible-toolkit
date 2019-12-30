@@ -64,6 +64,26 @@
     day: 1
     job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=monthly --keep=4 {{ zfs_snapshot_filesystem }}"
 
+- name: disable auto-added hourly crontab
+  cron:
+    cron_file: /etc/cron.hourly/zfs-auto-snapshot
+    state: absent
+
+- name: disable auto-added daily crontab
+  cron:
+    cron_file: /etc/cron.daily/zfs-auto-snapshot
+    state: absent
+
+- name: disable auto-added weekly crontab
+  cron:
+    cron_file: /etc/cron.weekly/zfs-auto-snapshot
+    state: absent
+
+- name: disable auto-added monthly crontab
+  cron:
+    cron_file: /etc/cron.monthly/zfs-auto-snapshot
+    state: absent
+
 - name: Setup syncoid sync
   include: setup-syncoid.yml
   when: zfs_do_syncoid
