@@ -1,5 +1,14 @@
 #!/bin/bash
 
+{% if zfs_syncoid_src is defined and zfs_syncoid_dest is defined %}
 /usr/local/bin/syncoid -r {{ zfs_syncoid_src }} {{ zfs_syncoid_dest }}
+{% endif %}
+
+{% if zfs_syncoid_src_extra_srcs is defined and zfs_syncoid_src_extra_dests is defined %}
+{% for zfs_syncoid_src_extra_src in zfs_syncoid_src_extra_srcs %}
+{% set zfs_syncoid_src_extra_dest = zfs_syncoid_src_extra_dests[loop.index-1] %}
+/usr/local/bin/syncoid -r {{ zfs_syncoid_src_extra_src }} {{ zfs_syncoid_src_extra_dest }}
+{% endfor %}
+{% endif %}
 
 exit $?
