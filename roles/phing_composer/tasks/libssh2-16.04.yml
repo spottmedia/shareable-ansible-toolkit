@@ -5,10 +5,16 @@
 #
 
 - name: Install required packages.
-  apt: pkg={{ item }} state=present install_recommends=no update-cache=yes cache_valid_time=3600
+  apt:
+    pkg:
+      - libssh2-1-dev
+      - libssh2-1
+      - php-ssh2
+    state: present
+    install_recommends: false
+    update-cache: true
+    cache_valid_time: 3600
   tags: common
   with_items:
-    - libssh2-1-dev
-    - libssh2-1
-    - php-ssh2
+
     # notify: Install ssh2 extensions for php 7.1
