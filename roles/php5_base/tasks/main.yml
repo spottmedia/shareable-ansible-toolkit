@@ -22,6 +22,6 @@
     state: present
     update-cache: true
     install_recommends: false
-    cache_valid_time:3600
+    cache_valid_time: 3600
   tags: common
 
