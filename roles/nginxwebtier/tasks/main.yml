@@ -7,23 +7,26 @@
 # Apt package installation of required software.
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=present install_recommends=no update-cache=yes cache_valid_time=3600
+  apt:
+    pkg:
+      - git
+      - mcrypt
+      - sendmail
+      - unzip
+      - python-mysqldb
+      - imagemagick
+      - libpspell-dev
+      - aspell-en
+      - ssl-cert
+      - memcached
+      - libmemcached-tools
+      - make
+      - libpcre3-dev
+    state: present
+    install_recommends: false
+    update-cache: true
+    cache_valid_time: 3600
   tags: common
-  with_items:
-    - git
-    - mcrypt
-    - sendmail
-    - unzip
-    - python-mysqldb
-    - imagemagick
-    - libpspell-dev
-    - aspell-en
-    - ssl-cert
-    - memcached
-    - libmemcached-tools
-    - make
-    - libpcre3-dev
-
     # this is a virtual package that will notify of changes in ansible when installed.
     # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
     # - libcurl3-openssl-dev

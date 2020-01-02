@@ -3,10 +3,8 @@
 # Ansible playbook for setting up an Apache web tier
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=present install_recommends=no update-cache=yes cache_valid_time=3600
+  apt: pkg=php-fpm state=present install_recommends=no update-cache=yes cache_valid_time=3600
   tags: common
-  with_items:
-    - php-fpm
 
 - name: Listen on IP instead on a socket
   lineinfile: dest=/etc/php/7.0/fpm/pool.d/www.conf regexp="listen = /run/php/php7.0-fpm.sock" line="listen = 127.0.0.1:7777" owner=root group=root mode=0644
