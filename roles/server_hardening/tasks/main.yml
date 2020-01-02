@@ -6,7 +6,6 @@
 ##
 # Apt package installation of required software.
 #
-
 - name: Install required packages.
   apt:
     pkg:
@@ -18,8 +17,6 @@
     install_recommends: false
     cache_valid_time: 3600
   tags: common
-  with_items:
-
 
 - name: UFW allow ssh access
   ufw: rule=allow port=ssh proto=tcp
