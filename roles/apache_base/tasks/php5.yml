@@ -7,15 +7,15 @@
 # Apt package installation of required software.
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt:
+    pkg:
+      - libapache2-mod-php5
+      - php5-mysql
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
   tags: common
-  with_items:
-    - libapache2-mod-php5
-    - php5-mysql
-    # this is a virtual package that will notify of changes in ansible when installed.
-    # a way of finding it out: aptitude search '~v' | grep libcurl3-openssl-dev
-    # - libcurl3-openssl-dev
-    # so we want to make it a notification, and thus it would only run whenever some other "real" package changed
 
 # this would indeally be branched based on php version. By since majority of our servers are php5.4+ now
 # best to just silently fail in such cases and no enable the module. It's very rarely used.
