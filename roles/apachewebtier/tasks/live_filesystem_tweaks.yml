@@ -2,7 +2,7 @@
 ##
 
 - name: Apache | Change the permissions of all the folders to 2775
-  file: mode="02775" path="/var/www"
+  file: mode="02775" path="/var/www" state=directory
 
 - name: Apache | Set umask mode
   replace: path=/etc/login.defs regexp="UMASK\t\t022" replace="UMASK    0002"

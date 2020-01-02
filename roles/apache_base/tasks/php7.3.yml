@@ -11,7 +11,7 @@
   tags: common
 
 - name: Enable php-fpm 7.3 config for apache
-  command: a2enconf php7.3-fpm
+  command: a2enconf php7.3-fpm creates=/etc/apache2/conf-enabled/php7.3-fpm.conf
   when: apache_with_fpm
 
 - name: php-fpm config listen address remove old
