@@ -2,6 +2,7 @@
 - name: Convert the share name to systemd-understandable entity
   shell: "/bin/systemd-escape {{ item.target | regex_replace('^\\/|\\/$', '') }}"
   register: systemd_escaped
+  changed_when: false
 
 - name: Copy service file template, remove trailing and leading slashes, replace other to the form systemd wants them in
   template: src=nfs-client.mount.j2 dest="/lib/systemd/system/{{ systemd_escaped.stdout }}.mount"

@@ -1,3 +1,4 @@
 ---
 - name: Create mountable dir
   file: path={{ nfs_share.mountpoint }} state=directory mode=777 owner=root group=root
+  changed_when: false
