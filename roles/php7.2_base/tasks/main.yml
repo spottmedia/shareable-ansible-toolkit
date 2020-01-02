@@ -6,37 +6,41 @@
     state: present
 
 - name: install php7.2 and requirements packages
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt:
+    pkg:
+      - build-essential
+      - zip
+      - unzip
+      - php7.2
+      - php7.2-zip
+      - php7.2-dev
+      - php7.2-intl
+      - php7.2-mbstring
+      - php7.2-curl
+      - php7.2-common
+      - php7.2-imagick
+      - php7.2-imap
+      - php7.2-pspell
+      - php7.2-gd
+      - php7.2-xmlrpc
+      - php7.2-soap
+      #    - php7.2-mcrypt
+      - php7.2-tidy
+      - php7.2-mysql
+      - php7.2-xml
+      - php7.2-yaml
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
   tags: common
-  with_items:
-    - build-essential
-    - zip
-    - unzip
-    - php7.2
-    - php7.2-zip
-    - php7.2-dev
-    - php7.2-intl
-    - php7.2-mbstring
-    - php7.2-curl
-    - php7.2-common
-    - php7.2-imagick
-    - php7.2-imap
-    - php7.2-pspell
-    - php7.2-gd
-    - php7.2-xmlrpc
-    - php7.2-soap
-    #    - php7.2-mcrypt
-    - php7.2-tidy
-    - php7.2-mysql
-    - php7.2-xml
-    - php7.2-yaml
+
+
   notify: Hold selection of php7.2
 
 - name: General | Install fpm (if needed)
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=php7.2-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  with_items:
-    - php7.2-fpm
   when: php_install_fpm
 
 - name: install php7.2 memcached if needed
