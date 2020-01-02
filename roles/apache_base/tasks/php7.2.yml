@@ -7,11 +7,8 @@
 # Apt package installation of required software.
 #
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=php7.2-mysql state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  with_items:
-#    - php7.2-mcrypt
-    - php7.2-mysql
 
 - name: Enable php-fpm 7.2 config for apache
   command: a2enconf php7.2-fpm

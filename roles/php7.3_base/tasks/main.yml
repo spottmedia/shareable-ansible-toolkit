@@ -38,10 +38,8 @@
 
 
 - name: General | Install fpm (if needed)
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=php7.3-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
-  with_items:
-    - php7.3-fpm
   when: php_install_fpm
 
 
