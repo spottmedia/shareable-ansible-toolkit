@@ -6,27 +6,31 @@
     state: present
     
 - name: General | Install required packages.
-  apt: pkg={{ item }} state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt:
+    pkg:
+      - php7.0
+      - php7.0-zip
+      - php7.0-dev
+      - php7.0-intl
+      - php7.0-mbstring
+      - php7.0-curl
+      - php7.0-gettext
+      - php7.0-memcached
+      - php7.0-imagick
+      - php7.0-imap
+      - php7.0-pspell
+      - php7.0-gd
+      - php7.0-xmlrpc
+      - php7.0-soap
+      - php7.0-mcrypt
+      - php7.0-tidy
+      - php7.0-redis
+      - php7.0-mysql
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
   tags: common
-  with_items:
-    - php7.0
-    - php7.0-zip
-    - php7.0-dev
-    - php7.0-intl
-    - php7.0-mbstring
-    - php7.0-curl
-    - php7.0-gettext
-    - php7.0-memcached
-    - php7.0-imagick
-    - php7.0-imap
-    - php7.0-pspell
-    - php7.0-gd
-    - php7.0-xmlrpc
-    - php7.0-soap
-    - php7.0-mcrypt
-    - php7.0-tidy
-    - php7.0-redis
-    - php7.0-mysql
 
 - name: Make sure php bin points to 7.0
   file:
