@@ -10,6 +10,7 @@ What={{ item.source }}
 Where={{ item.target }}
 Type=nfs
 Options=_netdev,auto{% if nfs_client_service_fsc %},fsc{% endif %}
+TimeoutSec=240s
 
 [Install]
 WantedBy=multi-user.target
