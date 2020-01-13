@@ -42,7 +42,7 @@
     user: root
     minute: 0
     hour: 23
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=daily --keep=14 {{ zfs_snapshot_filesystem }}"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=daily --keep=7 {{ zfs_snapshot_filesystem }}"
 
 - name: setup weekly zfs snapshots
   cron:
@@ -52,7 +52,7 @@
     minute: 59
     hour: 23
     weekday: 0
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=weekly --keep=4 {{ zfs_snapshot_filesystem }}"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=weekly --keep=2 {{ zfs_snapshot_filesystem }}"
 
 - name: setup monthly zfs snapshots
   cron:
@@ -62,7 +62,7 @@
     minute: 2
     hour: 0
     day: 1
-    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=monthly --keep=4 {{ zfs_snapshot_filesystem }}"
+    job: "/usr/local/sbin/zfs-auto-snapshot -q -g -r --label=monthly --keep=2 {{ zfs_snapshot_filesystem }}"
 
 - name: disable auto-added hourly crontab
   cron:
