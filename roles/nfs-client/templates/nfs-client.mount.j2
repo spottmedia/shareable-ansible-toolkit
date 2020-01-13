@@ -9,9 +9,8 @@ After={{ nfs_client_service_after }}
 What={{ item.source }}
 Where={{ item.target }}
 Type=nfs
-TimeoutSec=240s
+TimeoutSec=245s
 Options=_netdev,auto{% if nfs_client_service_fsc %},fsc{% endif %}
-
 
 [Install]
 WantedBy=multi-user.target
