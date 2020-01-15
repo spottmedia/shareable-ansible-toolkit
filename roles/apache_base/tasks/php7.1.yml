@@ -54,6 +54,7 @@
 
 - name: Apache | Tweak mpm_event for php 7.1
   template: src=mpm_event.conf.j2 dest=/etc/apache2/mods-enabled/mpm_event.conf
+  notify: Restart Apache
   when: apache_with_fpm
 
 - name: Apache | Enable prefork module for php 7.1
