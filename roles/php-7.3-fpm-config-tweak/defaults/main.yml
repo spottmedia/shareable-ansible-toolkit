@@ -6,3 +6,4 @@ fpm_min_spare_servers: 2
 fpm_max_spare_servers: 2
 cli_max_execution_time: 9999
 fpm_max_memory: "64M"
+fpm_max_requests: 1000
