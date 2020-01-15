@@ -7,10 +7,6 @@
 # MaxConnectionsPerChild: maximum number of requests a server process serves
 <IfModule mpm_event_module>
         StartServers                     {{ apache_start_servers }}
-        MinSpareThreads          25
-        MaxSpareThreads          75
-        ThreadLimit                      64
-        ThreadsPerChild          25
         MaxRequestWorkers         {{ apache_max_requests_workers }}
         ServerLimit               {{ apache_max_requests_workers }}
         MaxConnectionsPerChild   1000
