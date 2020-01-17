@@ -9,7 +9,7 @@
         StartServers                     {{ apache_start_servers }}
         MaxRequestWorkers         {{ apache_max_requests_workers }}
         ServerLimit               {{ apache_max_requests_workers }}
-        MaxConnectionsPerChild   1000
+        MaxConnectionsPerChild   {{ apache_max_connections_per_child }}
 </IfModule>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
