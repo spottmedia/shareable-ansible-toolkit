@@ -32,16 +32,16 @@
   unarchive: copy=no src=/var/lib/MaxMind-DB-Reader-php-master.zip dest=/var/lib/ mode=0777 creates=/var/lib/MaxMind-DB-Reader-php-master
 
 - name: Running maxmind ext phpize
-  command: phpize chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
+  command: phpize chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
 
 - name: Running maxmind ext ./configure
-  command: ./configure CXXFLAGS="-I/var/lib/libmaxminddb-1.4.2/include/" chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
+  command: ./configure CFLAGS="-I/var/lib/libmaxminddb-1.4.2/include/ -L/var/lib/libmaxminddb-1.4.2/src/.libs/" chdir=/var/lib/MaxMind-DB-Reader-php-master/ext  creates=/usr/lib/php/20180731/maxminddb.so
 
 - name: Running maxmind ext make
-  command: make chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
+  command: make chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
 
 - name: Running maxmind ext make install
-  command: make install chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
+  command: make install chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
 
 - name: enable the extension in php apache2
   lineinfile: dest=/etc/php/7.3/apache2/php.ini line="extension=maxminddb.so"
