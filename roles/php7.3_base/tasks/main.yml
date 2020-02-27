@@ -69,5 +69,5 @@
 - include: ID3.yml
   when: php_with_id3 is defined and php_with_id3 == true
 
-- include: maxminddb.yml
+- include: maxmindb.yml
   when: php_with_maxmind is defined and php_with_maxmind == true
