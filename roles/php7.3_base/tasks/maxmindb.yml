@@ -5,22 +5,22 @@
 #
 
 - name: copy maxmind sources
-  copy: src=../files/libmaxminddb-master.zip dest=/var/lib/libmaxminddb-master.zip mode=0777
+  copy: src=../files/libmaxminddb-1.4.2.tar.gz dest=/var/lib/libmaxminddb-1.4.2.tar.gz mode=0777
 
 - name: unpack maxmind
-  unarchive: copy=no src=/var/lib/libmaxminddb-master.zip dest=/var/lib/ mode=0777 creates=/var/lib/libmaxminddb-master
+  unarchive: copy=no src=/var/lib/libmaxminddb-1.4.2.tar.gz dest=/var/lib/ mode=0777 creates=/var/lib/libmaxminddb-1.4.2
 
 - name: Running maxmind ./configure
-  command: ./configure chdir=/var/lib/libmaxminddb-master
+  command: ./configure chdir=/var/lib/libmaxminddb-1.4.2
 
 - name: Running maxmind make
-  command: make chdir=/var/lib/php_pecl_id3-master
+  command: make chdir=/var/lib/libmaxminddb-1.4.2
 
 - name: Running maxmind make install
-  command: make chdir=/var/lib/php_pecl_id3-master
+  command: make chdir=/var/lib/libmaxminddb-1.4.2
 
 - name: Running maxmind ldconfig
-  command: ldconfig chdir=/var/lib/php_pecl_id3-master
+  command: ldconfig chdir=/var/lib/libmaxminddb-1.4.2
 
 #
 # Install maxmind php extension
