@@ -10,16 +10,16 @@
 - name: unpack maxmind
   unarchive: copy=no src=/var/lib/libmaxminddb-master.zip dest=/var/lib/ mode=0777 creates=/var/lib/libmaxminddb-master
 
-- name: Running ./configure
+- name: Running maxmind ./configure
   command: ./configure chdir=/var/lib/libmaxminddb-master
 
-- name: Running make
+- name: Running maxmind make
   command: make chdir=/var/lib/php_pecl_id3-master
 
-- name: Running make install
+- name: Running maxmind make install
   command: make chdir=/var/lib/php_pecl_id3-master
 
-- name: Running  ldconfig
+- name: Running maxmind ldconfig
   command: ldconfig chdir=/var/lib/php_pecl_id3-master
 
 #
@@ -28,19 +28,19 @@
 - name: copy maxmind sources
   copy: src=../files/MaxMind-DB-Reader-php-master.zip dest=/var/lib/MaxMind-DB-Reader-php-master.zip mode=0777
 
-- name: unpack maxmind
+- name: unpack maxmind ext
   unarchive: copy=no src=/var/lib/MaxMind-DB-Reader-php-master.zip dest=/var/lib/ mode=0777 creates=/var/lib/MaxMind-DB-Reader-php-master
 
-- name: Running phpize
+- name: Running maxmind ext phpize
   command: phpize chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
-- name: Running ./configure
+- name: Running maxmind ext ./configure
   command: ./configure chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
-- name: Running make
+- name: Running maxmind ext make
   command: make chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
-- name: Running make install
+- name: Running maxmind ext make install
   command: make install chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
 - name: enable the extension in php apache2

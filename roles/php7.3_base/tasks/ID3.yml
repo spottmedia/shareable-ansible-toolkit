@@ -10,20 +10,20 @@
 - name: unpack php5 version of ssh lib
   unarchive: copy=no src=/var/lib/id3.zip dest=/var/lib/ mode=0777 creates=/var/lib/php_pecl_id3-master
 
-- name: Running .phpize
+- name: Running ID3 .phpize
   command: phpize chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20170718/id3.so
 
-- name: Running ./configure
+- name: Running ID3 ./configure
   command: ./configure chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20170718/id3.so
 
-- name: Running make
+- name: Running ID3 make
   command: make chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20170718/id3.so
 
-- name: Running make install
+- name: Running ID3 make install
   command: make install chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20170718/id3.so
 
 
-- name: enable the extension in php cli
+- name: enable the ID3 extension in php cli
   lineinfile: dest=/etc/php/7.3/cli/php.ini line="extension=id3.so"
 
 - name: enable the extension in php apache2
