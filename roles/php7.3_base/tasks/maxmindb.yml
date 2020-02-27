@@ -35,7 +35,7 @@
   command: phpize chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
 - name: Running maxmind ext ./configure
-  command: ./configure chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
+  command: ./configure CXXFLAGS="-I/var/lib/libmaxminddb-1.4.2/include/" chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
 
 - name: Running maxmind ext make
   command: make chdir=/var/lib/MaxMind-DB-Reader-php-master/ext
