@@ -11,16 +11,16 @@
   unarchive: copy=no src=/var/lib/libmaxminddb-1.4.2.tar.gz dest=/var/lib/ mode=0777 creates=/var/lib/libmaxminddb-1.4.2
 
 - name: Running maxmind ./configure
-  command: ./configure chdir=/var/lib/libmaxminddb-1.4.2
+  command: ./configure chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
 
 - name: Running maxmind make
-  command: make chdir=/var/lib/libmaxminddb-1.4.2
+  command: make chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
 
 - name: Running maxmind make install
-  command: make chdir=/var/lib/libmaxminddb-1.4.2
+  command: make chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
 
 - name: Running maxmind ldconfig
-  command: ldconfig chdir=/var/lib/libmaxminddb-1.4.2
+  command: ldconfig chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
 
 #
 # Install maxmind php extension
