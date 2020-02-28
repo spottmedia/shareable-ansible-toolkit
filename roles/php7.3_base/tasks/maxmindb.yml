@@ -49,3 +49,10 @@
 - name: enable the extension in php fpm
   lineinfile: dest=/etc/php/7.3/fpm/php.ini line="extension=maxminddb.so"
   when: apache_with_fpm is defined
+
+- name: Hack libmaxminddb not being seen by php
+  lineinfile:
+    dest: /etc/ld.so.conf.d/local.conf
+    line: /var/lib/libmaxminddb-1.4.2/src/.libs
+  notify: Reload ldconfig
+

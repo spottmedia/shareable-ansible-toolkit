@@ -3,3 +3,6 @@
   dpkg_selections:
     name: php
     selection: hold
+
+- name: Reload ldconfig
+  shell: ldconfig
