@@ -23,6 +23,14 @@
   notify:
     - Restart PHP-FPM
 
+- name: php-fpm config ini upload_max_filesize to some sensible value (remove old)
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini regex="(?!upload_max_filesize = 64M)upload_max_filesize.*" state=absent
+
+- name: php-fpm config ini upload_max_filesize to some sensible value (add new)
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="upload_max_filesize = 64M" state=present insertbefore="max_file_uploads"
+  notify:
+    - Restart PHP-FPM
+
 - name: materialize fpm pool config
   template: src=www.conf.j2 dest=/etc/php/7.3/fpm/pool.d/www.conf
   notify:
