@@ -31,6 +31,14 @@
   notify:
     - Restart PHP-FPM
 
+- name: php-fpm config ini post_max_size to some sensible value (remove old)
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini regex="(?!post_max_size = 32M)post_max_size.*" state=absent
+
+- name: php-fpm config ini post_max_size to some sensible value (add new)
+  lineinfile: dest=/etc/php/7.3/fpm/php.ini line="post_max_size = 32M" state=present
+  notify:
+    - Restart PHP-FPM
+
 - name: materialize fpm pool config
   template: src=www.conf.j2 dest=/etc/php/7.3/fpm/pool.d/www.conf
   notify:
