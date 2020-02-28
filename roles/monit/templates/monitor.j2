@@ -21,7 +21,9 @@ check host {{ monit_monitor.name }} with address {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'filesystem' %}
 check filesystem {{ monit_monitor.name }} with path {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'file' %}
-check file {{ monit_monitor.name }} with path {{ monit_monitor.target }}
+check file {{ monit_monitor.name }} path {{ monit_monitor.target }}
+{% elif monit_monitor.type == 'directory' %}
+check DIRECTORY {{ monit_monitor.name }} path {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'program' %}
 check program {{ monit_monitor.name }} with path {{ monit_monitor.target }}
     every 1 cycles
