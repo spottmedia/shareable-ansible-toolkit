@@ -24,6 +24,9 @@ check filesystem {{ monit_monitor.name }} with path {{ monit_monitor.target }}
 check file {{ monit_monitor.name }} path {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'directory' %}
 check DIRECTORY {{ monit_monitor.name }} path {{ monit_monitor.target }}
+{% if monit_monitor.start is defined %}
+  start program = "{{ monit_monitor.start }}"
+{% endif %}
 {% elif monit_monitor.type == 'program' %}
 check program {{ monit_monitor.name }} with path {{ monit_monitor.target }}
     every 1 cycles
