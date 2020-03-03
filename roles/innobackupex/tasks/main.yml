@@ -17,17 +17,17 @@
   copy: src=../files/percona-release_latest.bionic_all.deb dest=/var/lib mode=0755
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
 
-- name: Install innobackupex and related for db restores
+- name: Install innobackupex and related for db restores (trusty)
   apt: deb=/var/lib/percona-release_0.1-4.trusty_all.deb
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
   notify: Innobackup Reload apt
 
-- name: Install innobackupex and related for db restores
+- name: Install innobackupex and related for db restores (xenial)
   apt: deb=/var/lib/percona-release_0.1-4.xenial_all.deb
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 16
   notify: Innobackup Reload apt
 
-- name: Install innobackupex and related for db restores
+- name: Install innobackupex and related for db restores (bionic)
   apt: deb=/var/lib/percona-release_latest.bionic_all.deb
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
   notify: Innobackup Reload apt
