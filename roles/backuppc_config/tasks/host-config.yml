@@ -16,7 +16,6 @@
   when: not backuppc_delegated
   notify: Reload backuppc
 
-
 - name: materialize the config overrides
   template:
     src: host_config.j2
@@ -31,3 +30,10 @@
   delegate_to: "{{ backuppc_server }}"
   when: backuppc_delegated
   notify: Reload backuppc delegated
+
+- name: /etc/hosts alias for the server
+  lineinfile:
+    dest: "{{ backuppc_hosts_file }}"
+    line: "{{ backuppc_hosts_entry }}"
+    state: present
+  delegate_to: "{{ backuppc_server }}"
