@@ -3,7 +3,7 @@
   shell: "/bin/systemd-escape {{ item.target | regex_replace('^\\/|\\/$', '') }}"
   register: systemd_escaped
   changed_when: false
-  check_mode: true
+  check_mode: false  # execute in check mode too
 
 - name: Copy service file template, remove trailing and leading slashes, replace other to the form systemd wants them in
   template: src=nfs-client.mount.j2 dest="/lib/systemd/system/{{ systemd_escaped.stdout }}.mount"
