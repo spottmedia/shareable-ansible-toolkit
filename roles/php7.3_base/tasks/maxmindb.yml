@@ -54,5 +54,6 @@
   lineinfile:
     dest: /etc/ld.so.conf.d/local.conf
     line: /var/lib/libmaxminddb-1.4.2/src/.libs
+    create: true
   notify: Reload ldconfig
 
