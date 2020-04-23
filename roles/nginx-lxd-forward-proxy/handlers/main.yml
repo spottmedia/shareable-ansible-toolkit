@@ -1,0 +1,9 @@
+---
+- name: Restart NGINX
+  service: name=nginx state=restarted
+  delegate_to: localhost
+
+
+- name: Nginx Update APT
+  apt: update_cache="true"
+  delegate_to: localhost
