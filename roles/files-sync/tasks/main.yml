@@ -7,4 +7,4 @@
 - name: Copy files/folders needed on the remote
   copy: src="{{ item.source }}" dest="{{ item.destination }}"
   with_items: "{{ file_sync_maps }}"
-  when: item.mode not is defined
+  when: item.mode is not defined
