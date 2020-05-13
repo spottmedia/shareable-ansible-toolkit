@@ -48,7 +48,7 @@
       - python3-jmespath
       - git-core
       - pigz
-      - python3.6
+      - python3
       - ca-certificates
       - net-tools
       - dnsutils
