@@ -102,11 +102,12 @@
 #    state: latest
 #  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 18
 
-- name: Apache | Enable some required modules
+- name: Apache | Enable some useful modules
   apache2_module: state=present name={{item}}
   with_items:
     - proxy_fcgi
     - setenvif
+    - remoteip
 
 - name: Apache | Enable http2 module if needed
   apache2_module: state=present name={{item}}
