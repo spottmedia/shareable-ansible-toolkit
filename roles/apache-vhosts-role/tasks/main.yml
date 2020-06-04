@@ -1,0 +1,11 @@
+---
+- include: vhost-config.yml
+  vars:
+    template: "{{ item.template }}"
+    server_name: "{{ item.server_name }}"
+    server_aliases: "{{ item.server_aliases }}"
+    document_root: "{{ item.document_root }}"
+    ssl_certificate_file: "{{ item.ssl_certificate_file }}"
+    ssl_certificate_key_file: "{{ item.ssl_certificate_key_file }}"
+    ssl_ca_certificate_file: "{{ item.ssl_ca_certificate_file }}"
+  with_items: "{{ apache_vhosts }}"

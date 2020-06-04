@@ -1,0 +1,59 @@
+<VirtualHost *:80>
+TimeOut 9999
+ProxyTimeout 9999
+ErrorLog /var/log/apache2/error_{{ server_name }}.log
+LogFormat "%h %l %u %t \"%r\" %>s %b" standard_format
+CustomLog "/var/log/apache2/access_{{ server_name }}.log" common
+RemoteIPHeader X-Forwarded-For
+DocumentRoot "{{ document_root }}"
+ServerName {{ server_name }}
+{% for server_alias in server_aliases %}
+ServerAlias {{ server_alias }}
+{% endfor %}
+<Directory {{ document_root }}>
+allow from all
+AllowOverride All
+Options -Indexes
+</Directory>
+<Directory "{{ document_root }}">
+allow from all
+Options None
+Require all granted
+</Directory>
+</VirtualHost>
+
+
+<VirtualHost *:443>
+TimeOut 9999
+ProxyTimeout 9999
+Protocols http/1.1
+ErrorLog /var/log/apache2/error_{{ server_name }}.log
+LogFormat "%h %l %u %t \"%r\" %>s %b" standard_format
+CustomLog "/var/log/apache2/access_{{ server_name }}.log" common
+RemoteIPHeader X-Forwarded-For
+DocumentRoot "{{ document_root }}"
+ServerName {{ server_name }}
+{% for server_alias in server_aliases %}
+ServerAlias {{ server_alias }}
+{% endfor %}
+
+<Directory {{ document_root }}>
+allow from all
+AllowOverride All
+Options -Indexes
+</Directory>
+SSLEngine on
+
+
+SSLCertificateFile     {{ ssl_certificate_file }}
+SSLCertificateKeyFile  {{ ssl_certificate_key_file }}
+{% if ssl_ca_certificate_file != "" %}
+SSLCACertificateFile   {{ ssl_ca_certificate_file }}
+{% endif %}
+
+<Directory "{{ document_root }}">
+allow from all
+Options None
+Require all granted
+</Directory>
+</VirtualHost>
