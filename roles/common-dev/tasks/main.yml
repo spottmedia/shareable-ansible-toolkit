@@ -33,6 +33,7 @@
 - name: General | Install required packages.
   apt:
     pkg:
+      - software-properties-common
       - nano
       - wget
       - sendmail
