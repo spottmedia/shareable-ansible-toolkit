@@ -8,8 +8,10 @@
 #  delegate_facts: True
 
 - name: General | Install required packages.
-  action: apt pkg=nginx state=present update-cache=yes install_recommends=no cache_valid_time=3600
-  tags: common
+  command: "apt update"
+
+- name: General | Install required packages.
+  command: "apt install nginx"
 
 - name: create self-signed SSL certs placeholder
   file: path="/etc/nginx/ssl" state="directory"
