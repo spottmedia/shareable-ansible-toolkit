@@ -9,9 +9,11 @@
 
 - name: General | Install required packages.
   command: "apt update"
+  delegate_to: localhost
 
 - name: General | Install required packages.
   command: "apt install nginx"
+  delegate_to: localhost
 
 - name: create self-signed SSL certs placeholder
   file: path="/etc/nginx/ssl" state="directory"
