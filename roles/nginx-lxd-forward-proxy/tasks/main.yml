@@ -7,12 +7,14 @@
 #  delegate_to: localhost
 #  delegate_facts: True
 
-- name: General | Install required packages.
+- name: General | Update apt.
   command: "apt update"
+  become: true
   delegate_to: localhost
 
 - name: General | Install required packages.
   command: "apt install nginx"
+  become: true
   delegate_to: localhost
 
 - name: create self-signed SSL certs placeholder
