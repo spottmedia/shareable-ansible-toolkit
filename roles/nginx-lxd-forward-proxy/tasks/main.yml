@@ -19,16 +19,19 @@
 
 - name: create self-signed SSL certs placeholder
   file: path="/etc/nginx/ssl" state="directory"
+  become: true
   delegate_to: localhost
 
 - name: create self-signed SSL cert
   command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=${ansible_fqdn}" -days 3650 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
+  become: true
   delegate_to: localhost
 
 - name: Disable default vhost if not defined
   file: path="/etc/nginx/sites-enabled/default" state="absent"
   tags: common
   when: nginx_vhost is not defined
+  become: true
   delegate_to: localhost
 
 - name: Copy nginx statics vhost
@@ -36,6 +39,7 @@
     src: proxy.conf.j2
     dest: "/etc/nginx/sites-available/{{ inventory_hostname }}.conf"
     mode: "u+x,g+x,o+x"
+  become: true
   delegate_to: localhost
 
 - name: Enable nginx vhost
@@ -46,8 +50,10 @@
     group: www-data
     state: link
   notify: Restart NGINX
+  become: true
   delegate_to: localhost
 
 - name: Start nginx
   service: name=nginx state=started
+  become: true
   delegate_to: localhost
