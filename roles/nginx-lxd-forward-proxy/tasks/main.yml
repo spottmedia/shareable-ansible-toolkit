@@ -1,11 +1,11 @@
 ---
-- name: Add nginx repo
-  apt_repository:
-    repo: 'ppa:nginx/stable'
-    state: present
-  notify: Nginx Update APT
-  delegate_to: localhost
-  delegate_facts: True
+#- name: Add nginx repo
+#  apt_repository:
+#    repo: 'ppa:nginx/stable'
+#    state: present
+#  notify: Nginx Update APT
+#  delegate_to: localhost
+#  delegate_facts: True
 
 - name: General | Install required packages.
   action: apt pkg=nginx state=present update-cache=yes install_recommends=no cache_valid_time=3600
