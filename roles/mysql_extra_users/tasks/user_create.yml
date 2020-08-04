@@ -1,6 +1,6 @@
 - mysql_user:
       name: "{{ mysql_user.name }}"
-      password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + server_hostname +'_pass'), true) }}"
+      password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + inventory_hostname +'_pass'), true) }}"
       priv: "{{ mysql_user.db }}.*:ALL,GRANT"
       host: "{{ item }}"
       state: present
