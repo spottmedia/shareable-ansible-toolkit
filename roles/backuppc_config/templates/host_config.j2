@@ -1,5 +1,5 @@
 {% for config_override in host_config.config_override %}
 {% for key, value in config_override.items() %}
-$Conf{{ '{' }}{{ key }}{{ '}' }}  = {{ value }}
+$Conf{{ '{' }}{{ key }}{{ '}' }} = {{ value }}
 {% endfor %}
 {% endfor %}
