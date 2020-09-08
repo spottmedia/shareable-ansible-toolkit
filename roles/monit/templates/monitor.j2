@@ -21,13 +21,13 @@ check host {{ monit_monitor.name }} with address {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'filesystem' %}
 check filesystem {{ monit_monitor.name }} with path {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'file' %}
+check file {{ monit_monitor.name }} path {{ monit_monitor.target }}
 {% if monit_monitor.start is defined %}
   start program = "{{ monit_monitor.start }}"
 {% endif %}
 {% if monit_monitor.stop is defined %}
   stop program = "{{ monit_monitor.stop }}"
 {% endif %}
-check file {{ monit_monitor.name }} path {{ monit_monitor.target }}
 {% elif monit_monitor.type == 'directory' %}
 check DIRECTORY {{ monit_monitor.name }} path {{ monit_monitor.target }}
 {% if monit_monitor.start is defined %}
