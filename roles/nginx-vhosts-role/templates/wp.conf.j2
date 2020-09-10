@@ -16,7 +16,7 @@ server {
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
 
-        ssl_certificate_file: "{{ item.ssl_certificate_file }}"
+    ssl_certificate_file: "{{ item.ssl_certificate_file }}"
     ssl_certificate_key_file: "{{ item.ssl_certificate_key_file }}"
 
     listen       443 http2;
