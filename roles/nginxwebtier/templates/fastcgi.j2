@@ -3,4 +3,4 @@
 include fastcgi_params;
 fastcgi_param SCRIPT_FILENAME $request_filename;
 fastcgi_intercept_errors on;
-fastcgi_pass 127.0.0.1:7777;
+fastcgi_pass {{ fastcgi_pass }};
