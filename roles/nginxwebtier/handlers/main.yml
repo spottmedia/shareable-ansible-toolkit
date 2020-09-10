@@ -9,3 +9,7 @@
 - name: restart php7.2-fpm process
   action: service name=php7.2-fpm state=restarted
   tags: common
+
+- name: restart php7.4-fpm process
+  action: service name=php7.4-fpm state=restarted
+  tags: common

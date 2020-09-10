@@ -49,6 +49,9 @@
 - include: php7.2.yml
   when: php_version is defined and ansible_distribution == 'Ubuntu' and php_version == '7.2' and ansible_lsb.major_release|int >= 18
 
+- include: php7.4.yml
+  when: php_version is defined and ansible_distribution == 'Ubuntu' and php_version == '7.4' and ansible_lsb.major_release|int >= 18
+
 # - name: Apache | Enable memcached.so - this should be available via mods-available anyway - NOT REQUIRED
 #  lineinfile: dest=/etc/php5/fpm/php.ini line="extension=memcached.so" owner=root group=root mode=0644
 

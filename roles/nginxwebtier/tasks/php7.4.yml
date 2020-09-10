@@ -1,0 +1,11 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+- name: General | Install required packages.
+  apt: pkg=php7.4-fpm state=present install_recommends=no update-cache=yes cache_valid_time=3600
+  tags: common
+
+- name: Listen on IP instead on a socket
+  replace: dest=/etc/php/7.4/fpm/pool.d/www.conf regexp="listen = /run/php/php7.[01234]-fpm.sock" replace="listen = 127.0.0.1:7777"
+  notify: restart php7.4-fpm process

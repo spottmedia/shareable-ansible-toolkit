@@ -1,0 +1,3 @@
+---
+- name: Restart php7.4 FPM
+  action: service name=php7.4-fpm state=restarted

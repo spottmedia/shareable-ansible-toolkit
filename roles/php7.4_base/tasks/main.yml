@@ -1,0 +1,73 @@
+---
+
+- name: Add the custom php7+ repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: install php7.4 and requirements packages
+  apt:
+    pkg:
+      - build-essential
+      - zip
+      - unzip
+      - php7.4
+      - php7.4-zip
+      - php7.4-dev
+      - php7.4-intl
+      - php7.4-mbstring
+      - php7.4-curl
+      - php7.4-common
+      - php7.4-imagick
+      - php7.4-imap
+      - php7.4-pspell
+      - php7.4-gd
+      - php7.4-xmlrpc
+      - php7.4-soap
+      - php7.4-tidy
+      - php7.4-mysql
+      - php7.4-xml
+      - php7.4-yaml
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
+  tags: common
+
+  notify: Hold selection of php7.4
+
+
+- name: General | Install fpm (if needed)
+  apt: pkg=php7.4-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_install_fpm
+
+
+- name: install php7.4 memcached if needed
+  apt: pkg='php7.4-memcached' state=present update-cache=yes install_recommends=yes cache_valid_time=3600
+  tags: common
+  when: php_use_memcached
+
+- name: install php7.4 redis if needed
+  apt: pkg='php-redis' state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_use_redis
+
+- name: "update default php binary symlink (as it will probably point to != php7.4"
+  file:
+    src: /usr/bin/php7.4
+    dest: /usr/bin/php
+    state: link
+    force: true
+  when: not ansible_check_mode
+
+- name: "fix issues with ssl"
+  file:
+    path: /etc/ssl
+    mode: 0755
+
+- include: ID3.yml
+  when: php_with_id3 is defined and php_with_id3 == true
+
+- include: maxmindb.yml
+  when: php_with_maxmind is defined and php_with_maxmind == true

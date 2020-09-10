@@ -1,0 +1,45 @@
+---
+- name: php-fpm config ini max execution time
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini regex="(?!max_execution_time = {{ fpm_max_execution_time }})max_execution_time.*" state=absent
+
+- name: php-fpm config ini max execution time
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini line="max_execution_time = {{ fpm_max_execution_time }}" state=present insertbefore="max_input_time"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini max memory consumption
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini regex="(?!memory_limit = {{ fpm_max_memory }})memory_limit.*" state=absent
+
+- name: php-fpm config ini max memory consumption
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini line="memory_limit = {{ fpm_max_memory }}" state=present insertbefore="max_input_time"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini mysqlnd.collect_statistics disable for performance (remove old)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini regex="(?!mysqlnd.collect_statistics = Off)mysqlnd.collect_statistics.*" state=absent
+
+- name: php-fpm config ini mysqlnd.collect_statistics disable for performance (add new)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini line="mysqlnd.collect_statistics = Off" state=present insertafter="[mysqlnd]"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini upload_max_filesize to some sensible value (remove old)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini regex="(?!upload_max_filesize = 64M)upload_max_filesize.*" state=absent
+
+- name: php-fpm config ini upload_max_filesize to some sensible value (add new)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini line="upload_max_filesize = 64M" state=present insertbefore="max_file_uploads"
+  notify:
+    - Restart PHP-FPM
+
+- name: php-fpm config ini post_max_size to some sensible value (remove old)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini regex="(?!post_max_size = 32M)post_max_size.*" state=absent
+
+- name: php-fpm config ini post_max_size to some sensible value (add new)
+  lineinfile: dest=/etc/php/7.4/fpm/php.ini line="post_max_size = 32M" state=present
+  notify:
+    - Restart PHP-FPM
+
+- name: materialize fpm pool config
+  template: src=www.conf.j2 dest=/etc/php/7.4/fpm/pool.d/www.conf
+  notify:
+    - Restart PHP-FPM
