@@ -1,0 +1,50 @@
+map_hash_bucket_size 1024;
+map_hash_max_size 45948;
+client_max_body_size 256M;
+
+server {
+	server_name  {{ server_name }} {{ item.server_aliases|join(' ') }};
+    listen       80;
+    rewrite ^ https://$http_host$request_uri? permanent;    # force redirect http to https
+}
+
+server {
+
+    server_name {{ server_name }} {{ item.server_aliases|join(' ') }};
+    root   {{ document_root }};
+    index  index.php;
+    access_log  /var/log/nginx/access.log;
+    error_log   /var/log/nginx/error.log;
+
+        ssl_certificate_file: "{{ item.ssl_certificate_file }}"
+    ssl_certificate_key_file: "{{ item.ssl_certificate_key_file }}"
+
+    listen       443 http2;
+    ssl on;
+    rewrite_log on;
+
+    ssl_certificate {{ item.ssl_certificate_file }};
+    ssl_certificate_key {{ item.ssl_certificate_key_file }};
+
+	location / {
+        fastcgi_read_timeout 99;
+        try_files $uri $uri/ $uri/index.php?$args  /index.php?$args;
+    }
+
+    location ~* .(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+        expires max;
+        log_not_found off;
+        access_log off;
+    }
+
+	location ~ \.php$ {
+		fastcgi_read_timeout 99;
+		try_files $uri =404;
+		include fastcgi_params;
+		include fastcgi;
+	}
+
+    location ~ /\.ht {
+            deny  all;
+    }
+}
