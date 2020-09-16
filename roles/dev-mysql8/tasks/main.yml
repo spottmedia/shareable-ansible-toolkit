@@ -1,5 +1,10 @@
 ---
 
+- name: Add Mysql signing key
+  apt_key:
+    url: http://repo.mysql.com/RPM-GPG-KEY-mysql
+    state: present
+
 - name: Add APT repository for MySQL.
   apt_repository:
     repo: deb http://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-8.0
