@@ -36,7 +36,7 @@
 - name: Install required packages.
   apt:
     pkg:
-      - percona-xtrabackup-24
+      - "{{ percona_version }}"
       - qpress
     state: present
     install_recommends: false

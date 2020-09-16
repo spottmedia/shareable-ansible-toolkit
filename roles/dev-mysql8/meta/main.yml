@@ -1,0 +1,5 @@
+---
+dependencies:
+  - role: innobackupex
+    percona_version: percona-xtrabackup-80
+  - role: dev_users
