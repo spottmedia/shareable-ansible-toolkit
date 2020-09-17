@@ -4,7 +4,7 @@
   apt_key:
     # keyserver: keys.gnupg.net
     id: 5072E1F5
-    file: mysql.key
+    file: files/mysql.key
     state: present
 
 - name: Add MySQL repository
