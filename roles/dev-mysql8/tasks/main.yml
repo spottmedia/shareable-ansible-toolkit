@@ -97,4 +97,11 @@
     line: bind-address = 127.0.0.1
   notify: Restart mysql
 
+- name: listen on localhost for mysqlx by default
+  lineinfile:
+    insertafter: '[mysqld]'
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    line: mysqlx-bind-address = 127.0.0.1
+  notify: Restart mysql
+
 - include: mysql-users.yml
