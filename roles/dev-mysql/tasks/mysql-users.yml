@@ -39,7 +39,3 @@
     login_host: 'localhost'
     password: "{{ mysql_root_password }}"
   when: release_status is defined and release_status == "dev" and ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
-
-
-- name: make sure there is no 'test' db
-  mysql_db: db=test state=absent
