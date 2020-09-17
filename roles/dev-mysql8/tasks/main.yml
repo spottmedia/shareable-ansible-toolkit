@@ -1,48 +1,48 @@
 ---
 
 - name: Add official MySQL package authentication key
-    apt_key:
-      keyserver: pool.sks-keyservers.net
-      id: 5072E1F5
-      state: present
+  apt_key:
+    keyserver: pool.sks-keyservers.net
+    id: 5072E1F5
+    state: present
 
-  - name: Add MySQL repository
-    apt_repository:
-      repo: deb http://repo.mysql.com/apt/debian/ stretch mysql-8.0
-      filename: mysql80
-      state: present
+- name: Add MySQL repository
+  apt_repository:
+    repo: deb http://repo.mysql.com/apt/debian/ stretch mysql-8.0
+    filename: mysql80
+    state: present
 
-  - name: Set MySQL root password
-    debconf:
-      name: mysql-community-server
-      question: mysql-community-server/root-pass
-      value: "{{ mysql_root_password }}"
-      vtype: password
+- name: Set MySQL root password
+  debconf:
+    name: mysql-community-server
+    question: mysql-community-server/root-pass
+    value: "{{ mysql_root_password }}"
+    vtype: password
 
-  - name: Confirm MySQL root password
-    debconf:
-      name: mysql-community-server
-      question: mysql-community-server/re-root-pass
-      value: "{{ mysql_root_password }}"
-      vtype: password
+- name: Confirm MySQL root password
+  debconf:
+    name: mysql-community-server
+    question: mysql-community-server/re-root-pass
+    value: "{{ mysql_root_password }}"
+    vtype: password
 
-  - name: Enable Legacy Authentication Method
-    debconf:
-      name: mysql-community-server
-      question: mysql-server/default-auth-override
-      value: Use Legacy Authentication Method (Retain MySQL 5.x Compatibility)
-      vtype: select
+- name: Enable Legacy Authentication Method
+  debconf:
+    name: mysql-community-server
+    question: mysql-server/default-auth-override
+    value: Use Legacy Authentication Method (Retain MySQL 5.x Compatibility)
+    vtype: select
 
-  - name: Install/Update MySQL 8.0 Community Server
-    apt:
-      name: "{{ item }}"
-      update_cache: yes
-      state: latest
-    with_items:
-      - mysql-server
-    environment:
-      DEBIAN_FRONTEND: noninteractive
-    register: "mysql_freshly_installed"
+- name: Install/Update MySQL 8.0 Community Server
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+    - mysql-server
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  register: "mysql_freshly_installed"
 
 
 - name: General | Install required packages.
