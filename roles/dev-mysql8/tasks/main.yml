@@ -2,7 +2,7 @@
 
 - name: Add official MySQL package authentication key
   apt_key:
-    keyserver: pool.sks-keyservers.net
+    keyserver: keys.gnupg.net
     id: 5072E1F5
     state: present
 
