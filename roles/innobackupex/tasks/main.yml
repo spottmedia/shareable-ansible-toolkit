@@ -5,6 +5,7 @@
 # Distribution independent.
 #
 
+
 - name: Innobackupex deb copy
   copy: src=../files/percona-release_0.1-4.trusty_all.deb dest=/var/lib mode=0755
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
