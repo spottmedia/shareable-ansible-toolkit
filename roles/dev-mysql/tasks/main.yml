@@ -25,7 +25,7 @@
 - include: handlers/mysql_initial_foldout.yml
   when: mysql_freshly_installed is defined and mysql_freshly_installed.changed == True
 
-- name: MySQL | update default mysql mode for 16.04+
+- name: MySQL | update default mysql mode
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     regexp: '^sql_mode'
