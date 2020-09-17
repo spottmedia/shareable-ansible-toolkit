@@ -81,10 +81,6 @@
     cache_valid_time: 3600
     install_recommends: no
 
-# temporary evade issue https://github.com/ansible/ansible/issues/14270#issuecomment-416880078
-- include: handlers/mysql_initial_foldout.yml
-  when: mysql_freshly_installed is defined and mysql_freshly_installed.changed == True
-
 - name: MySQL | update default mysql mode for mysql 8
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -92,10 +88,13 @@
     insertafter: '[mysqld]'
     line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+  notify: Restart mysql
 
-- name: mysql remove localhost-only bind
-  replace: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp="[\t ]*bind-address[\t ]*=[\t ]*127\.0\.0\.1" replace="bind-address = 0.0.0.0"
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+- name: listen on localhost only by default
+  lineinfile:
+    insertafter: '[mysqld]'
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    line: bind-address = 127.0.0.1
   notify: Restart mysql
 
 - include: mysql-users.yml

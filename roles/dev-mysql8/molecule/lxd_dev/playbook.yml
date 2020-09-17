@@ -1,8 +1,0 @@
----
-- name: Converge
-  hosts: all
-  vars:
-    mysql_root_password: "timewarp1!"
-    release_status: "dev"
-  roles:
-    - role: mysql

@@ -6,6 +6,3 @@
 - name: Restart mysql
   command: /etc/init.d/mysql restart
   when: is_docker is defined
-
-- name: Mysql installed
-  include: mysql_initial_foldout.yml
