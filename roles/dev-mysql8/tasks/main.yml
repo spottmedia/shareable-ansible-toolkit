@@ -1,5 +1,11 @@
 ---
 
+# CREDITS
+# core of this role is copied from
+# https://geert.vanderkelen.org/2018/mysql8-unattended-dpkg/
+#
+# the rest are minor adjustments based on other mysql role I've put together in the past
+
 - name: General | Install gpg agent.
   apt:
     name: ['gpg-agent']
@@ -10,13 +16,11 @@
 
 - name: Copy over mysql key
   copy:
-    # keyserver: keys.gnupg.net
     src: mysql.key
     dest: /tmp/mysql.key
 
 - name: Add official MySQL package authentication key
   apt_key:
-    # keyserver: keys.gnupg.net
     id: 5072E1F5
     file: /tmp/mysql.key
     state: present
