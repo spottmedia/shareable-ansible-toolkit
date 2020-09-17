@@ -1,10 +1,10 @@
 ---
 
-- name: Add official MySQL package authentication key
-  apt_key:
-    keyserver: keys.gnupg.net
-    id: 5072E1F5
-    state: present
+#- name: Add official MySQL package authentication key
+#  apt_key:
+#    keyserver: keys.gnupg.net
+#    id: 5072E1F5
+#    state: present
 
 - name: Add MySQL repository
   apt_repository:
