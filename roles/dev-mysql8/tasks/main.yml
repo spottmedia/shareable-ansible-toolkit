@@ -1,10 +1,16 @@
 ---
 
+- name: Copy over mysql key
+  copy:
+    # keyserver: keys.gnupg.net
+    src: mysql.key
+    dest: /tmp/mysql.key
+
 - name: Add official MySQL package authentication key
   apt_key:
     # keyserver: keys.gnupg.net
     id: 5072E1F5
-    file: files/mysql.key
+    file: /tmp/mysql.key
     state: present
 
 - name: Add MySQL repository
