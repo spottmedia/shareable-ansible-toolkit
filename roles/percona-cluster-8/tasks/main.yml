@@ -56,4 +56,8 @@
     line: mysqlx=0
   notify: Restart mysql
 
+- name: Make sure mysql is started after a fresh cluster install
+  service: name=mysql state=started
+  when: mysql_freshly_installed.changed == 1
+  
 - include: mysql-users.yml
