@@ -25,12 +25,9 @@
       - percona-xtradb-cluster
       - python3-mysqldb
       - percona-xtrabackup-80
-      - mysql-client
     state: present
     update-cache: yes
     cache_valid_time: 3600
-#  notify: Mysql Installed
-  when: ansible_distribution == 'Ubuntu'
   register: "mysql_freshly_installed"
 
 - debug:
