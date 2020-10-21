@@ -1,0 +1,8 @@
+---
+- name: Restart mysql
+  service: name=mysql state=restarted
+  when: is_docker is not defined
+
+- name: Restart mysql
+  command: /etc/init.d/mysql restart
+  when: is_docker is defined

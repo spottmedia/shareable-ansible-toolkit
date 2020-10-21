@@ -1,0 +1,62 @@
+---
+
+- name: Download Percona package
+  get_url:
+    url="https://repo.percona.com/apt/percona-release_latest.generic_all.deb"
+    dest="/percona-release_latest.generic_all.deb"
+  register: percona_package_check_deb
+
+- name: Install Percona package
+  apt: deb="/percona-release_latest.generic_all.deb"
+  when: percona_package_check_deb.changed == 1
+
+- name: update cache
+  apt:
+    update_cache: yes
+  when: percona_package_check_deb.changed == 1
+
+- name: Setup percona cluster
+  shell: percona-release setup pxc80
+  when: percona_package_check_deb.changed == 1
+
+- name: General | Install required packages.
+  apt:
+    name:
+      - percona-xtradb-cluster
+      - python3-mysqldb
+      - percona-xtrabackup-80
+      - mysql-client
+    state: present
+    update-cache: yes
+    cache_valid_time: 3600
+#  notify: Mysql Installed
+  when: ansible_distribution == 'Ubuntu'
+  register: "mysql_freshly_installed"
+
+- debug:
+    msg: "The value of mysql_freshly_installed is {{ mysql_freshly_installed }}"
+
+- name: MySQL | update default mysql mode for mysql 8
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^sql_mode'
+    insertafter: '[mysqld]'
+    line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+  notify: Restart mysql
+
+- name: listen on localhost only by default
+  lineinfile:
+    insertafter: '[mysqld]'
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    line: "bind-address = {{ mysql_bind_address }}"
+  notify: Restart mysql
+
+- name: disable mysqlx service
+  lineinfile:
+    insertafter: '[mysqld]'
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    line: mysqlx=0
+  notify: Restart mysql
+
+- include: mysql-users.yml
