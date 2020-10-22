@@ -129,7 +129,7 @@
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     regexp: '^innodb_buffer_pool_size'
-    line: "innodb_buffer_pool_size={{ ((ansible_memtotal_mb - mysql_max_connections * 24) * 0.85) | round(0,'floor') | int }}"
+    line: "innodb_buffer_pool_size={{ ((ansible_memtotal_mb - mysql_max_connections * 8) * 0.85) | round(0,'floor') | int }}"
   notify: Restart mysql
 
 -
