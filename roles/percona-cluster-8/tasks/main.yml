@@ -30,6 +30,18 @@
     cache_valid_time: 3600
   register: "mysql_freshly_installed"
 
+- name: General | Install required packages.
+  apt:
+    name:
+      - apparmor
+    state: absent
+    purge: true
+  register: "apparmor_removed"
+
+- name: Make the apparmor removal at play
+  reboot:
+  when: apparmor_removed.changed == 1
+
 - debug:
     msg: "The value of mysql_freshly_installed is {{ mysql_freshly_installed }}"
 
@@ -56,8 +68,36 @@
     line: mysqlx=0
   notify: Restart mysql
 
+- name: Cluster | dont specify node name, make it use sytem's hostname
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^wsrep_node_name'
+    state: absent
+  notify: Restart mysql
+
+- name: Cluster | set node address
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^wsrep_node_address'
+    line: "wsrep_node_address = {{ mysql_cluster_node_address }}"
+  notify: Restart mysql
+
+- name: Cluster | set wsrep_cluster_address
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^wsrep_cluster_address'
+    line: "wsrep_cluster_address==gcomm://{{ play_hosts | join(',') }}"
+  notify: Restart mysql
+
+- name: Cluster | disable pxc traffic encryption (make sure you're sending traffic through vpn mesh or similar!)
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^pxc-encrypt-cluster-traffic'
+    line: "pxc-encrypt-cluster-traffic=OFF"
+  notify: Restart mysql
+
 - name: Make sure mysql is started after a fresh cluster install
   service: name=mysql state=started
   when: mysql_freshly_installed.changed == 1
-  
+
 - include: mysql-users.yml
