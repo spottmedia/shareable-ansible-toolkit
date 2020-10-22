@@ -82,6 +82,57 @@
     line: "wsrep_node_address = {{ mysql_cluster_node_address }}"
   notify: Restart mysql
 
+- name: Cluster | set node ID
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^server-id'
+    line: "server-id = {{ mysql_cluster_server_id }}"
+  notify: Restart mysql
+
+- name: Cluster | set innodb_rollback_on_timeout
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^innodb_rollback_on_timeout'
+    line: "innodb_rollback_on_timeout=1"
+  notify: Restart mysql
+
+- name: Cluster | set innodb_lock_wait_timeout
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^innodb_lock_wait_timeout'
+    line: "innodb_lock_wait_timeout=60"
+  notify: Restart mysql
+
+- name: Cluster | set innodb_print_all_deadlocks
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^innodb_print_all_deadlocks'
+    line: "innodb_print_all_deadlocks=1"
+  notify: Restart mysql
+
+- name: Cluster | set innodb_deadlock_detect
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^innodb_deadlock_detect'
+    line: "innodb_deadlock_detect=0"
+  notify: Restart mysql
+
+- name: Cluster | set max_connections
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^max_connections'
+    line: "max_connections={{ mysql_max_connections }}"
+  notify: Restart mysql
+
+
+- name: Cluster | set innodb_buffer_pool_size
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^innodb_buffer_pool_size'
+    line: "innodb_buffer_pool_size={{ ((ansible_memtotal_mb - mysql_max_connections * 24) * 0.85) | round(0,'floor') | int }}"
+  notify: Restart mysql
+
+-
 - name: Cluster | set wsrep_cluster_address
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf

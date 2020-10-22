@@ -1,2 +1,3 @@
 ---
+mysql_max_connections: 1000
 mysql_root_password: "{{ lookup('password', '{{ playbook_dir }}/secret/mysql_root_password_file length=15 chars=ascii_letters') }}"
