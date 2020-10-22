@@ -137,7 +137,7 @@
   register: wsrep_cluster_addresses_register
   with_items: "{{ play_hosts }}"
 
-- debug: var=wsrep_cluster_addresses_register.results
+- debug: var=wsrep_cluster_addresses_register.results['stdout_lines']
 
 - fail:
     msg: "Just temp debug fail"
