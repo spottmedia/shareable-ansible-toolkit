@@ -147,7 +147,7 @@
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     regexp: '^wsrep_cluster_address'
-    line: "wsrep_cluster_address=gcomm://{{ wsrep_cluster_addresses_register.results.stdout_lines | join(',') }}"
+    line: "wsrep_cluster_address=gcomm://{{ wsrep_cluster_addresses_register.results['stdout_lines'] | join(',') }}"
   notify: Restart mysql
 
 - name: Cluster | disable pxc traffic encryption (make sure you're sending traffic through vpn mesh or similar!)
