@@ -137,10 +137,10 @@
   register: wsrep_cluster_addresses_register
   with_items: "{{ play_hosts }}"
 
-#- debug: var=wsrep_cluster_addresses_register
-#
-#- fail:
-#    msg: "Just temp debug fail"
+- debug: var=wsrep_cluster_addresses_register.results
+
+- fail:
+    msg: "Just temp debug fail"
 
 
 - name: Cluster | set wsrep_cluster_address
