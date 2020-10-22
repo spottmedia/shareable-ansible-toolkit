@@ -139,6 +139,10 @@
 
 - debug: var=wsrep_cluster_addresses_register
 
+- fail:
+    msg: "Just temp debug fail"
+
+
 - name: Cluster | set wsrep_cluster_address
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
