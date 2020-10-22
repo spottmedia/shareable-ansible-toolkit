@@ -137,12 +137,12 @@
   register: wsrep_cluster_addresses_register
   with_items: "{{ play_hosts }}"
 
- - set_fact:
-      wsrep_cluster_addresses_fact:  "{{ wsrep_cluster_addresses_fact|default([]) +
+- set_fact:
+    wsrep_cluster_addresses_fact:  "{{ wsrep_cluster_addresses_fact|default([]) +
                        [hostvars[item].mysql_cluster_node_address] }}"
-      loop: "{{ play_hosts }}"
+  loop: "{{ play_hosts }}"
 
- -debug: var=wsrep_cluster_addresses_fact
+- debug: var=wsrep_cluster_addresses_fact
 #- debug: var=wsrep_cluster_addresses_register.results
 #
 #- debug: var=wsrep_cluster_addresses_register.results.stdout_lines
