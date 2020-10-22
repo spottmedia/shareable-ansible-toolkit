@@ -133,7 +133,7 @@
   notify: Restart mysql
 
 - name: Register mysql ip variables
-  shell: "echo {{ hostvars[item].wsrep_node_address }}"
+  shell: "echo {{ hostvars[item].mysql_cluster_node_address }}"
   register: wsrep_cluster_addresses_register
   with_items: "{{ play_hosts }}"
 
