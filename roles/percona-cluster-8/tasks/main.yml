@@ -132,6 +132,13 @@
     line: "innodb_buffer_pool_size={{ ((ansible_memtotal_mb - mysql_max_connections * 24) * 0.85) | round(0,'floor') | int }}M"
   notify: Restart mysql
 
+- name: Cluster | set sort_buffer_size
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^sort_buffer_size'
+    line: "sort_buffer_size=462144"
+  notify: Restart mysql
+
 - name: Calculate cluster members' ip variables
   set_fact:
     wsrep_cluster_addresses_fact:  "{{ wsrep_cluster_addresses_fact|default([]) +
