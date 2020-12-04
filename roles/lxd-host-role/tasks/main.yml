@@ -1,0 +1,10 @@
+---
+- name: Ansible check if LXD already installed via snap
+  stat:
+    path: /snap/lxd/current/
+  register: snap_lxd_path
+
+- name: proceed with LXD installation
+  include: install-lxd-ubuntu.yml
+  when: (file_details.stat is not defined) or (not file_details.stat.exist)
+  # parenthesis only for clearance not for any Bool logic ^

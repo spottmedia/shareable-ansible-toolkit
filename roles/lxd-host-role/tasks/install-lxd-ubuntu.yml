@@ -1,0 +1,30 @@
+---
+- name: Install SNAP
+  apt:
+    state: present
+    name:
+      - snapd
+
+- name: Remove apt packages
+  apt:
+    purge: true
+    state: absent
+    name:
+      - lxd
+      - lxd-client
+      - liblxc1
+      - lxcfs
+
+- name: Install lxd from snap
+  snap:
+    name:
+      - lxd
+
+- name: Install LXC back in
+  apt:
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - lxc
+  notify: Initialize LXD
