@@ -3,6 +3,8 @@
 echo
 echo " ********************************************************"
 echo " * This server is configured using Ansible               "
-echo " * with Spottmedia Roles                                  "
+echo " * You put your hands on line                            "
+echo " * if you start fiddling with it manually                "
+echo " * The train is coming *chooo* *chooo*                   "
 echo " ********************************************************"
 echo
