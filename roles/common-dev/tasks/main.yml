@@ -26,7 +26,7 @@
 
     - name: General | enable ipv6
       sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="1"
-  when: disable_ipv6 is defined and disable_ipv6 == false
+  when: disable_ipv6 is defined and disable_ipv6 == true
 
 #- name: General | Message of the day explaining server is under Ansible control.
 #  action: copy src=../files/etc-update-motd-d-95-ansible dest=/etc/update-motd.d/95-ansible mode=0755
