@@ -27,5 +27,5 @@
     cache_valid_time: 3600
     name:
       - lxc
-# TODO: we initialize lxd by hand, let's try to preseed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
-#  notify: Initialize LXD
+# TODO: let's try to pre-seed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
+  notify: Initialize LXD
