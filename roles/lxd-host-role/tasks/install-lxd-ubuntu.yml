@@ -1,31 +1,47 @@
 ---
-- name: Install SNAP
-  apt:
-    state: present
-    name:
-      - snapd
 
-- name: Remove apt packages
-  apt:
-    purge: true
-    state: absent
-    name:
-      - lxd
-      - lxd-client
-      - liblxc1
-      - lxcfs
+- name: See if LXD is already initialize
+  block:
 
-- name: Install lxd from snap
-  snap:
-    name:
-      - lxd
+  - shell: lxc storage list | grep default
+    register: lxc_storage_result
 
-- name: Install LXC back in
-  apt:
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-    name:
-      - lxc
-# TODO: let's try to pre-seed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
-  notify: Initialize LXD
+  rescue:
+
+    - debug:
+        msg: "LXD not installed yet"
+
+- name: Install & Init LXD if it wasn't before
+  block:
+    - name: Install SNAP
+      apt:
+        state: present
+        name:
+          - snapd
+
+    - name: Remove apt packages
+      apt:
+        purge: true
+        state: absent
+        name:
+          - lxd
+          - lxd-client
+          - liblxc1
+          - lxcfs
+
+    - name: Install lxd from snap
+      snap:
+        name:
+          - lxd
+
+    - name: Install LXC back in
+      apt:
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+        name:
+          - lxc
+    # TODO: let's try to pre-seed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
+      notify: Initialize LXD
+
+  when: lxc_storage_result.stdout is not defined or lxc_storage_result.stdout == ""
