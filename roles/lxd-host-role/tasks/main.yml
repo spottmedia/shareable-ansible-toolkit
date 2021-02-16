@@ -8,3 +8,18 @@
   include: install-lxd-ubuntu.yml
   when: (file_details.stat is not defined) or (not file_details.stat.exist)
   # parenthesis only for clearance not for any Bool logic ^
+
+- name: Install dependencies needed to run molecule
+  apt:
+    name:
+      - make
+      - gcc
+      - virtualenv
+      - build-essential
+      - python-dev
+      - jq
+      - git-core
+      - libyaml-dev
+      - python-pip
+      - wget
+      - unzip
