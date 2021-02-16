@@ -5,6 +5,7 @@
 
   - shell: lxc storage list | grep default
     register: lxc_storage_result
+    changed_when: false
 
   rescue:
 
