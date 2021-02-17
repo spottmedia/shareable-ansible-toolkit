@@ -1,0 +1,4 @@
+---
+
+# whether to install certbot too
+nginx_with_certbox: false

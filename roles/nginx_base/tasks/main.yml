@@ -26,15 +26,24 @@
   apt_repository:
     repo: 'ppa:certbot/certbot'
     state: present
-  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - nginx_with_certbox
 
-# some issues installing certbot on ubuntu 18.04 (And apparently on 16.04 too, disabling for now)
-#- name: General | Install required packages.
-#  action: apt pkg={{ item }} state=present update-cache=yes install_recommends=no
-#  tags: common
-#  with_items:
-#    - python-certbot-nginx
-#  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int < 18
+
+- name: General | Install required packages.
+  apt:
+    name:
+      - python-certbot-nginx
+    state: present
+    update-cache: yes
+    install_recommends: no
+  tags: common
+  with_items:
+    - python-certbot-nginx
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - nginx_with_certbox
 
 - name: create self-signed SSL certs placeholder
   file: path="/etc/nginx/ssl" state="directory"
