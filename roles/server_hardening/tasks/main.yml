@@ -32,6 +32,11 @@
 - name: Enable ufw
   ufw: state=enabled
 
+- name: Start ufw service
+  service:
+    name: ufw
+    state: started
+
 - name: Disallow password authentication
   action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
   notify:
