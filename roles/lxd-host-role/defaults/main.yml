@@ -1,0 +1,6 @@
+---
+
+lxd_storage_backend: dir
+
+# uncomment to have it used:
+# lxd_storage_device: /mnt/lxd_storage

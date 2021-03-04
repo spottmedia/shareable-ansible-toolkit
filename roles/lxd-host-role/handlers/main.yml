@@ -1,4 +1,0 @@
----
-
-- name: Initialize LXD
-  command: lxd init --auto --storage-backend=dir
