@@ -33,6 +33,6 @@
   rescue:
 
     - name: install python3-pip to the rescue
-        apt:
-          name:
-            - python3-pip
+      apt:
+        name:
+          - python3-pip
