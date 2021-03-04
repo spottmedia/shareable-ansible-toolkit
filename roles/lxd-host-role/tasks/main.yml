@@ -9,7 +9,7 @@
   when: (file_details.stat is not defined) or (not file_details.stat.exist)
   # parenthesis only for clearance not for any Bool logic ^
 
-- name: Install dependencies needed to run molecule
+- name: Install core dependencies needed to run molecule
   apt:
     name:
       - make
@@ -20,6 +20,19 @@
       - jq
       - git-core
       - libyaml-dev
-      - python-pip
       - wget
       - unzip
+
+- name: wrap python installation
+  block:
+    - name: install python-pip if it's there
+      apt:
+        name:
+          - python-pip
+
+  rescue:
+
+    - name: install python3-pip to the rescue
+        apt:
+          name:
+            - python3-pip
