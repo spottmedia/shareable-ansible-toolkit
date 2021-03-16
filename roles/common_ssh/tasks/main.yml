@@ -1,6 +1,7 @@
 ---
 # ssh keys setup
 
+# thanks https://jrs-s.net/2017/07/01/slow-ssh-logins/
 - name: Disable useDNS (rip slow ssh login)
   action: lineinfile dest=/etc/ssh/sshd_config regexp="^UseDNS no" line="UseDNS no" state=present
   notify:

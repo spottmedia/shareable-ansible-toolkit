@@ -49,7 +49,14 @@
   when: php_use_memcached
 
 - name: install php7.4 redis if needed
-  apt: pkg='php-redis' state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt:
+    name:
+      - php-redis
+      - php7.4-redis
+    state: present
+    update-cache: yes
+    install_recommends: no
+    cache_valid_time: 3600
   tags: common
   when: php_use_redis
 
