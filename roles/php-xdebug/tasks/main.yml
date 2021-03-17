@@ -16,5 +16,5 @@
   action: apt pkg={{ item }} state=present install_recommends=no cache_valid_time=3600
   tags: common
   with_items:
-    - php-xdebug
+    - "php{{ php_version }}-xdebug"
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
