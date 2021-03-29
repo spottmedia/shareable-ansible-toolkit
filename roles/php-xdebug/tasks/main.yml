@@ -18,3 +18,10 @@
   with_items:
     - "php{{ php_version }}-xdebug"
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+- name: Configure the xdebug for PHPSTORM
+  blockinfile:
+    path: "/etc/php/{{ php_version }}/mods-available/xdebug.ini"
+    block: "{{ xdebug_config }}"
+    insertafter: EOF
+    marker: "; {mark} ANSIBLE PHPSTORM MODS"
