@@ -14,8 +14,17 @@
 - name: Keepalive sessions
   lineinfile:
     dest: /etc/ssh/sshd_config
-    regexp: "^ClientAliveInterval 30"
-    line: "ClientAliveInterval 30"
+    regexp: "^ClientAliveInterval"
+    line: "ClientAliveInterval 60"
+    state: present
+  notify:
+    - Restart ssh
+
+- name: Keepalive sessions
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^ClientAliveCountMax"
+    line: "ClientAliveCountMax 60"
     state: present
   notify:
     - Restart ssh
