@@ -3,7 +3,20 @@
 
 # thanks https://jrs-s.net/2017/07/01/slow-ssh-logins/
 - name: Disable useDNS (rip slow ssh login)
-  action: lineinfile dest=/etc/ssh/sshd_config regexp="^UseDNS no" line="UseDNS no" state=present
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^UseDNS no"
+    line: "UseDNS no"
+    state: present
+  notify:
+    - Restart ssh
+
+- name: Keepalive sessions
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^ClientAliveInterval 30"
+    line: "ClientAliveInterval 30"
+    state: present
   notify:
     - Restart ssh
 
