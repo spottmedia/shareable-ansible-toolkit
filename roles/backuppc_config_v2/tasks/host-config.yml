@@ -1,0 +1,47 @@
+---
+- name: check if the host exists in the hosts file (delegated)
+  lineinfile:
+    path: "{{ backuppc_config_folder }}/hosts"
+    regexp: "^{{ host_config.name }}"
+    line: "{{ host_config.name }}\t{{ host_config.dhcp }}\t{{ host_config.user }}\t{{ host_config.moreUsers }}"
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated
+  notify: Reload backuppc delegated
+
+- name: check if the host exists in the hosts file
+  lineinfile:
+    path: "{{ backuppc_config_folder }}/hosts"
+    regexp: "^{{ host_config.name }}"
+    line: "{{ host_config.name }} {{ host_config.dhcp }} {{ host_config.user }} {{ host_config.moreUsers }}"
+  when: not backuppc_delegated
+  notify: Reload backuppc
+
+- name: materialize the config overrides
+  template:
+    src: host_config.j2
+    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}.pl"
+  when: not backuppc_delegated
+  notify: Reload backuppc
+
+- name: materialize the config overrides (delegated)
+  template:
+    src: host_config.j2
+    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}.pl"
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated
+  notify: Reload backuppc delegated
+
+- name: /etc/hosts alias for the server
+  lineinfile:
+    dest: "{{ backuppc_hosts_file }}"
+    line: "{{ backuppc_hosts_entry }}"
+    state: present
+  when: not backuppc_delegated and backuppc_hosts_entry != ""
+
+- name: /etc/hosts alias for the server (delegated)
+  lineinfile:
+    dest: "{{ backuppc_hosts_file }}"
+    line: "{{ backuppc_hosts_entry }}"
+    state: present
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated and backuppc_hosts_entry != ""

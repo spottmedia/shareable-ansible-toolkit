@@ -1,0 +1,7 @@
+---
+- name: Reload backuppc
+  command: "{{ backuppc_reload_command }}"
+
+- name: Reload backuppc delegated
+  command: "{{ backuppc_reload_command }}"
+  delegate_to: "{{ backuppc_server }}"
