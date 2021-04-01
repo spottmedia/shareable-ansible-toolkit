@@ -5,6 +5,7 @@ backuppc_bin_folder:     /usr/local/BackupPC/bin
 backuppc_config_folder:  /etc/BackupPC
 backuppc_reload_command: "{{ backuppc_bin_folder }}/BackupPC_serverMesg server reload"
 backuppc_hosts_entry: ""  # /etc/hosts alias for that share
+backuppc_hosts_entries: []  # list of hosts aliases
 backuppc_hosts_file: /etc/hosts
 backuppc_hosts: []
 # example
