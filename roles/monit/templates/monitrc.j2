@@ -17,15 +17,15 @@ check system {{ansible_hostname}}
     if loadavg (5min) > {{ ansible_processor_vcpus }} for 6 cycles then alert
 {% endif %}
     if memory usage > 99% for 4 cycles then alert
-    if swap usage > 90% for 2 cycles then alert
-    if swap usage > 50% for 4 cycles then alert
-    if swap usage > 33% for 6 cycles then alert
+    if swap usage > 33% for 6 cycles then {{ swap_usage_stage_1_notification | default('alert') }}
+    if swap usage > 50% for 4 cycles then {{ swap_usage_stage_2_notification | default('alert') }}
+    if swap usage > 90% for 2 cycles then {{ swap_usage_stage_3_notification | default('alert') }}
     if cpu usage (user) > 90% for 6 cycles then alert
     if cpu usage (system) > 50% for 6 cycles then alert
     if cpu usage (wait) > 25% for 6 cycles then alert
-check device var with path /
-		if SPACE usage > 80% then alert
-		if SPACE usage > 90% then alert
-		if SPACE usage > 99% then alert
+check device root with path /
+		if SPACE usage > 80% then {{ disk_usage_stage_1_notification | default('alert') }}
+		if SPACE usage > 90% then {{ disk_usage_stage_2_notification | default('alert') }}
+		if SPACE usage > 99% then {{ disk_usage_stage_3_notification | default('alert') }}
 
 
