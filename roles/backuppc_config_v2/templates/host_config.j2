@@ -1,0 +1,3 @@
+{% for key, value in host_config.config_override.items() %}
+$Conf{{ '{' }}{{ key }}{{ '}' }} = {{ value }};
+{% endfor %}

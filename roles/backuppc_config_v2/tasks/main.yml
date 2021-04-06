@@ -1,0 +1,38 @@
+---
+
+- name: make sure overrides folder exists
+  file:
+    dest: "{{ backuppc_config_folder }}/pc/"
+    state: directory
+  when: not backuppc_delegated
+  notify: Reload backuppc
+
+- name: make sure overrides folder exists (delegated)
+  file:
+    dest: "{{ backuppc_config_folder }}/pc/"
+    state: directory
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated
+  notify: Reload backuppc delegated
+
+- include: host-config.yml
+  vars:
+    host_config: "{{ item }}"
+  with_items: "{{ backuppc_hosts }}"
+
+- name: list of /etc/hosts aliases for the server
+  lineinfile:
+    dest: "{{ backuppc_hosts_file }}"
+    line: "{{ item }}"
+    state: present
+  with_items: "{{ backuppc_hosts_entries }}"
+  when: not backuppc_delegated
+
+- name: list of /etc/hosts aliases for the server (delegated)
+  lineinfile:
+    dest: "{{ backuppc_hosts_file }}"
+    line: "{{ item }}"
+    state: present
+  delegate_to: "{{ backuppc_server }}"
+  with_items: "{{ backuppc_hosts_entries }}"
+  when: backuppc_delegated
