@@ -5,6 +5,9 @@ monit_id_file: /var/lib/monit/id
 monit_monitor_loadavg: true
 monit_services: []
 monit_service_delete_unlisted: true
+monit_monit_swap: true
+monit_monit_cpu: true
+monit_monit_mem: true
 
 monit_mail_enabled: false
 monit_mailserver_host: localhost
