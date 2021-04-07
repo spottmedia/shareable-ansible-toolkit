@@ -45,3 +45,35 @@
     state: present
   delegate_to: "{{ backuppc_server }}"
   when: backuppc_delegated and backuppc_hosts_entry != ""
+
+- name: "setup tar export crontab {{ host_config.name }}"
+  cron:
+    name: "Tar export for {{ host_config.name }}"
+    special_time: daily
+    job: >
+      /usr/local/BackupPC/bin/BackupPC_tarCreate
+      -h {{ host_config.name }} -n -1 -s "*" /
+      > {{ host_config.preExportTarsDestination }}/{{ host_config.name }}
+  when: host_config.preExportTars is defined and host_config.preExportTars == true
+
+- name: "setup tar export crontab {{ host_config.name }} (delegated)"
+  cron:
+    name: "Tar export for {{ host_config.name }}"
+    special_time: daily
+    job: >
+      /usr/local/BackupPC/bin/BackupPC_tarCreate
+      -h {{ host_config.name }} -n -1 -s "*" /
+      > {{ host_config.preExportTarsDestination }}/{{ host_config.name }}
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated and host_config.preExportTars is defined and host_config.preExportTars == true
+
+  when: not backuppc_delegated
+  notify: Reload backuppc
+
+- name: materialize the config overrides (delegated)
+  template:
+    src: host_config.j2
+    dest: "{{ backuppc_config_folder }}/pc/{{ host_config.name }}.pl"
+  delegate_to: "{{ backuppc_server }}"
+  when: backuppc_delegated
+  notify: Reload backuppc delegated
