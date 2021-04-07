@@ -54,7 +54,7 @@
       /usr/local/BackupPC/bin/BackupPC_tarCreate
       -h {{ host_config.name }} -n -1 -s "*" /
       > {{ host_config.preExportTarsDestination }}/{{ host_config.name }}
-  when: host_config.preExportTars is defined and host_config.preExportTars == true
+  when: not backuppc_delegated and host_config.preExportTars is defined and host_config.preExportTars == true
 
 - name: "setup tar export crontab {{ host_config.name }} (delegated)"
   cron:
@@ -67,7 +67,6 @@
   delegate_to: "{{ backuppc_server }}"
   when: backuppc_delegated and host_config.preExportTars is defined and host_config.preExportTars == true
 
-  when: not backuppc_delegated
   notify: Reload backuppc
 
 - name: materialize the config overrides (delegated)
