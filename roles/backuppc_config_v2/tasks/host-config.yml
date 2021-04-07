@@ -45,3 +45,4 @@
     state: present
   delegate_to: "{{ backuppc_server }}"
   when: backuppc_delegated and backuppc_hosts_entry != ""
+Z
