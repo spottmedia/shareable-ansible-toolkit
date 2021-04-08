@@ -23,6 +23,13 @@ server {
     ssl_certificate {{ item.ssl_certificate_file }};
     ssl_certificate_key {{ item.ssl_certificate_key_file }};
 
+    ## Disable .htaccess and other hidden files (except well-known)
+    location ~ /\.(?!well-known).* {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
 	location / {
         fastcgi_read_timeout 99;
         try_files $uri $uri/ $uri/index.php?$args  /index.php?$args;
