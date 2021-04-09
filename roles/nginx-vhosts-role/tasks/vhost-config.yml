@@ -33,7 +33,7 @@
       set_fact:
         basic_auth_pass: "{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
       changed_when: false
-      
+
     - name: generate htpasswd
       htpasswd:
         path: "/var/security/{{ item.server_name }}.htpasswd"

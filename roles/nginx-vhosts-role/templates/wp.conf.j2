@@ -30,6 +30,12 @@ server {
         log_not_found off;
     }
 
+    location provisioning {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
 	location / {
 	    {% if item.use_auth is defined and item.use_auth == true %}
         auth_basic "Welcome";
