@@ -23,15 +23,9 @@
         name: passlib
         executable: pip
 
-
-    - name: Check if we generated basic auth for this vhost
-      stat:
-        path: "/var/security/{{ item.server_name }}.htpasswd"
-      register: stat_result
-
     - name: generate password string
       set_fact:
-        basic_auth_pass: "{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+        basic_auth_pass: "{{ lookup('password', '/var/security/{{ item.server_name }}.passwd chars=ascii_lowercase,digits length=8') }}"
       changed_when: false
 
     - name: generate htpasswd
@@ -42,7 +36,6 @@
         owner: www-data
         group: www-data
         mode: 0660
-      when: not stat_result.stat.exists  # do not attempt to regenerate the file
 
   when: item.use_auth is defined and item.use_auth == true
 
