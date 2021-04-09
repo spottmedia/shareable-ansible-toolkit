@@ -1,4 +1,11 @@
-- mysql_user:
+- name: Create User's db
+  mysql_db:
+    name:
+      - "{{ mysql_user.db }}"
+    state: present
+
+- name: Add User and their permissions to the db
+  mysql_user:
       name: "{{ mysql_user.name }}"
       password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + inventory_hostname +'_pass'), true) }}"
       priv: "{{ mysql_user.db }}.*:ALL,GRANT"
