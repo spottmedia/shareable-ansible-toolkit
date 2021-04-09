@@ -31,6 +31,12 @@ server {
     }
 
 	location / {
+	    {% if item.use_auth is defined and item.use_auth == true %}
+        auth_basic "Welcome";
+#       user :: "{{ basic_auth_pass }}"
+        auth_basic_user_file /var/security/{{ item.server_name }}.htpasswd;
+        {% endif %}
+
         fastcgi_read_timeout 99;
         try_files $uri $uri/ $uri/index.php?$args  /index.php?$args;
     }

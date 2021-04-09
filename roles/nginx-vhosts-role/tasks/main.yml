@@ -1,4 +1,5 @@
 ---
+
 - include: vhost-config.yml
   vars:
     template: "{{ item.template }}"

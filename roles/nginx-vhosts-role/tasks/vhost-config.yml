@@ -1,3 +1,42 @@
+- name: basic-auth routine
+  block:
+
+    - name: install pip
+      apt:
+        pkg:
+          - python-pip
+          - python-setuptools
+          - python3-pip
+          - python3-setuptools
+        state: present
+        update-cache: yes
+        install_recommends: no
+        cache_valid_time: 3600
+
+    - name: install passlib pip for htpasswd
+      pip:
+        name: passlib
+        executable: pip3
+
+    - name: install passlib pip for htpasswd
+      pip:
+        name: passlib
+        executable: pip
+
+    - name: generate password string
+      set_fact:
+        basic_auth_pass: "{{ lookup('password', '/dev/null chars=ascii_lowercase,digits length=8') }}"
+    - name: generate htpasswd
+      htpasswd:
+        path: "/var/security/{{ item.server_name }}.htpasswd"
+        name: "user"
+        password: "{{ basic_auth_pass }}"
+        owner: www-data
+        group: www-data
+        mode: 0660
+
+  when: item.use_auth is defined and item.use_auth == true
+
 - name: Copy vhost
   template: src="{{ template }}" dest="/etc/nginx/sites-available/{{ server_name }}.conf" mode="u+x,g+x,o+x"
   notify: Reload Nginx
