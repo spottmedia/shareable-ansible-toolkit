@@ -72,16 +72,13 @@
     install_recommends: false
     update-cache: true
     cache_valid_time: 3600
-  tags: common
 
 - name: General | Additional packages for <= 16 ubuntus
   action: apt pkg=libpng12-dev state=present install_recommends=no update-cache=yes cache_valid_time=3600
-  tags: common
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
 
 - name: General | Install required packages for ubuntu <= 16.
   action: apt pkg=libav-tools state=present install_recommends=no update-cache=yes cache_valid_time=3600
-  tags: common
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
 
 - name: Set up a hostname
