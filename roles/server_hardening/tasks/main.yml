@@ -44,9 +44,11 @@
 
 - name: Install unattended-upgrades
   action: apt pkg=unattended-upgrades state=present install_recommends=no
+  when: with_unattended is true
 
 - name: Adjust APT update intervals
   template: src=../templates/apt-periodic.j2 dest=/etc/apt/apt.conf.d/10periodic
+  when: with_unattended is true
 
 - name: Make logwatch mail {{ logwatch_email }} daily
   action: lineinfile dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto {{ logwatch_email }} --detail high" state=present create=yes
