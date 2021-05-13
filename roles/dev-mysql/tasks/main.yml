@@ -38,4 +38,18 @@
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
   notify: Restart mysql
 
+- name: check if unattended upgrades config file exists
+  stat:
+    path: "/etc/apt/apt.conf.d/50unattended-upgrades"
+  register: unattended_config_check
+
+- name: Skip mysql's unattended upgrading
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    line: '"mysql*";'
+    insertafter: "^Unattended-Upgrade::Package-Blacklist {"
+  when:
+    - unattended_config_check.stat.exists == true
+    - mysql_skip_unattended == true
+
 - include: mysql-users.yml
