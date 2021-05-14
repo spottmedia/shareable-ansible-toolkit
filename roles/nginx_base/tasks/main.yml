@@ -8,9 +8,16 @@
 #
 
 # some issues installing certbot on ubuntu 18.04
-- name: Packages needed for adding nginx repository for 18.04
-  apt: pkg=gnupg2 state=present update-cache=yes install_recommends=no cache_valid_time=3600
-  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int == 18
+- name: Packages needed for adding nginx repository for 18.04+
+  apt:
+    pkg:
+      - gnupg2
+      - gnupg
+    state: present
+    update-cache: yes
+    install_recommends: no
+    cache_valid_time: 3600
+  when: ansible_distribution == 'Ubuntu' and ansible_lsb.major_release|int >= 18
 
 - name: Add nginx repo
   apt_repository:
