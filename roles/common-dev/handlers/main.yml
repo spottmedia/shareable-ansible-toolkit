@@ -5,7 +5,7 @@
 - name: grub-update
   shell: update-grub
 
-- name: reboot
+- name: server-reboot
   reboot:
     msg: "Reboot initiated by Ansible"
     connect_timeout: 5

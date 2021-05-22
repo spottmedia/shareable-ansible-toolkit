@@ -37,7 +37,8 @@
           backup: yes
         notify:
           - grub-update
-          - reboot
+          - server-reboot
+
       - name: Disable IPv6 in grub (default)
         replace:
           dest: /etc/default/grub
@@ -47,7 +48,8 @@
           backup: yes
         notify:
           - grub-update
-          - reboot
+          - server-reboot
+
     when: disable_ipv6_grub is defined
   when: disable_ipv6 is defined
 
