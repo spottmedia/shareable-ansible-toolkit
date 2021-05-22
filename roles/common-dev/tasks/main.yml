@@ -26,6 +26,29 @@
 
     - name: General | enable ipv6
       sysctl: name="net.ipv6.conf.lo.disable_ipv6" value="1"
+
+    - block:
+      - name: Disable IPv6 in grub
+        replace:
+          dest: /etc/default/grub
+          regexp: '^GRUB_CMDLINE_LINUX="(.*)"'
+          replace: 'GRUB_CMDLINE_LINUX="\1 ipv6.disable=1"'
+          mode: '0644'
+          backup: yes
+        notify:
+          - grub-update
+          - reboot
+      - name: Disable IPv6 in grub (default)
+        replace:
+          dest: /etc/default/grub
+          regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*)"'
+          replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 ipv6.disable=1"'
+          mode: '0644'
+          backup: yes
+        notify:
+          - grub-update
+          - reboot
+    when: disable_ipv6_grub is defined
   when: disable_ipv6 is defined
 
 #- name: General | Message of the day explaining server is under Ansible control.
