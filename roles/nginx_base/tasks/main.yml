@@ -25,9 +25,27 @@
     state: present
   notify: Nginx Update APT
 
-- name: General | Install required packages.
-  action: apt pkg=nginx state=present update-cache=yes install_recommends=no cache_valid_time=3600
-  tags: common
+- name: Wrap nginx stallation to evade ipv6 not being there
+  block:
+
+  - name: General | Install required packages.
+    action: apt pkg=nginx state=present update-cache=yes install_recommends=no cache_valid_time=3600
+    tags: common
+
+  rescue:
+    - name:
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Restat nginx after removing the default (and bugged) vhost
+      service: name=nginx state=restarted
+
+    - name: Fix the nginx package
+      apt:
+        name:
+          - nginx
+        state: fixed
 
 - name: Add certbot repo
   apt_repository:
