@@ -19,7 +19,7 @@
   when: apache_with_fpm
 
 - name: php-fpm config listen address remove add new
-  lineinfile: dest=/etc/php/7.4/fpm/pool.d/www.conf line="listen = /run/php/php7.3-fpm.sock" state=present
+  lineinfile: dest=/etc/php/7.4/fpm/pool.d/www.conf line="listen = /run/php/php7.4-fpm.sock" state=present
   notify:
     - Restart PHP-FPM 7.4
   when: apache_with_fpm
@@ -78,12 +78,12 @@
   when: not apache_with_fpm
 
 - name: General | Remove libapache mod php7.4 if using fpm.
-  apt: pkg=libapache2-mod-php7.3 state=absent update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=libapache2-mod-php7.4 state=absent update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   when: apache_with_fpm
 
 - name: General | Install libapache mod php7.4 if not using fpm.
-  apt: pkg=libapache2-mod-php7.3 state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  apt: pkg=libapache2-mod-php7.4 state=present update-cache=yes install_recommends=no cache_valid_time=3600
   tags: common
   when: not apache_with_fpm
 
