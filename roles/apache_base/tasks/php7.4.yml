@@ -1,0 +1,93 @@
+---
+##
+# Ansible playbook for setting up an Apache web tier
+#
+
+##
+# Apt package installation of required software.
+#
+- name: General | Install required packages.
+  apt: pkg=php7.4-mysql state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+
+- name: Enable php-fpm 7.4 config for apache
+  command: a2enconf php7.4-fpm creates=/etc/apache2/conf-enabled/php7.4-fpm.conf
+  when: apache_with_fpm
+
+- name: php-fpm config listen address remove old
+  lineinfile: dest=/etc/php/7.4/fpm/pool.d/www.conf line="listen = 127.0.0.1:7777" state=absent
+  when: apache_with_fpm
+
+- name: php-fpm config listen address remove add new
+  lineinfile: dest=/etc/php/7.4/fpm/pool.d/www.conf line="listen = /run/php/php7.3-fpm.sock" state=present
+  notify:
+    - Restart PHP-FPM 7.4
+  when: apache_with_fpm
+
+- name: Enable php7.4 memcached if needed
+  file:
+    src: /etc/php/7.4/mods-available/memcached.ini
+    dest: /etc/php/7.4/fpm/conf.d/25-memcached.ini
+    state: link
+    force: true
+  when: php_use_memcached and apache_with_fpm
+  notify:
+    - Restart PHP-FPM 7.4
+
+- name: Flush Handlers.
+  meta: flush_handlers
+
+
+- name: Apache | Disable php7.1 module for FPM
+  apache2_module: state=absent name={{item}}
+  with_items:
+    - php7.3
+    - php7.2
+    - php7.1
+    - php7.0
+  notify: Restart Apache
+  ignore_errors: True
+  when: apache_with_fpm
+
+- debug:
+    msg: "apache_with_fpm: {{ apache_with_fpm}}"
+
+- name: Apache | Disable prefork module for php 7.4 + fpm
+  apache2_module: state=absent name={{item}} ignore_configcheck=true
+  with_items:
+    - mpm_prefork
+  notify: Restart Apache
+  when: apache_with_fpm
+
+- name: Apache | Enable event module for php 7.4 + fpm
+  apache2_module: state=absent name=mpm_event ignore_configcheck=true
+  when: not apache_with_fpm
+
+- name: Apache | Disable event module for php 7.4
+  apache2_module: state=present name=mpm_event ignore_configcheck=true
+  when: apache_with_fpm
+
+- name: Apache | Tweak mpm_event for php 7.4
+  template: src=mpm_event.conf.j2 dest=/etc/apache2/mods-enabled/mpm_event.conf
+  notify: Restart Apache
+  when: apache_with_fpm
+
+- name: Apache | Enable prefork module for php 7.4
+  apache2_module: state=present name=mpm_prefork ignore_configcheck=true
+  notify: Restart Apache
+  when: not apache_with_fpm
+
+- name: General | Remove libapache mod php7.4 if using fpm.
+  apt: pkg=libapache2-mod-php7.3 state=absent update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: apache_with_fpm
+
+- name: General | Install libapache mod php7.4 if not using fpm.
+  apt: pkg=libapache2-mod-php7.3 state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: not apache_with_fpm
+
+- name: Apache | Enable php7.4 module
+  apache2_module: state=present name=php7.4
+  notify: Restart Apache
+  when: not apache_with_fpm
