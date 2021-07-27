@@ -1,0 +1,5 @@
+---
+
+deploy_environment: development
+project_path: /var/www/project
+canary_token: '***** ***'  # just a perfectly random and meaningless bunch of characters

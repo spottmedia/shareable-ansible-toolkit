@@ -1,0 +1,46 @@
+---
+
+- name: "See if {{ project_path }} has the .env.example file to hydrate"
+  stat:
+    path: "{{ project_path }}.env.example"
+  register: env_example_stat
+
+- assert:
+    that:
+      - env_example_stat.stat.exists
+
+- block:
+
+    - name: Import env specific flags (non secret .env settings that developers can change as they go)
+      include_vars:
+        file: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
+        name: flags
+
+    - debug:
+        var: deploy_environment
+      changed_when: true
+
+    # NOTE: Additional Vault vars should already be imported into the current environment at this point
+
+    - name: "Hydrate the {{ project_path }}'s .env"
+      template:
+        src: "{{ project_path }}/.env.example"
+        dest: "{{ project_path }}/.env"
+
+    - name: "Read the hydrated .env file back for sanitization"
+      shell: "cat {{ project_path }}/.env"
+      register: env_cat_result
+
+    - debug:
+        var: env_cat_result
+      when: env_cat_result.stdout.find(canary_token) != -1
+      changed_when: env_cat_result.stdout.find(canary_token) != -1
+
+    - name: "The first sanitization stage to make sure we aren't left with missed tokens for {{ item.slug }}"
+      assert:
+        that:
+          # all env tokens must be explicitly defined and have some value (even if just an empty string),
+          # thus we make sure our carefully hand-crafted canary string isn't there
+          - env_cat_result.stdout.find(canary_token) == -1
+
+  when: env_example_stat.stat.exists
