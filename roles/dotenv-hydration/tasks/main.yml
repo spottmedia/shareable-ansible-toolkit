@@ -15,7 +15,6 @@
       fetch:
         src: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
         dest: "/tmp/{{ deploy_environment }}.yml"
-        flat: yes
 
     - name: Import env specific flags (non secret .env settings that developers can change as they go)
       include_vars:
