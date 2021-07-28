@@ -11,10 +11,16 @@
 
 - block:
 
-    - name: Import env specific flags (non secret .env settings that developers can change as they go)
-      slurp:
+    - name: Load flags back to controller so that include_vars can work...
+      fetch:
         src: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
-      register: flags
+        dest: "/tmp/{{ deploy_environment }}.yml"
+        flat: yes
+
+    - name: Import env specific flags (non secret .env settings that developers can change as they go)
+      include_vars:
+        file: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
+        name: flags
 
     - debug:
         var: deploy_environment
