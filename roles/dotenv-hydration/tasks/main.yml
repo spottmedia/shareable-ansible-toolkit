@@ -12,9 +12,9 @@
 - block:
 
     - name: Import env specific flags (non secret .env settings that developers can change as they go)
-      include_vars:
-        file: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
-        name: flags
+      slurp:
+        src: "{{ project_path }}/env_flags/{{ deploy_environment }}.yml"
+      register: flags
 
     - debug:
         var: deploy_environment
