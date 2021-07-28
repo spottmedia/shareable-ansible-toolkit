@@ -2,7 +2,7 @@
 
 - name: "See if {{ project_path }} has the .env.example file to hydrate"
   stat:
-    path: "{{ project_path }}.env.example"
+    path: "{{ project_path }}/.env.example"
   register: env_example_stat
 
 - assert:
