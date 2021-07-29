@@ -9,13 +9,6 @@
     that:
       - env_example_stat.stat.exists
 
-- shell: "cat {{ project_path }}/.env.example"
-  register: dot_env_content
-
-- debug:
-    var: dot_env_content
-  changed_when: true
-
 - block:
 
     - block:
@@ -55,13 +48,6 @@
             dest: "/tmp/.env.example"
             flat: true
 
-        - shell: "cat /tmp/.env.example"
-          register: dot_env_content2
-          delegate_to: localhost
-
-        - debug:
-            var: dot_env_content2
-          changed_when: true
 
         - name: "Hydrate the {{ project_path }}'s .env"
           template:
