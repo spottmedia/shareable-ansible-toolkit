@@ -9,6 +9,13 @@
     that:
       - env_example_stat.stat.exists
 
+- shell: "cat {{ project_path }}/.env.example"
+  register: dot_env_content
+
+- debug:
+    var: dot_env_content
+  changed_when: true
+
 - block:
 
     - block:
