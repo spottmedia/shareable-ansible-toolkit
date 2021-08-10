@@ -13,11 +13,7 @@ ServerAlias {{ server_alias }}
 <Directory {{ document_root }}>
 allow from all
 AllowOverride All
-Options -Indexes
-</Directory>
-<Directory "{{ document_root }}">
-allow from all
-Options None
+Options -Indexes +FollowSymLinks
 Require all granted
 </Directory>
 </VirtualHost>
@@ -41,6 +37,7 @@ ServerAlias {{ server_alias }}
 allow from all
 AllowOverride All
 Options -Indexes
+Require all granted
 </Directory>
 SSLEngine on
 
@@ -51,9 +48,4 @@ SSLCertificateKeyFile  {{ ssl_certificate_key_file }}
 SSLCACertificateFile   {{ ssl_ca_certificate_file }}
 {% endif %}
 
-<Directory "{{ document_root }}">
-allow from all
-Options None
-Require all granted
-</Directory>
 </VirtualHost>
