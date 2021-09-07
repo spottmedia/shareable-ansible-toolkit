@@ -3,6 +3,7 @@
     name:
       - "{{ mysql_user.db }}"
     state: present
+  when: mysql_user.db != '*'
 
 - name: Add User and their permissions to the db
   mysql_user:
