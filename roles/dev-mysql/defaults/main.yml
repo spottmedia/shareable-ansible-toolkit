@@ -1,4 +1,4 @@
 ---
 mysql_root_password: "{{ lookup('password', '{{ playbook_dir }}/secret/mysql_root_password_file length=15 chars=ascii_letters') }}"
 mysql_skip_unattended: true  # we don't want mysql to get rebooted by the automation
-mysql_default_bind_address: 127.0.0.1
+mysql_listen_address: 127.0.0.1

@@ -33,6 +33,12 @@
     line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
+- name: "Apply the mysql config file"
+  template:
+    src: "mysqld.cnf.j2"
+    dest: "/etc/mysql/mysql.conf.d/99-ansible.cnf"
+    mode: 0644
+
 - name: check if unattended upgrades config file exists
   stat:
     path: "/etc/apt/apt.conf.d/50unattended-upgrades"
