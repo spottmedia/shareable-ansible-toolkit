@@ -33,11 +33,6 @@
     line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
-- name: mysql remove localhost-only bind
-  replace: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp="[\t ]*bind-address[\t ]*=[\t ]*127\.0\.0\.1" replace="bind-address = 0.0.0.0"
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
-  notify: Restart mysql
-
 - name: check if unattended upgrades config file exists
   stat:
     path: "/etc/apt/apt.conf.d/50unattended-upgrades"
