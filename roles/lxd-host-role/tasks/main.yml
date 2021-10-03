@@ -1,12 +1,25 @@
 ---
-- name: Ansible check if LXD already installed via snap
-  stat:
-    path: /snap/lxd/current/
-  register: snap_lxd_path
+
+- name: LXD | Wrap version fetching
+  block:
+    - name: LXD | Get the current lxd version
+      command: lxd --version
+      register: lxd_version_output
+      changed_when: false   # for idempodence
+
+    - name: LXD | set concrete binary versions' facts
+      set_fact:
+        lxd_current_version: "{{ lxd_version_output.stdout | regex_search('[0-9]+\\.[0-9]+\\.[0-9]') }}"
+  rescue:
+
+    - name: LXD | set empty binary versions' facts
+      set_fact:
+        lxd_current_version: ""
 
 - name: proceed with LXD installation
   include: install-lxd-ubuntu.yml
-  when: (file_details.stat is not defined) or (not file_details.stat.exist)
+  when: lxd_current_version != lxd_version
+
   # parenthesis only for clearance not for any Bool logic ^
 
 - name: Install core dependencies needed to run molecule

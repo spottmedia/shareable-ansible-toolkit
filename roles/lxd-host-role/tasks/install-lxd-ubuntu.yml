@@ -1,19 +1,6 @@
 ---
 
-- name: See if LXD is already initialize
-  block:
-
-  - shell: lxc storage list | grep default
-    register: lxc_storage_result
-    changed_when: false
-
-  rescue:
-
-    - debug:
-        msg: "LXD not installed yet"
-
-- name: Install & Init LXD if it wasn't before
-  block:
+- block:
     - name: Install SNAP
       apt:
         state: present
@@ -32,7 +19,7 @@
 
     - name: Install lxd from snap
       snap:
-        channel: "4.18/stable"
+        channel: "{{ lxd_version }}/stable"
         name:
           - lxd
 
@@ -45,6 +32,19 @@
           - lxc
     # TODO: let's try to pre-seed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
 
+- name: See if LXD is already initialize
+  block:
+
+  - shell: lxc storage list | grep default
+    register: lxc_storage_result
+    changed_when: false
+
+  rescue:
+
+    - debug:
+        msg: "LXD not installed yet"
+
+- block:
     - name: Initialize LXD with specific device
       command: "lxd init --auto --storage-backend={{ lxd_storage_backend }} --storage-create-device={{ lxd_storage_device }}"
       when: lxd_storage_device is defined
