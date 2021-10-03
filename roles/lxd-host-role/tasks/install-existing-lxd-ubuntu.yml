@@ -1,0 +1,3 @@
+---
+
+- command: "snap refresh --channel={{ lxd_version }}/stable lxd"

@@ -16,9 +16,30 @@
       set_fact:
         lxd_current_version: ""
 
-- name: proceed with LXD installation
-  include: install-lxd-ubuntu.yml
-  when: lxd_current_version != lxd_version
+- name: proceed with FRESH LXD installation
+  include: install-fresh-lxd-ubuntu.yml
+  when: lxd_current_version == ""
+
+- name: proceed with existing LXD installation
+  include: install-existing-lxd-ubuntu.yml
+  when:
+    - lxd_current_version != ""
+    - lxd_current_version != lxd_version
+
+- shell: lxc storage list | grep default
+  register: lxc_storage_result
+  changed_when: false
+
+- block:
+    - name: Initialize LXD with specific device
+      command: "lxd init --auto --storage-backend={{ lxd_storage_backend }} --storage-create-device={{ lxd_storage_device }}"
+      when: lxd_storage_device is defined
+
+    - name: Initialize LXD with specific device
+      command: "lxd init --auto --storage-backend={{ lxd_storage_backend }}"
+      when: lxd_storage_device is not defined
+
+  when: lxc_storage_result.stdout is not defined or lxc_storage_result.stdout == ""
 
   # parenthesis only for clearance not for any Bool logic ^
 

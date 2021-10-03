@@ -1,0 +1,34 @@
+---
+
+- block:
+
+    - name: Install SNAP
+      apt:
+        state: present
+        name:
+          - snapd
+
+    - name: Remove apt packages
+      apt:
+        purge: true
+        state: absent
+        name:
+          - lxd
+          - lxd-client
+          - liblxc1
+          - lxcfs
+
+    - name: Install lxd from snap
+      snap:
+        channel: "{{ lxd_version }}/stable"
+        name:
+          - lxd
+
+    - name: Install LXC back in
+      apt:
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+        name:
+          - lxc
+    # TODO: let's try to pre-seed it at some point as in https://lxd.readthedocs.io/en/latest/preseed/
