@@ -1,12 +1,19 @@
 ---
 
 - block:
+
     - name: Install SNAP
       apt:
         state: present
         name:
           - snapd
 
+    - name: Remove lxd snap prior to install/upgrade
+      snap:
+        state: absent
+        name:
+          - lxd
+          -
     - name: Remove apt packages
       apt:
         purge: true
