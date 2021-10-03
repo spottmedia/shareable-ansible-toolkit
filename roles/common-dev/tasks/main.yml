@@ -27,9 +27,7 @@
           replace: 'GRUB_CMDLINE_LINUX="\1 ipv6.disable=1"'
           mode: '0644'
           backup: yes
-        notify:
-          - grub-update
-          - server-reboot
+        register: grup_ipv6_result
 
       - name: Disable IPv6 in grub (default)
         replace:
@@ -38,9 +36,21 @@
           replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 ipv6.disable=1"'
           mode: '0644'
           backup: yes
-        notify:
-          - grub-update
-          - server-reboot
+        register: grup_ipv6_default_result
+
+      - name: grub-update
+        shell: update-grub
+        when: grup_ipv6_result.changed or grup_ipv6_default_result.changed
+
+      - name: server-reboot
+        reboot:
+          msg: "Reboot initiated by Ansible"
+          connect_timeout: 5
+          reboot_timeout: 600
+          pre_reboot_delay: 0
+          post_reboot_delay: 30
+          test_command: whoami
+        when: grup_ipv6_result.changed or grup_ipv6_default_result.changed
 
       when: disable_ipv6_grub is defined
   when: disable_ipv6 is defined
