@@ -26,9 +26,17 @@
     - lxd_current_version != ""
     - lxd_current_version != lxd_version
 
-- shell: lxc storage list | grep default
-  register: lxc_storage_result
-  changed_when: false
+- name: See if LXD is already initialized
+  block:
+
+  - shell: lxc storage list | grep default
+    register: lxc_storage_result
+    changed_when: false
+
+  rescue:
+
+    - debug:
+        msg: "LXD not initialized yet"
 
 - block:
     - name: Initialize LXD with specific device
