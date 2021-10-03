@@ -13,7 +13,7 @@
         state: absent
         name:
           - lxd
-          -
+
     - name: Remove apt packages
       apt:
         purge: true
