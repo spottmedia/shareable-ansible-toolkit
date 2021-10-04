@@ -1,4 +1,4 @@
 ---
 
-- name: :XD | refresh snap with the wanted version
+- name: LXD | refresh snap with the wanted version
   command: "snap refresh --channel={{ lxd_version }}/stable lxd"
