@@ -16,9 +16,9 @@
       set_fact:
         lxd_current_version: ""
 
-- debug: LXD | Found version number
-    var: lxd_current_version
-  changed_when: true
+#- debug: LXD | Found version number
+#    var: lxd_current_version
+#  changed_when: true
 
 - name: proceed with FRESH LXD installation
   include: install-fresh-lxd-ubuntu.yml
