@@ -46,6 +46,10 @@
   action: apt pkg=unattended-upgrades state=present install_recommends=no
   when: with_unattended is true
 
+- name: Install unattended-upgrades
+  action: apt pkg=unattended-upgrades state=absent install_recommends=no
+  when: with_unattended is false
+
 - name: Adjust APT update intervals
   template: src=../templates/apt-periodic.j2 dest=/etc/apt/apt.conf.d/10periodic
   when: with_unattended is true
