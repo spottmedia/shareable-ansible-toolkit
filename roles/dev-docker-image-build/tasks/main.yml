@@ -20,15 +20,14 @@
     name: docker
 
 - name: copy the dockerfile
-  template:
-    src: "Dockerfile.j2"
-    dest: /var/lib/Dockerfile
-  when: build_path == "/var/lib/"
+  copy:
+    src: "{{ build_path }}/Dockerfile"
+    dest: "/tmp/ansible_{{ docker_image_name }}/Dockerfile"
 
 - name: Build the image
   docker_image:
     debug: true
-    build_path: "{{ build_path }}"
+    build_path: "/tmp/ansible_{{ docker_image_name }}/Dockerfile"
     state: present
     name: "{{ docker_image_name }}"
 #    force: true
