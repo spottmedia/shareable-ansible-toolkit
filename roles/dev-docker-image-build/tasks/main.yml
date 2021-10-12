@@ -19,6 +19,11 @@
   pip:
     name: docker
 
+- name: make sure dockerfile holding directory exists
+  file:
+    path: "/tmp/ansible_{{ docker_image_name }}"
+    state: directory
+
 - name: copy the dockerfile
   copy:
     src: "{{ build_path }}/Dockerfile"
