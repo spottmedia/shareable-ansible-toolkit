@@ -32,7 +32,7 @@
 - name: Build the image
   docker_image:
     debug: true
-    build_path: "/tmp/ansible_{{ docker_image_name }}/Dockerfile"
+    build_path: "/tmp/ansible_{{ docker_image_name }}"
     state: present
     name: "{{ docker_image_name }}"
 #    force: true
