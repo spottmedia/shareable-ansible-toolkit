@@ -1,0 +1,7 @@
+---
+
+- name: Replace the default lxc netplan template to make the ip static (a hack)
+  template:
+    src: 10-lxc.yaml.j2
+    dest: /etc/netplan/10-lxc.yaml
+  register: lxc_netplan_result
