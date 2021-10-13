@@ -3,7 +3,7 @@ network:
   ethernets:
     eth0:
       dhcp4: no
-      addresses: [{{ lxd_container_ip }}/24]
-      gateway4: {{ lxd_container_ip.split('.')[:-1] | join('.') }}.1
+      addresses: [{{ ansible_eth0.ipv4.address }}/24]
+      gateway4: {{ ansible_eth0.ipv4.address.split('.')[:-1] | join('.') }}.1
       nameservers:
         addresses: [8.8.8.8,4.4.4.4]
