@@ -55,6 +55,9 @@
 
   # parenthesis only for clearance not for any Bool logic ^
 
+- name: Make the DHCP quite static
+  command: lxc network set lxdbr0 ipv4.dhcp.expiry 99999h
+
 - name: Install core dependencies needed to run molecule
   apt:
     name:
