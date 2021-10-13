@@ -23,11 +23,11 @@
 
 - name: UFW allow custom rules
   ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}" proto="{{ item.proto | default('any')}}"
-  with_items: "{{ ufw_allow }}"
+  loop: "{{ ufw_allow }}"
 
 - name: UFW allow custom rules
   ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}" proto="{{ item.proto | default('any')}}"
-  with_items: "{{ ufw_deny }}"
+  loop: "{{ ufw_deny }}"
 
 - name: Enable ufw
   ufw: state=enabled
