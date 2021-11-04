@@ -3,4 +3,5 @@
 logwatch_email: root
 ufw_deny: []
 ufw_allow: []
+ufw_topup_allow: []
 with_unattended: true

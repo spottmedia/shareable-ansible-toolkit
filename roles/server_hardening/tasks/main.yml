@@ -26,6 +26,10 @@
   loop: "{{ ufw_allow }}"
 
 - name: UFW allow custom rules
+  ufw: rule=allow port="{{ item.port }}" src="{{ item.from }}" proto="{{ item.proto | default('any')}}"
+  loop: "{{ ufw_topup_allow }}"
+
+- name: UFW allow custom rules
   ufw: rule=deny port="{{ item.port }}" src="{{ item.from }}" proto="{{ item.proto | default('any')}}"
   loop: "{{ ufw_deny }}"
 
