@@ -7,7 +7,11 @@
 
 - name: Copy service file template, remove trailing and leading slashes, replace other to the form systemd wants them in
   template: src=nfs-client.mount.j2 dest="/lib/systemd/system/{{ systemd_escaped.stdout }}.mount"
-  notify: Daemon Reload
+  register: nfs_service_result
+
+- systemd:
+    daemon_reload: yes
+  when: nfs_service_result.changed
 
 - name: Enable the nfs-client service
   service: name="{{ systemd_escaped.stdout }}.mount" enabled=true
