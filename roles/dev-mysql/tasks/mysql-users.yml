@@ -7,7 +7,7 @@
 #  tags: common
 
 - fail:
-    msg: [mysql_root_password] should be defined and not empty
+    msg: "[mysql_root_password] should be defined and not empty"
   when: mysql_root_password is not defined or mysql_root_password == ""
 
 - name: MySQL | Config for easy access as root user
