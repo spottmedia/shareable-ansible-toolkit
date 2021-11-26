@@ -6,6 +6,10 @@
 #  service: name=mysql state=restarted
 #  tags: common
 
+- fail:
+    msg: [mysql_root_password] should be defined and not empty
+  when: mysql_root_password is not defined or mysql_root_password == ""
+
 - name: MySQL | Config for easy access as root user
   action: template src=../templates/root-my-cnf.j2 dest=/root/.my.cnf
   tags: common
