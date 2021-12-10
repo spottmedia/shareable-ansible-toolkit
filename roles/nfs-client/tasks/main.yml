@@ -8,7 +8,7 @@
   with_items: "{{ nfs_mounts }}"
 
 - name: set mountpoints
-  include: install-mount-services.yml
+  include_tasks: install-mount-services.yml
 #  mount: name="{{ item.target }}" src="{{ item.source }}" fstype=nfs dump=0 passno=2 state=mounted
   loop: "{{ nfs_mounts }}"
   loop_control:
