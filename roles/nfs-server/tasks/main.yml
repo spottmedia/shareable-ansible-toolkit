@@ -9,7 +9,7 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- include: share-config.yml
+- include_tasks: share-config.yml
   vars:
     nfs_share: "{{ item }}"
   with_items: "{{ nfs_shares }}"
