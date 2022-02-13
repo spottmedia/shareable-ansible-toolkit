@@ -1,6 +1,6 @@
 ---
 
-- include: user_create.yml mysql_user="{{ mysql_user_item }}"
+- include_tasks: user_create.yml mysql_user="{{ mysql_user_item }}"
   with_items: "{{ mysql_users }}"
   loop_control:
       loop_var: mysql_user_item
