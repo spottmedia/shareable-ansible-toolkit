@@ -1,3 +1,4 @@
 ---
 
 mysql_pass_store_prefix: "/tmp"
+mysql_default_grants: "ALL,GRANT"

@@ -9,7 +9,7 @@
   mysql_user:
       name: "{{ mysql_user.name }}"
       password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + inventory_hostname +'_pass'), true) }}"
-      priv: "{{ mysql_user.db }}.*:ALL,GRANT"
+      priv: "{{ mysql_user.db }}.*:{{ mysql_user.grants | default(mysql_default_grants, true) }}"
       host: "{{ item }}"
       state: present
   loop: "{{ mysql_user.hosts }}"
