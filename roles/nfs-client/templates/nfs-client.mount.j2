@@ -10,7 +10,7 @@ What={{ item.source }}
 Where={{ item.target }}
 Type=nfs
 TimeoutSec=245s
-Options=_netdev,auto{% if nfs_client_service_fsc %},fsc{% endif %}{% if nfs_client_service_uid %},uid={{ nfs_client_service_uid }}{% endif %}{% if nfs_client_service_gid %},gid={{ nfs_client_service_gid }}{% endif %}
+Options=_netdev,auto{% if nfs_client_service_fsc %},fsc{% endif %}{% if item.uid %},uid={{ item.uid }}{% endif %}{% if item.gid %},gid={{ item.gid }}{% endif %}
 
 [Install]
 WantedBy=multi-user.target
