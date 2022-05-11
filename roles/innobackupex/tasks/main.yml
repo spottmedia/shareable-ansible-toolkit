@@ -47,7 +47,7 @@
 
 - name: Install innobackupex and related for db restores (focal)
   apt:
-    deb: /var/lib/percona-release_latest.focal.deb
+    deb: /var/lib/percona-release_latest.focal_all.deb
     only_upgrade: true
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 20
   notify: Innobackup Reload apt
