@@ -18,6 +18,11 @@
   copy: src=../files/percona-release_latest.bionic_all.deb dest=/var/lib mode=0755
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
 
+- name: Innobackupex deb copy focal
+  copy: src=../files/percona-release_latest.focal_all.deb dest=/var/lib mode=0755
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 20
+
+
 - name: Install innobackupex and related for db restores (trusty)
   apt:
     deb: /var/lib/percona-release_0.1-4.trusty_all.deb
@@ -37,6 +42,14 @@
     deb: /var/lib/percona-release_latest.bionic_all.deb
     only_upgrade: true
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 18
+  notify: Innobackup Reload apt
+  ignore_errors: true
+
+- name: Install innobackupex and related for db restores (focal)
+  apt:
+    deb: /var/lib/percona-release_latest.focal.deb
+    only_upgrade: true
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 20
   notify: Innobackup Reload apt
   ignore_errors: true
 
