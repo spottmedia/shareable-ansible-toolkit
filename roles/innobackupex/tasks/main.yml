@@ -59,5 +59,6 @@
       - "{{ percona_version }}"
       - qpress
     state: present
+    force: true
     install_recommends: false
     update-cache: true
