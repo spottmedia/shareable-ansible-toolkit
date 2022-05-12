@@ -53,6 +53,10 @@
   notify: Innobackup Reload apt
   ignore_errors: true
 
+- name: Bodge missing apt pub key
+  shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int == 20
+
 - name: Install required packages.
   apt:
     pkg:
