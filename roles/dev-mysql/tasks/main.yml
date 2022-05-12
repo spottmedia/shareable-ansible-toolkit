@@ -1,18 +1,23 @@
 ---
 
-- name: legacy apt deb copy on >= 20
-  copy:
-    src: mysql-apt-config_0.8.12-1_all.deb
-    dest: /var/lib/mysql-apt-config_0.8.12-1_all.deb
-    mode: 0755
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
+- name: Wrap >= 20 compat
+  block:
+    - name: legacy apt deb copy on >= 20
+      copy:
+        src: mysql-apt-config_0.8.12-1_all.deb
+        dest: /var/lib/mysql-apt-config_0.8.12-1_all.deb
+        mode: 0755
 
-- name: Install 5.7 repo on >= 20
-  apt:
-    deb: /var/lib/mysql-apt-config_0.8.12-1_all.deb
-    only_upgrade: true
+    - name: Install 5.7 repo on >= 20
+      apt:
+        deb: /var/lib/mysql-apt-config_0.8.12-1_all.deb
+        only_upgrade: true
+      notify: Innobackup Reload apt
+
+    - name: Bodge missing apt pub key
+      shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
-  notify: Innobackup Reload apt
 
 - name: General | Install required packages < 20
   apt:
@@ -33,7 +38,6 @@
     state: present
     force: yes
     update-cache: yes
-    cache_valid_time: 3600
 #  notify: Mysql Installed
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
   register: "mysql_freshly_installed"
