@@ -3,7 +3,8 @@
 - name: legacy apt deb copy on >= 20
   copy:
     src: mysql-apt-config_0.8.12-1_all.deb
-    dest: /var/lib/mysql-apt-config_0.8.12-1_all.deb mode=0755
+    dest: /var/lib/mysql-apt-config_0.8.12-1_all.deb
+    mode: 0755
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
 
 - name: Install 5.7 repo on >= 20
@@ -12,7 +13,6 @@
     only_upgrade: true
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
   notify: Innobackup Reload apt
-  ignore_errors: true
 
 - name: General | Install required packages < 20
   apt:
@@ -29,6 +29,7 @@
     name:
       - python3-mysqldb
       - mysql-client=5.7*
+      - mysql-community-server=5.7*
       - mysql-server=5.7*
     state: present
     force: yes
