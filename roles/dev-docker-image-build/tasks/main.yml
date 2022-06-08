@@ -43,6 +43,7 @@
         debug: true
         build:
           path: "/tmp/ansible_{{ docker_image_name }}"
+        source: pull
         state: present
         name: "{{ docker_image_name }}"
       #    force: true
