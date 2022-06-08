@@ -29,10 +29,20 @@
     src: "{{ build_path }}/Dockerfile"
     dest: "/tmp/ansible_{{ docker_image_name }}/Dockerfile"
 
-- name: Build the image
-  docker_image:
-    debug: true
-    build_path: "/tmp/ansible_{{ docker_image_name }}"
-    state: present
-    name: "{{ docker_image_name }}"
-#    force: true
+- block:
+    - name: Build the image
+      docker_image:
+        debug: true
+        build_path: "/tmp/ansible_{{ docker_image_name }}"
+        state: present
+        name: "{{ docker_image_name }}"
+    #    force: true
+  rescue:
+    - name: Build the image rescue
+      docker_image:
+        debug: true
+        build:
+          path: "/tmp/ansible_{{ docker_image_name }}"
+        state: present
+        name: "{{ docker_image_name }}"
+      #    force: true
