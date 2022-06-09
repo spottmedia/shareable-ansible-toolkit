@@ -1,4 +1,4 @@
 ---
 # defaults file for common
 build_path : /var/lib/
-docker_image_name: jekyll
+docker_image_name: docker.io/jekyll
