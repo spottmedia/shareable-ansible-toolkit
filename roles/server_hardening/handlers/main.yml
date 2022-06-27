@@ -1,3 +1,6 @@
 ---
 - name: Restart ssh
   action: service name=ssh state=restarted
+
+- name: Reload UFW
+  action: ufw reload
