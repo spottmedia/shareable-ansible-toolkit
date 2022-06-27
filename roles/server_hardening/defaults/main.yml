@@ -5,4 +5,5 @@ ufw_deny: []
 ufw_allow: []
 ufw_topup_allow: []
 with_unattended: true
-ufw_default_output_policy: "DROP"
+ufw_default_output_policy: "ACCEPT"
+ufw_default_forward_policy: "DROP"
