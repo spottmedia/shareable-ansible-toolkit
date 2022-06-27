@@ -37,7 +37,8 @@
   lineinfile:
     dest: /etc/default/ufw
     regexp: "^DEFAULT_OUTPUT_POLICY="
-    line: "DEFAULT_OUTPUT_POLICY={{ ufw_default_output_policy }}"
+    line: >-
+      DEFAULT_OUTPUT_POLICY="{{ ufw_default_output_policy }}"
     state: present
   notify:
     - Reload UFW
