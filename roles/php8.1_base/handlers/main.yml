@@ -1,0 +1,8 @@
+---
+- name: Hold selection of php8.1
+  dpkg_selections:
+    name: php
+    selection: hold
+
+- name: Reload ldconfig
+  shell: ldconfig

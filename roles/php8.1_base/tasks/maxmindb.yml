@@ -1,0 +1,69 @@
+---
+##
+# Install maxmind lib
+#
+#
+
+- name: copy maxmind sources
+  copy: src=../files/libmaxminddb-1.4.2.tar.gz dest=/var/lib/libmaxminddb-1.4.2.tar.gz mode=0777
+
+- name: unpack maxmind
+  unarchive: copy=no src=/var/lib/libmaxminddb-1.4.2.tar.gz dest=/var/lib/ mode=0777 creates=/var/lib/libmaxminddb-1.4.2
+
+- name: Running maxmind ./configure
+  command: ./configure chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
+
+- name: Running maxmind make
+  command: make chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
+
+- name: Running maxmind make install
+  command: make chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
+
+- name: Running maxmind ldconfig
+  command: ldconfig chdir=/var/lib/libmaxminddb-1.4.2 creates=/var/lib/libmaxminddb-1.4.2/bin/mmdblookup
+
+#
+# Install maxmind php extension
+#
+- name: copy maxmind sources
+  copy: src=../files/MaxMind-DB-Reader-php-master.zip dest=/var/lib/MaxMind-DB-Reader-php-master.zip mode=0777
+
+- name: unpack maxmind ext
+  unarchive: copy=no src=/var/lib/MaxMind-DB-Reader-php-master.zip dest=/var/lib/ mode=0777 creates=/var/lib/MaxMind-DB-Reader-php-master
+
+- name: Running maxmind ext phpize
+  command: phpize chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
+
+- name: Running maxmind ext ./configure
+  command: ./configure CFLAGS="-I/var/lib/libmaxminddb-1.4.2/include/ -L/var/lib/libmaxminddb-1.4.2/src/.libs/" chdir=/var/lib/MaxMind-DB-Reader-php-master/ext  creates=/usr/lib/php/20180731/maxminddb.so
+
+- name: Running maxmind ext make
+  command: make chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
+
+- name: Running maxmind ext make install
+  command: make install chdir=/var/lib/MaxMind-DB-Reader-php-master/ext creates=/usr/lib/php/20180731/maxminddb.so
+
+- name: enable the extension in php apache2
+  lineinfile: dest=/etc/php/8.1/apache2/php.ini line="extension=maxminddb.so"
+
+- name: enable the extension in php fpm
+  lineinfile: dest=/etc/php/8.1/fpm/php.ini line="extension=maxminddb.so"
+  when: apache_with_fpm is defined
+
+- name: Create ld.so.conf.d directory if it does not exist
+  file:
+    path: /etc/ld.so.conf.d
+    state: directory
+
+- name: Make sure ld.so.conf.d file exists
+  file:
+    path: /etc/ld.so.conf.d/local.conf
+    state: touch
+
+- name: Hack libmaxminddb not being seen by php
+  lineinfile:
+    dest: /etc/ld.so.conf.d/local.conf
+    line: /var/lib/libmaxminddb-1.4.2/src/.libs
+    create: true
+  notify: Reload ldconfig
+

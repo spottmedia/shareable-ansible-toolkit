@@ -1,0 +1,80 @@
+---
+
+- name: Add the custom php7+ repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: install php8.1 and requirements packages
+  apt:
+    pkg:
+      - build-essential
+      - zip
+      - unzip
+      - php8.1
+      - php8.1-zip
+      - php8.1-dev
+      - php8.1-intl
+      - php8.1-mbstring
+      - php8.1-curl
+      - php8.1-common
+      - php8.1-imagick
+      - php8.1-imap
+      - php8.1-pspell
+      - php8.1-gd
+      - php8.1-xmlrpc
+      - php8.1-soap
+      - php8.1-tidy
+      - php8.1-mysql
+      - php8.1-xml
+      - php8.1-yaml
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
+  tags: common
+
+  notify: Hold selection of php8.1
+
+
+- name: General | Install fpm (if needed)
+  apt: pkg=php8.1-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_install_fpm
+
+
+- name: install php8.1 memcached if needed
+  apt: pkg='php8.1-memcached' state=present update-cache=yes install_recommends=yes cache_valid_time=3600
+  tags: common
+  when: php_use_memcached
+
+- name: install php8.1 redis if needed
+  apt:
+    name:
+      - php-redis
+      - php8.1-redis
+    state: present
+    update-cache: yes
+    install_recommends: no
+    cache_valid_time: 3600
+  tags: common
+  when: php_use_redis
+
+- name: "update default php binary symlink (as it will probably point to != php8.1"
+  file:
+    src: /usr/bin/php8.1
+    dest: /usr/bin/php
+    state: link
+    force: true
+  when: not ansible_check_mode
+
+- name: "fix issues with ssl"
+  file:
+    path: /etc/ssl
+    mode: 0755
+
+- include: ID3.yml
+  when: php_with_id3 is defined and php_with_id3 == true
+
+- include: maxmindb.yml
+  when: php_with_maxmind is defined and php_with_maxmind == true
