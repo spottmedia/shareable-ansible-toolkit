@@ -33,6 +33,7 @@
   apt:
     name:
       - python3-mysqldb
+      - python3-pymysql
       - mysql-client=5.7*
       - mysql-server=5.7*
     state: present
