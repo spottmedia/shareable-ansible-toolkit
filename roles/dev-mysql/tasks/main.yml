@@ -19,29 +19,28 @@
 
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
 
-- name: General | Install required packages < 20
-  apt:
-    name: ['mysql-server', 'python-mysqldb']
-    state: present
-    update-cache: yes
-    cache_valid_time: 3600
-#  notify: Mysql Installed
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 20
-  register: "mysql_freshly_installed"
+#- name: General | Install required packages < 20
+#  apt:
+#    name: ['mysql-server', 'python-mysqldb']
+#    state: present
+#    update-cache: yes
+#    cache_valid_time: 3600
+##  notify: Mysql Installed
+#  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 20
+#  register: "mysql_freshly_installed"
 
-- name: General | Install required packages >= 20
+- name: "Install python-mysqldb (required by ansible) and gpg agent"
   apt:
     name:
-      - python3-mysqldb
-      - python3-pymysql
+      - python-mysqldb
       - python-pymysql
-      - mysql-client=5.7*
-      - mysql-server=5.7*
+      - python3-pymysql
+      - gpg-agent
     state: present
-    force: yes
-    update-cache: yes
-#  notify: Mysql Installed
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 20
+    update_cache: yes
+    install_recommends: true
+    cache_valid_time: 3600
+  when: ansible_distribution == 'Ubuntu'
   register: "mysql_freshly_installed"
 
 - debug:
