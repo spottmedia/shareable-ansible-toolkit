@@ -53,6 +53,8 @@
     update-cache: yes
     cache_valid_time: 3600
     install_recommends: no
+  notify: Mysql Installed
+  register: "mysql_freshly_installed"
 
 # temporary evade issue https://github.com/ansible/ansible/issues/14270#issuecomment-416880078
 - include: handlers/mysql_initial_foldout.yml
