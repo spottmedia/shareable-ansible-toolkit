@@ -1,4 +1,9 @@
 ---
+
+- debug:
+    msg: doing the initial foldout
+  changed_when: true
+
 - name: Start normal MySQL process
   service: name=mysql state=started
   tags: common
