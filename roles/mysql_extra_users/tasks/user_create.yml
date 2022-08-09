@@ -5,13 +5,23 @@
     state: present
   when: mysql_user.db != '*'
 
-- name: Add User and their permissions to the db
+- name: Add User and their permissions to the db <= 16
   mysql_user:
       name: "{{ mysql_user.name }}"
       password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + inventory_hostname +'_pass'), true) }}"
       priv: "{{ mysql_user.db }}.*:{{ mysql_user.grants | default(mysql_default_grants, true) }}"
       host: "{{ item }}"
       state: present
-      login_user: root
-      login_password: "{{ mysql_root_password }}"
   loop: "{{ mysql_user.hosts }}"
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int <= 16
+
+- name: Add User and their permissions to the db > 16
+  mysql_user:
+      name: "{{ mysql_user.name }}"
+      password: "{{ mysql_user.pass | default(lookup('password', mysql_pass_store_prefix + '/mysql_' + mysql_user.name +'_' + inventory_hostname +'_pass'), true) }}"
+      priv: "{{ mysql_user.db }}.*:{{ mysql_user.grants | default(mysql_default_grants, true) }}"
+      host: "{{ item }}"
+      state: present
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+  loop: "{{ mysql_user.hosts }}"
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 16
