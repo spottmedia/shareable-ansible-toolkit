@@ -29,7 +29,7 @@
 #  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 20
 #  register: "mysql_freshly_installed"
 
-- name: "Install python-mysqldb (required by ansible) and gpg agent"
+- name: "Install Install required packages"
   apt:
     name:
       - python-mysqldb
@@ -45,7 +45,8 @@
   register: "mysql_freshly_installed"
 
 - debug:
-    msg: "The value of mysql_freshly_installed is {{ mysql_freshly_installed }}"
+    var: mysql_freshly_installed
+  changed_when: true
 
 - name: General | Install required auxiliary packages
   apt:
