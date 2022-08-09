@@ -36,6 +36,7 @@
       - python-pymysql
       - python3-pymysql
       - gpg-agent
+      - mysql-server
     state: present
     update_cache: yes
     install_recommends: true
