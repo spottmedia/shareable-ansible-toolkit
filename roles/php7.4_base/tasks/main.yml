@@ -34,8 +34,10 @@
     cache_valid_time: 3600
   tags: common
 
-  notify: Hold selection of php7.4
-
+- name: Hold selection of php7.4
+  dpkg_selections:
+    name: php
+    selection: hold
 
 - name: General | Install fpm (if needed)
   apt: pkg=php7.4-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
