@@ -28,7 +28,6 @@
       - php8.1-mysql
       - php8.1-xml
       - php8.1-yaml
-      - php8.1-pecl
       - php-pecl
     state: present
     update-cache: true
