@@ -28,7 +28,7 @@
       - php8.1-mysql
       - php8.1-xml
       - php8.1-yaml
-      - php-pecl
+      - php-pear
     state: present
     update-cache: true
     install_recommends: false
