@@ -38,10 +38,11 @@
   meta: flush_handlers
 
 
-- name: Apache | Disable php7.1 module for FPM
+- name: Apache | Disable php7.4 module for FPM
   apache2_module: state=absent name={{item}}
   with_items:
     - php7.3
+    - php7.4
     - php7.2
     - php7.1
     - php7.0
