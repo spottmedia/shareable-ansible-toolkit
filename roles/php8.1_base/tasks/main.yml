@@ -28,11 +28,18 @@
       - php8.1-mysql
       - php8.1-xml
       - php8.1-yaml
+      - php8.1-pecl
+      - php-pecl
     state: present
     update-cache: true
     install_recommends: false
     cache_valid_time: 3600
   tags: common
+
+- name: Hold selection of php8.1
+  dpkg_selections:
+    name: php8.1
+    selection: hold
 
 - name: Hold selection of php8.1
   dpkg_selections:
@@ -53,7 +60,6 @@
 - name: install php8.1 redis if needed
   apt:
     name:
-      - php-redis
       - php8.1-redis
     state: present
     update-cache: yes
