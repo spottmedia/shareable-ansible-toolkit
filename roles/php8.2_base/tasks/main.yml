@@ -1,0 +1,87 @@
+---
+
+- name: Add the custom php7+ repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: install php8.2 and requirements packages
+  apt:
+    pkg:
+      - build-essential
+      - zip
+      - unzip
+      - php8.2
+      - php8.2-zip
+      - php8.2-dev
+      - php8.2-intl
+      - php8.2-mbstring
+      - php8.2-curl
+      - php8.2-common
+      - php8.2-imagick
+      - php8.2-imap
+      - php8.2-pspell
+      - php8.2-gd
+      - php8.2-xmlrpc
+      - php8.2-soap
+      - php8.2-tidy
+      - php8.2-mysql
+      - php8.2-xml
+      - php8.2-yaml
+      - php-pear
+    state: present
+    update-cache: true
+    install_recommends: false
+    cache_valid_time: 3600
+  tags: common
+
+- name: Hold selection of php8.2
+  dpkg_selections:
+    name: php8.2
+    selection: hold
+
+- name: Hold selection of php8.2
+  dpkg_selections:
+    name: php
+    selection: hold
+
+- name: General | Install fpm (if needed)
+  apt: pkg=php8.2-fpm state=present update-cache=yes install_recommends=no cache_valid_time=3600
+  tags: common
+  when: php_install_fpm
+
+
+- name: install php8.2 memcached if needed
+  apt: pkg='php8.2-memcached' state=present update-cache=yes install_recommends=yes cache_valid_time=3600
+  tags: common
+  when: php_use_memcached
+
+- name: install php8.2 redis if needed
+  apt:
+    name:
+      - php8.2-redis
+    state: present
+    update-cache: yes
+    install_recommends: no
+    cache_valid_time: 3600
+  tags: common
+  when: php_use_redis
+
+- name: "update default php binary symlink (as it will probably point to != php8.2"
+  file:
+    src: /usr/bin/php8.2
+    dest: /usr/bin/php
+    state: link
+    force: true
+  when: not ansible_check_mode
+
+- name: "fix issues with ssl"
+  file:
+    path: /etc/ssl
+    mode: 0755
+
+- include: ID3.yml
+  when: php_with_id3 is defined and php_with_id3 == true
+
+- include: maxmindb.yml
+  when: php_with_maxmind is defined and php_with_maxmind == true

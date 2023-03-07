@@ -1,0 +1,3 @@
+---
+- name: Restart php8.2 FPM
+  action: service name=php8.2-fpm state=restarted
