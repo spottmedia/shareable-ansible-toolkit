@@ -218,6 +218,9 @@
 
 - include: php7.4.yml
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 18 and php_version is defined and php_version == "7.4"
+
+- include: php8.2.yml
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 18 and php_version is defined and php_version == "8.2"
 ##
 # Restart services
 #

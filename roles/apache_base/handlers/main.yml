@@ -17,6 +17,9 @@
 - name: Restart PHP-FPM 7.4
   action: service name=php7.4-fpm state=restarted
 
+- name: Restart PHP-FPM 8.2
+  action: service name=php8.2-fpm state=restarted
+
 - name: Setup hardening
   include: hardening.yml
   when: release_status is undefined or release_status != "dev"

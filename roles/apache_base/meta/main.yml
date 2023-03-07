@@ -10,5 +10,7 @@ dependencies:
     when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 18 and php_version is defined and php_version == "7.3"
   - role: php7.4_base
     when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 18 and php_version is defined and php_version == "7.4"
+  - role: php8.2_base
+    when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 18 and php_version is defined and php_version == "8.2"
   - role: php5_base
     when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
