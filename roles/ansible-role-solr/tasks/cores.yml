@@ -9,7 +9,7 @@
 - name: Ensure Solr conf directories exist.
   file:
     path: "{{ solr_home }}/data/{{ item }}/conf"
-    state: absent #directory
+    state: directory
     owner: "{{ solr_user }}"
     group: "{{ solr_user }}"
     recurse: true
