@@ -5,22 +5,22 @@
 #
 
 - name: copy sources
-  copy: src=../files/php_pecl_id3-master.zip dest=/var/lib/id3.zip mode=0777
+  copy: src=../files/php_pecl_id3.zip dest=/var/lib/id3.zip mode=0777
 
 - name: unpack php5 version of ssh lib
-  unarchive: copy=no src=/var/lib/id3.zip dest=/var/lib/ mode=0777 creates=/var/lib/php_pecl_id3-master
+  unarchive: copy=no src=/var/lib/id3.zip dest=/var/lib/ mode=0777 creates=/var/lib/php_pecl_id3/
 
 - name: Running ID3 .phpize
-  command: phpize chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20180731/id3.so
+  command: phpize chdir=/var/lib/php_pecl_id3/ creates=/usr/lib/php/20220829/id3.so
 
 - name: Running ID3 ./configure
-  command: ./configure chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20180731/id3.so
+  command: ./configure chdir=/var/lib/php_pecl_id3/ creates=/usr/lib/php/20220829/id3.so
 
 - name: Running ID3 make
-  command: make chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20180731/id3.so
+  command: make chdir=/var/lib/php_pecl_id3/ creates=/usr/lib/php/20220829/id3.so
 
 - name: Running ID3 make install
-  command: make install chdir=/var/lib/php_pecl_id3-master creates=/usr/lib/php/20180731/id3.so
+  command: make install chdir=/var/lib/php_pecl_id3/ creates=/usr/lib/php/20220829/id3.so
 
 
 - name: enable the ID3 extension in php cli

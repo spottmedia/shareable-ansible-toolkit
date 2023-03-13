@@ -43,8 +43,15 @@
   with_items:
     - php8.2
   notify: Restart Apache
-  ignore_errors: True
+  ignore_errors: False
   when: apache_with_fpm
+
+# - name: Apache | Disable php8.2 module for FPM
+#   command: a2dismod php8.2
+#   notify: Restart Apache
+#   ignore_errors: True
+#   when: apache_with_fpm
+
 
 - debug:
     msg: "apache_with_fpm: {{ apache_with_fpm}}"
