@@ -65,7 +65,8 @@
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     regexp: '^sql_mode'
     insertafter: '[mysqld]'
-    line: 'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+    line: 'sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+#'sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
 

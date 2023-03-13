@@ -3,7 +3,8 @@
 - name: make sure overrides folder exists
   file:
     dest: "{{ backuppc_config_folder }}/pc/"
-    state: directory
+    state: absent
+  #directory
   when: not backuppc_delegated
   notify: Reload backuppc
 
