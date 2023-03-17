@@ -2,3 +2,5 @@
 php_use_memcached: true
 php_use_redis: false
 php_install_fpm: true
+php_with_id3: false
+php_with_maxmind: true
