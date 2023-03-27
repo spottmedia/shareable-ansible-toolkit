@@ -77,9 +77,11 @@
     pkg:
       - software-properties-common
       - nano
+      - gzip
       - wget
       - sendmail
       - unzip
+      - bzip2
       - htop
       - dos2unix
       - vim
