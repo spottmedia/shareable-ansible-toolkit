@@ -20,7 +20,7 @@
 
     - name: Install lxd from snap
       snap:
-        channel: "{{ lxd_version }}/candidate"
+        channel: "{{ lxd_version }}/edge"
         name:
           - lxd
 
