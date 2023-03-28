@@ -1,6 +1,6 @@
 ---
 
 lxd_storage_backend: dir
-lxd_version: 4.18
+lxd_version: latest
 # uncomment to have it used:
 # lxd_storage_device: /mnt/lxd_storage
