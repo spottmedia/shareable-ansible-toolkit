@@ -20,7 +20,7 @@
 
     - name: Install lxd from snap
       snap:
-        channel: "{{ lxd_version }}/beta"
+        channel: 5.3/beta
         name:
           - lxd
 
