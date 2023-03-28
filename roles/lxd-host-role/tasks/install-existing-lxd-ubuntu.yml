@@ -1,4 +1,5 @@
 ---
 
 - name: LXD | refresh snap with the wanted version
-  command: "snap refresh --channel={{ lxd_version }} lxd"
+  become: true
+  command: "snap refresh --channel={{ lxd_version }}/edge lxd"
