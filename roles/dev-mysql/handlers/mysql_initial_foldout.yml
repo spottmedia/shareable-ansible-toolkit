@@ -16,6 +16,10 @@
   lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
+- name: enable hostname resolve mysql
+  lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
 - name: temporary tweak config to allow paswordless mysql instance
   lineinfile: dest=/etc/mysql/my.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
@@ -45,6 +49,12 @@
 - name: MySQL | add root user with grants >= 16.04
   shell: >-
     mysql -u root -e 'use mysql;  REPLACE INTO `user` VALUES ("{{ mysql_listen_address }}","root","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","","","","",0,0,0,0,"mysql_native_password",PASSWORD("{{ mysql_root_password }}"),"N",NOW(),NULL,"N");'
+  tags: common
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
+
+- name: MySQL | add root user with grants 127.0.0.1 >= 16.04
+  shell: >-
+    mysql -u root -e 'use mysql;  REPLACE INTO `user` VALUES ("{{ mysql_local_address_listen_address }}","root","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","","","","",0,0,0,0,"mysql_native_password",PASSWORD("{{ mysql_root_password }}"),"N",NOW(),NULL,"N");'
   tags: common
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
