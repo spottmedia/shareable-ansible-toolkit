@@ -16,10 +16,6 @@
   lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
 
-- name: enable hostname resolve mysql
-  lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
-  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int >= 16
-
 - name: temporary tweak config to allow paswordless mysql instance
   lineinfile: dest=/etc/mysql/my.cnf line="skip-grant-tables" insertafter="[mysqld]" state=present
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int < 16
