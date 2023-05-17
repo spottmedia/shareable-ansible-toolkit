@@ -21,6 +21,7 @@
   get_url:
     url: "{{ solr_mirror }}/lucene/solr/{{ solr_version }}/{{ solr_filename }}.tgz"
     dest: "{{ solr_workspace }}/{{ solr_filename }}.tgz"
+    timeout: 600
     force: false
   when: solr_install_path_status.stat.isdir is not defined
   register: "solr_downloaded"
