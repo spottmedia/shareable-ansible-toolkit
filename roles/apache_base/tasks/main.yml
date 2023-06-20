@@ -22,6 +22,12 @@
   notify: Apt update
   when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
 
+- name: Add repo for python-mysqldb update
+  ignore_errors: true
+  shell: sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu bionic main'
+  notify: Apt update
+  when: ansible_distribution == 'Ubuntu' and  ansible_lsb.major_release|int > 14
+
 - name: Flush Handlers.
   meta: flush_handlers
 
