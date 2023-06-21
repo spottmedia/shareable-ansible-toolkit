@@ -38,4 +38,5 @@
     - role: geerlingguy.repo-remi
       when: ansible_os_family == 'RedHat'
     - role: geerlingguy.php
-    - role: geerlingguy.php-pecl
+    - role: ansible-role-php-pecl
+    # - role: geerlingguy.php-pecl
