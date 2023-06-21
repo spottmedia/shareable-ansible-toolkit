@@ -11,11 +11,11 @@
 - name: Install pecl 8.2
   shell: apt install php-pear
 
-- name: Ensure pecl is installed (if configured).
-  package:
-    name: "{{ php_pecl_package }}"
-    state: present
-  when: php_pecl_install_pecl
+# - name: Ensure pecl is installed (if configured).
+#   package:
+#     name: "{{ php_pecl_package }}"
+#     state: present
+#   when: php_pecl_install_pecl
 
 - name: Install PECL libaries.
   shell: "yes '' | {{ php_pecl_install_command }} {{ item }}"
