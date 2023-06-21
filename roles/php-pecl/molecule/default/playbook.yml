@@ -23,6 +23,10 @@
       apt: name=build-essential state=present
       when: ansible_os_family == 'Debian'
 
+    - name: Install php-dev tools (Debian).
+      shell: apt install php{{ php_default_version_debian }}-dev
+      when: ansible_os_family == 'Debian'
+
     - name: Install development tools (RedHat).
       yum: name="@Development tools" state=present
       when: ansible_os_family == 'RedHat'
