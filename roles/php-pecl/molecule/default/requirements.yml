@@ -1,3 +1,7 @@
 ---
 - src: geerlingguy.repo-remi
 - src: geerlingguy.php
+- src: https://github.com/geerlingguy/ansible-role-php-pecl.git
+  scm: git
+  version: 2.0.0
+  name: ansible-role-php-pecl
