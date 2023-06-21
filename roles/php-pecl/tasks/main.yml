@@ -8,6 +8,9 @@
 - debug:
     msg: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml,  {{ ansible_os_family }}.yml"
 
+- name: Install pecl 8.2
+  shell: apt install php-pear
+
 - name: Ensure pecl is installed (if configured).
   package:
     name: "{{ php_pecl_package }}"
