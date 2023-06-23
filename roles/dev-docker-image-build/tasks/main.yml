@@ -1,19 +1,14 @@
 ---
 
-# - name: Install python-pip for docker pip module
-#   apt:
-#     pkg:
-#       - python-pip
-#     state: present
-#     install_recommends: false
-#     update-cache: true
-#     cache_valid_time: 3600
-#   tags: common
-
-- name: Install python-pip for docker module
-  shell: |
-    wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-    python get-pip.py
+- name: Install python-pip for docker pip module
+  apt:
+    pkg:
+      - python3-pip
+    state: present
+    install_recommends: false
+    update-cache: true
+    cache_valid_time: 3600
+  tags: common
 
 - name: upgrade pip with pip
   pip:
