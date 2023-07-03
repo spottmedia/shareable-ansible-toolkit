@@ -32,7 +32,8 @@
 - name: "Install Install required packages"
   apt:
     name:
-      - python-mysqldb
+      # - python-mysqldb
+      - python3-mysqldb
       - python-pymysql
       - python3-pymysql
       - gpg-agent
